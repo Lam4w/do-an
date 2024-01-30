@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "@/components/ui/Toaster";
+import "../../globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,18 +11,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  authModal,
 }: Readonly<{
   children: React.ReactNode;
-  authModal: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {authModal}
-        <div className="">{children}</div>
-        <Toaster />
-      </body>
-    </html>
+    <div className="">
+      {children}
+    </div>    
   );
 }
