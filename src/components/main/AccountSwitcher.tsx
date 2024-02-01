@@ -17,6 +17,7 @@ interface AccountSwitcherProps {
     email: string;
     icon: React.ReactNode;
   }[];
+  src: string;
 }
 
 export function AccountSwitcher({

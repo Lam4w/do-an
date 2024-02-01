@@ -1,34 +1,17 @@
 "use client";
 
-import React, { ReactNode, useState } from "react";
-import {
-  AlertCircle,
-  Archive,
-  ArchiveX,
-  File,
-  Inbox,
-  MessagesSquare,
-  PenBox,
-  Search,
-  Send,
-  ShoppingCart,
-  Trash2,
-  Users2,
-  FileStack,
-  Settings,
-  SquareUser,
-  Receipt,
-} from "lucide-react";
-import { Sidebar } from "./Sidebar";
 import { cn } from "@/lib/utils";
-import { Separator } from "../ui/Separator";
-import { TooltipProvider } from "../ui/Tooltip";
+import { FileStack, Receipt, Settings, SquareUser, Trash2 } from "lucide-react";
+import React, { ReactNode, useState } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "../ui/Resizable";
+import { Separator } from "../ui/Separator";
+import { TooltipProvider } from "../ui/Tooltip";
 import { AccountSwitcher } from "./AccountSwitcher";
+import { Sidebar } from "./Sidebar";
 
 interface SidebarWrapperProps {
   accounts: {
@@ -100,16 +83,19 @@ const SidebarWrapper = ({
               {
                 title: "My CVs",
                 icon: FileStack,
+                url: "/dashboard",
                 variant: "default",
               },
               {
                 title: "My page",
                 icon: SquareUser,
+                url: "/",
                 variant: "ghost",
               },
               {
                 title: "Trash",
                 icon: Trash2,
+                url: "/",
                 variant: "ghost",
               },
             ]}
@@ -121,11 +107,13 @@ const SidebarWrapper = ({
               {
                 title: "Settings",
                 icon: Settings,
+                url: "/",
                 variant: "ghost",
               },
               {
                 title: "Billing",
                 icon: Receipt,
+                url: "/",
                 variant: "ghost",
               },
             ]}
