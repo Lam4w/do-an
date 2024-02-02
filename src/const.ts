@@ -40,3 +40,12 @@ export const markdownSyntax = [
     caret: 3,
   },
 ];
+
+export const designTemplate = [
+  {
+    template: "Indius",
+  },
+  {
+    template: "Vega",
+  },
+];

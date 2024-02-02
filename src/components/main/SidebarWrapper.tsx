@@ -1,7 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { FileStack, Receipt, Settings, SquareUser, Trash2 } from "lucide-react";
+import {
+  FileStack,
+  Home,
+  Receipt,
+  Settings,
+  SquareUser,
+  Trash2,
+} from "lucide-react";
 import React, { ReactNode, useState } from "react";
 import {
   ResizableHandle,
@@ -10,15 +17,16 @@ import {
 } from "../ui/Resizable";
 import { Separator } from "../ui/Separator";
 import { TooltipProvider } from "../ui/Tooltip";
-import { AccountSwitcher } from "./AccountSwitcher";
 import { Sidebar } from "./Sidebar";
+import { buttonVariants } from "../ui/Button";
+import { Avatar, AvatarFallback } from "../ui/Avatar";
+import Image from "next/image";
+import { Icons } from "../Icons";
+import UserAvatar from "../default/UserAvatar";
 
 interface SidebarWrapperProps {
-  accounts: {
-    label: string;
-    email: string;
-    icon: React.ReactNode;
-  }[];
+  userEmail: string | null | undefined;
+  userImg: string | null | undefined;
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
@@ -26,7 +34,8 @@ interface SidebarWrapperProps {
 }
 
 const SidebarWrapper = ({
-  accounts,
+  userEmail,
+  userImg,
   defaultLayout = [250, 1100],
   defaultCollapsed = false,
   navCollapsedSize,
@@ -74,7 +83,22 @@ const SidebarWrapper = ({
               isCollapsed ? "h-[52px]" : "px-2",
             )}
           >
-            <AccountSwitcher isCollapsed={isCollapsed} accounts={accounts} />
+            <div
+              className={cn(
+                "w-full flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0",
+                isCollapsed &&
+                  "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden",
+                buttonVariants({ variant: "outline" }),
+              )}
+            >
+              <div className="flex items-center space-x-5 truncate">
+                <UserAvatar userEmail={userEmail} userImage={userImg} />
+
+                <span className={cn("ml-2 truncate", isCollapsed && "hidden")}>
+                  {userEmail}
+                </span>
+              </div>
+            </div>
           </div>
           <Separator />
           <Sidebar
@@ -116,11 +140,22 @@ const SidebarWrapper = ({
                 url: "/",
                 variant: "ghost",
               },
+              {
+                title: "Go back",
+                icon: Home,
+                url: "/",
+                variant: "ghost",
+              },
             ]}
           />
+          <Separator />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+        <ResizablePanel
+          defaultSize={defaultLayout[1]}
+          minSize={30}
+          // onResize={() => console.log("resizing")}
+        >
           <div className="">{children}</div>
         </ResizablePanel>
       </ResizablePanelGroup>

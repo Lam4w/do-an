@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import Editor from '@/components/main/Editor'
 
 const page = () => {
-  
 
   return (
     <div className="">

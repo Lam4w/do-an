@@ -9,18 +9,57 @@ import {
   PanelLeft,
   PanelTop,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SyntaxHelper from "./SyntaxHelper";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/HoverCard";
+import { Button } from "../ui/Button";
+import { designTemplate } from "@/const";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/Tooltip";
 
 const Editor = () => {
   const [isSplit, SetIsSplit] = useState<boolean>(false);
-  const leftTextareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const rightTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [currHeight, setCurrHeight] = useState<number>(0);
+  const scaledContent = useRef<HTMLIFrameElement | null>(null);
+
+  const applyScaling = (
+    scaledWrapper: HTMLDivElement,
+    scaledContent: HTMLIFrameElement,
+  ) => {
+    scaledContent.style.transform = "scale(1, 1)";
+
+    let { width: cw } = scaledContent.getBoundingClientRect();
+    let { width: ww } = scaledWrapper.getBoundingClientRect();
+    let scaleAmtX = Math.min(ww / cw);
+    let scaleAmtY = scaleAmtX;
+    scaledContent.style.transform = `scale(${scaleAmtX}, ${scaleAmtY})`;
+
+    setCurrHeight(1102 * scaleAmtY);
+  };
+
+  // useCallback becasue useRef an object ref doesn’t notify about changes to the current ref value. Using a callback ref ensures that even if a child component displays the measured node later will still get notified about it in the parent component and can update the measurements.
+  const scaledWrapper = useCallback((node: HTMLDivElement) => {
+    if (node !== null && scaledContent.current) {
+      // Reports changes to the dimensions of an Element's content
+      const resizeObserver = new ResizeObserver(() => {
+        // Do the logic when the size of the element changes
+        if (node && scaledContent.current) {
+          applyScaling(node, scaledContent.current);
+        }
+
+        console.log("resizing");
+      });
+      resizeObserver.observe(node);
+    }
+  }, []);
 
   return (
     <div className="w-full grid grid-cols-3 space-x-10">
@@ -34,52 +73,58 @@ const Editor = () => {
             />
           </div>
           <div className="flex items-center justify-center space-x-3">
-            <HoverCard>
-              <HoverCardTrigger>
-                <HelpCircle className="text-gray-500 cursor-pointer" />
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p className="text-sm">Nothing yet</p>
-              </HoverCardContent>
-            </HoverCard>
-            <HoverCard>
-              <HoverCardTrigger>
-                <BookMarked className="text-gray-500 cursor-pointer" />
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p className="text-sm">
-                  Create a snapshot with your current content
-                </p>
-              </HoverCardContent>
-            </HoverCard>
-            <HoverCard>
-              <HoverCardTrigger>
-                <PanelTop
-                  className={cn(
-                    "text-gray-500 cursor-pointer",
-                    !isSplit && "text-emerald-500",
-                  )}
-                  onClick={() => SetIsSplit(false)}
-                />
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p className="text-sm">Single layout</p>
-              </HoverCardContent>
-            </HoverCard>
-            <HoverCard>
-              <HoverCardTrigger>
-                <PanelLeft
-                  className={cn(
-                    "text-gray-500 cursor-pointer",
-                    isSplit && "text-emerald-500",
-                  )}
-                  onClick={() => SetIsSplit(true)}
-                />
-              </HoverCardTrigger>
-              <HoverCardContent>
-                <p className="text-sm">Split layout</p>
-              </HoverCardContent>
-            </HoverCard>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="text-gray-500 cursor-pointer" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Nothing yet</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <BookMarked className="text-gray-500 cursor-pointer" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Create a snapshot with your current content</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PanelTop
+                    className={cn(
+                      "text-gray-500 cursor-pointer",
+                      !isSplit && "text-emerald-500",
+                    )}
+                    onClick={() => SetIsSplit(false)}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Single layout</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <PanelLeft
+                    className={cn(
+                      "text-gray-500 cursor-pointer",
+                      isSplit && "text-emerald-500",
+                    )}
+                    onClick={() => SetIsSplit(true)}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Split layout</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
         <div className="col-span-2">
@@ -95,14 +140,38 @@ const Editor = () => {
         </div>
       </div>
 
-      <div className="flex flex-col col-span-1">
-        <div className="relative rounded-sm overflow-hidden cursor-pointer">
+      <div className="flex flex-col col-span-1 space-y-2">
+        <div className="text-sm font-bold text-black/70">Preview</div>
+
+        <div
+          ref={scaledWrapper}
+          className="relative rounded-sm overflow-hidden cursor-pointer"
+          style={{
+            height: `${currHeight}px`,
+          }}
+        >
           <iframe
+            ref={scaledContent}
             src="https://resumey.pro/resume/html/82bb4ec2-465b-450d-b854-4a33b53630e5/"
             title="Preview"
-            className="border-none overflow-hidden h-[1102px] w-[816px] object-cover origin-top-left"
+            className="border-none overflow-hidden h-[1102px] w-[816px] origin-top-left"
           ></iframe>
         </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-bold text-black/70 pr-2">Design</span>
+          {designTemplate.map((t, i) => (
+            <Button variant={"outline"} size={"sm"} key={i}>
+              {t.template}
+            </Button>
+          ))}
+        </div>
+
+        <span className="text-sm font-bold text-black/70">Pro tip</span>
+
+        <p className="text-muted-foreground text-sm">
+          Type &apos;/ &apos; to quickly search and apply styles
+        </p>
       </div>
     </div>
   );
