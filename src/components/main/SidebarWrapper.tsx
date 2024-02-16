@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
 import { cn } from "@/lib/utils";
 import {
   FileStack,
@@ -9,7 +15,9 @@ import {
   SquareUser,
   Trash2,
 } from "lucide-react";
-import React, { ReactNode, useState } from "react";
+import { signOut } from "next-auth/react";
+import Image from "next/image";
+import { ReactNode, useState } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -18,11 +26,6 @@ import {
 import { Separator } from "../ui/Separator";
 import { TooltipProvider } from "../ui/Tooltip";
 import { Sidebar } from "./Sidebar";
-import { buttonVariants } from "../ui/Button";
-import { Avatar, AvatarFallback } from "../ui/Avatar";
-import Image from "next/image";
-import { Icons } from "../Icons";
-import UserAvatar from "../default/UserAvatar";
 
 interface SidebarWrapperProps {
   userEmail: string | null | undefined;
@@ -52,7 +55,7 @@ const SidebarWrapper = ({
             sizes,
           )}`;
         }}
-        className="h-full max-h-[800px] items-stretch"
+        className="min-h-screen"
       >
         <ResizablePanel
           defaultSize={defaultLayout[0]}
@@ -83,22 +86,45 @@ const SidebarWrapper = ({
               isCollapsed ? "h-[52px]" : "px-2",
             )}
           >
-            <div
-              className={cn(
-                "w-full flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_svg]:h-4 [&_svg]:w-4 [&_svg]:shrink-0",
-                isCollapsed &&
-                  "flex h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>svg]:hidden",
-                buttonVariants({ variant: "outline" }),
-              )}
-            >
-              <div className="flex items-center space-x-5 truncate">
-                <UserAvatar userEmail={userEmail} userImage={userImg} />
-
-                <span className={cn("ml-2 truncate", isCollapsed && "hidden")}>
-                  {userEmail}
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className={cn(
+                  "w-full flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_img]:h-9 [&_img]:w-9 [&_img]:shrink-0",
+                  isCollapsed &&
+                    "block h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>img]:hidden",
+                )}
+              >
+                <span className="flex items-center">
+                  {userImg && (
+                    <Image
+                      className="rounded aspect-square-full w-full h-full object-contain"
+                      src={userImg}
+                      alt="profile picture"
+                      width={256}
+                      height={256}
+                    />
+                  )}
+                  <span
+                    className={cn("ml-2 truncate", isCollapsed && "hidden")}
+                  >
+                    {userEmail}
+                  </span>
                 </span>
-              </div>
-            </div>
+                <div className=""></div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel
+                  onSelect={(e) => {
+                    e.preventDefault();
+                    signOut({
+                      callbackUrl: `/`,
+                    });
+                  }}
+                >
+                  Log out
+                </DropdownMenuLabel>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <Separator />
           <Sidebar
@@ -151,11 +177,7 @@ const SidebarWrapper = ({
           <Separator />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel
-          defaultSize={defaultLayout[1]}
-          minSize={30}
-          // onResize={() => console.log("resizing")}
-        >
+        <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
           <div className="">{children}</div>
         </ResizablePanel>
       </ResizablePanelGroup>

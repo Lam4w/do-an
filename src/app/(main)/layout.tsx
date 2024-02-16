@@ -42,7 +42,7 @@ export default async function Layout({
 
   return (
     <main className="">
-      <div className="h-[100vh]">
+      <div className="min-h-screen">
         <SidebarWrapper 
           userEmail={session?.user.email}
           userImg={session?.user.image}

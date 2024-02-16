@@ -11,18 +11,18 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String  @db.ObjectId
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.String
-  access_token       String?  @db.String
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.String
-  session_state      String?
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -49,7 +49,34 @@ model User {
   sessions      Session[]
 }
 
+model UserCV {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  ownerId    String     @db.ObjectId
+  title      String
+  template   String
+  isArchived Boolean
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  snapshot   Snapshot[]
+}
 
+model Snapshot {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  cvId      String   @db.ObjectId
+  title     String
+  content   String
+  cv        UserCV   @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+  // settings {
+  //   theme:
+  //   font:
+  //   color:
+  //   spacing:
+  //   titleAlignment: 
+  // }
 
 // model Account {
 //   id                 String    @id @default(auto()) @map("_id") @db.ObjectId

@@ -1,7 +1,15 @@
 "use client";
 
 import { Input } from "@/components/ui/Input";
+import { designTemplate } from "@/const";
+import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import {
+  SnapshotCreateRequest,
+  SnapshotUpdateRequest,
+} from "@/lib/validators/snapshot";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import {
   ArrowLeft,
   BookMarked,
@@ -9,26 +17,127 @@ import {
   PanelLeft,
   PanelTop,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import SyntaxHelper from "./SyntaxHelper";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/HoverCard";
 import { Button } from "../ui/Button";
-import { designTemplate } from "@/const";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/Tooltip";
+import SnapshotModal from "@/components/main/CVModal";
+import SyntaxHelper from "./SyntaxHelper";
+import { Snapshot } from "@prisma/client";
 
-const Editor = () => {
+function useDebounce(value: any, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+interface EditorProps {
+  snapshot: Snapshot;
+}
+
+const Editor = ({ snapshot }: EditorProps) => {
+  const router = useRouter();
+  const [title, setTitle] = useState<string>(snapshot.title);
   const [isSplit, SetIsSplit] = useState<boolean>(false);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
+  const [contentLeft, setContentLeft] = useState<any>(snapshot.content);
+  const [contentRight, setContentRight] = useState<any>("");
+  const debouncedValue = useDebounce(contentLeft, 2000);
+  const [source, setSource] = useState<string>(
+    `/api/cv/html?cv=${snapshot.cvId}` +
+      (!!snapshot.id ? `&snapshot=${snapshot.id}` : ""),
+  );
+
+  const {
+    mutate: updateContent,
+    isPending,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async () => {
+      const payload: SnapshotUpdateRequest = {
+        cvId: snapshot.cvId,
+        snapshotId: snapshot.id,
+        title,
+        content: contentLeft,
+      };
+      const { data } = await axios.patch("/api/cv", payload);
+
+      setSource((prev) => prev + " ");
+
+      return data as string;
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 401) {
+          return router.push("/sign-in");
+        }
+      }
+
+      toast({
+        title: "There was an error",
+        description: "Could not update your snapshot, please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const { mutate: createSnapshot, isPending: isCreatePending } = useMutation({
+    mutationFn: async (snapshotTitle: string) => {
+      const payload: SnapshotCreateRequest = {
+        cvId: snapshot.cvId,
+        title: snapshotTitle,
+        content: contentLeft,
+      };
+      const { data } = await axios.post("/api/user/cv/snapshot", payload);
+
+      return data as string;
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 409) {
+          return toast({
+            title: "CV already exists",
+            description: "Please choose a different snapshot name.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 422) {
+          return toast({
+            title: "Invalid CV name",
+            description: "Please choose a different snapshot name.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 401) {
+          return router.push("/sign-in");
+        }
+      }
+
+      toast({
+        title: "There was an error",
+        description: "Could not create snapshot, please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -54,29 +163,46 @@ const Editor = () => {
         if (node && scaledContent.current) {
           applyScaling(node, scaledContent.current);
         }
-
-        console.log("resizing");
       });
       resizeObserver.observe(node);
     }
   }, []);
+
+  useEffect(() => {
+    if (debouncedValue) {
+      updateContent();
+    }
+  }, [debouncedValue]); // eslint-disable-line
+
+  const handleEditTitle = (code: string) => {
+    if (code === "Enter") {
+      updateContent();
+    }
+  };
 
   return (
     <div className="w-full grid grid-cols-3 space-x-10">
       <div className="flex flex-col space-y-5 col-span-2">
         <div className="flex justify-between items-center">
           <div className="flex space-x-3 items-center">
-            <ArrowLeft className="w-6 h-6 cursor-pointer hover:text-gray-500 transition" />
+            <ArrowLeft
+              className="w-6 h-6 cursor-pointer hover:text-gray-500 transition"
+              onClick={() => router.push("/dashboard")}
+            />
             <Input
               className="w-52 bg-[#f6f6f6] text-lg border-none hover:bg-gray-300 transition"
-              defaultValue="My first CV"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onKeyDown={(e) => handleEditTitle(e.code)}
             />
           </div>
-          <div className="flex items-center justify-center space-x-3">
+          <div className="flex items-center justify-center space-x-1">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <HelpCircle className="text-gray-500 cursor-pointer" />
+                  <Button type="button" size={"icon"} variant={"ghost"}>
+                    <HelpCircle className="text-gray-500 cursor-pointer" />
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Nothing yet</p>
@@ -86,7 +212,16 @@ const Editor = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <BookMarked className="text-gray-500 cursor-pointer" />
+                  <SnapshotModal
+                    ButtonIcon={BookMarked}
+                    title="Create"
+                    buttonLabel="Create new"
+                    label="Create your snapshot here. Click create when you're done with naming your snapshot."
+                    size="icon"
+                    actionWithoutId={createSnapshot}
+                    clasName="text-gray-500 cursor-pointer hover:text-emerald-500"
+                    variant="ghost"
+                  />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Create a snapshot with your current content</p>
@@ -96,13 +231,19 @@ const Editor = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <PanelTop
-                    className={cn(
-                      "text-gray-500 cursor-pointer",
-                      !isSplit && "text-emerald-500",
-                    )}
+                  <Button
+                    type="button"
+                    size={"icon"}
+                    variant={"ghost"}
                     onClick={() => SetIsSplit(false)}
-                  />
+                  >
+                    <PanelTop
+                      className={cn(
+                        "text-gray-500 cursor-pointer",
+                        !isSplit && "text-emerald-500",
+                      )}
+                    />
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Single layout</p>
@@ -112,13 +253,19 @@ const Editor = () => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <PanelLeft
-                    className={cn(
-                      "text-gray-500 cursor-pointer",
-                      isSplit && "text-emerald-500",
-                    )}
+                  <Button
+                    type="button"
+                    size={"icon"}
+                    variant={"ghost"}
                     onClick={() => SetIsSplit(true)}
-                  />
+                  >
+                    <PanelLeft
+                      className={cn(
+                        "text-gray-500 cursor-pointer",
+                        isSplit && "text-emerald-500",
+                      )}
+                    />
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Split layout</p>
@@ -134,8 +281,10 @@ const Editor = () => {
               isSplit ? "grid-cols-2 space-x-3" : "grid-cols-1",
             )}
           >
-            <SyntaxHelper />
-            {isSplit && <SyntaxHelper />}
+            <SyntaxHelper value={contentLeft} onChange={setContentLeft} />
+            {isSplit && (
+              <SyntaxHelper value={contentRight} onChange={setContentRight} />
+            )}
           </div>
         </div>
       </div>
@@ -152,7 +301,7 @@ const Editor = () => {
         >
           <iframe
             ref={scaledContent}
-            src="https://resumey.pro/resume/html/82bb4ec2-465b-450d-b854-4a33b53630e5/"
+            src={source}
             title="Preview"
             className="border-none overflow-hidden h-[1102px] w-[816px] origin-top-left"
           ></iframe>

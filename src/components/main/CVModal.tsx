@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,9 +13,15 @@ import {
 import { Button } from "../ui/Button";
 import { Label } from "../ui/Label";
 import { Input } from "../ui/Input";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, Pencil } from "lucide-react";
+import { CvCreateRequest, CvEditRequest } from "@/lib/validators/cv";
+import axios, { AxiosError } from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 interface CVModalProps {
+  id?: string;
   title: string;
   label?: string;
   initialValue?: string;
@@ -27,27 +35,32 @@ interface CVModalProps {
     | "secondary"
     | "ghost";
   size?: "default" | "sm" | "lg" | "icon";
-  clasName?: string
-  action?: (id: string) => void;
+  clasName?: string;
+  actionWithId?: (title: string, id: string) => void;
+  actionWithoutId?: (title: string) => void;
 }
 
 const CVModal = ({
+  id,
   title,
   label,
-  initialValue,
+  initialValue = "Untitled",
   buttonLabel,
   ButtonIcon,
   variant = "default",
   size = "default",
   clasName,
-  action,
+  actionWithId,
+  actionWithoutId,
 }: CVModalProps) => {
+  const [input, setInput] = useState<string>(initialValue);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button size={size} variant={variant} className={clasName}>
           {ButtonIcon ? (
-            <ButtonIcon className="h-4 w-4" />
+            <ButtonIcon />
           ) : (
             <span>{buttonLabel}</span>
           )}
@@ -60,14 +73,28 @@ const CVModal = ({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="title" className="text-right">
               Title
             </Label>
-            <Input id="name" value="Untitled" className="col-span-3" />
+            <Input
+              id="title"
+              className="col-span-3"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">{buttonLabel}</Button>
+          <Button
+            type="submit"
+            disabled={input.length === 0}
+            onClick={() => {
+              if (id && actionWithId) actionWithId(input, id);
+              else if (actionWithoutId) actionWithoutId(input);
+            }}
+          >
+            {buttonLabel}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
