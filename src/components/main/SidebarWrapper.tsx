@@ -52,7 +52,7 @@ const SidebarWrapper = ({
         direction="horizontal"
         onLayout={(sizes: number[]) => {
           document.cookie = `react-resizable-panels:layout=${JSON.stringify(
-            sizes,
+            sizes
           )}`;
         }}
         className="min-h-screen"
@@ -66,24 +66,24 @@ const SidebarWrapper = ({
           onExpand={() => {
             setIsCollapsed(false);
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-              isCollapsed,
+              isCollapsed
             )}`;
           }}
           onCollapse={() => {
             setIsCollapsed(true);
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-              isCollapsed,
+              isCollapsed
             )}`;
           }}
           className={cn(
             isCollapsed &&
-              "min-w-[50px] transition-all duration-300 ease-in-out",
+              "min-w-[50px] transition-all duration-300 ease-in-out"
           )}
         >
           <div
             className={cn(
               "flex h-[52px] items-center justify-center",
-              isCollapsed ? "h-[52px]" : "px-2",
+              isCollapsed ? "h-[52px]" : "px-2"
             )}
           >
             <DropdownMenu>
@@ -91,7 +91,7 @@ const SidebarWrapper = ({
                 className={cn(
                   "w-full flex items-center gap-2 [&>span]:line-clamp-1 [&>span]:flex [&>span]:w-full [&>span]:items-center [&>span]:gap-1 [&>span]:truncate [&_img]:h-9 [&_img]:w-9 [&_img]:shrink-0",
                   isCollapsed &&
-                    "block h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>img]:hidden",
+                    "block h-9 w-9 shrink-0 items-center justify-center p-0 [&>span]:w-auto [&>img]:hidden"
                 )}
               >
                 <span className="flex items-center">
@@ -105,7 +105,10 @@ const SidebarWrapper = ({
                     />
                   )}
                   <span
-                    className={cn("ml-2 truncate", isCollapsed && "hidden")}
+                    className={cn(
+                      "ml-2 truncate text-sm",
+                      isCollapsed && "hidden"
+                    )}
                   >
                     {userEmail}
                   </span>
@@ -175,6 +178,25 @@ const SidebarWrapper = ({
             ]}
           />
           <Separator />
+          <Sidebar
+            isCollapsed={isCollapsed}
+            links={[
+              {
+                title: "Logout",
+                icon: Trash2,
+                url: "/api/auth/logout",
+                variant: "ghost",
+              },
+            ]}
+          />
+          <p
+            className={cn(
+              "truncate text-sm text-muted-foreground text-center",
+              isCollapsed && "hidden"
+            )}
+          >
+            Version: 0.3.1
+          </p>
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>

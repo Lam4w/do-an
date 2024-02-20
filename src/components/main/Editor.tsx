@@ -1,5 +1,6 @@
 "use client";
 
+import SnapshotModal from "@/components/main/CVModal";
 import { Input } from "@/components/ui/Input";
 import { designTemplate } from "@/const";
 import { toast } from "@/hooks/use-toast";
@@ -8,6 +9,7 @@ import {
   SnapshotCreateRequest,
   SnapshotUpdateRequest,
 } from "@/lib/validators/snapshot";
+import { Snapshot } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import {
@@ -26,9 +28,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/Tooltip";
-import SnapshotModal from "@/components/main/CVModal";
 import SyntaxHelper from "./SyntaxHelper";
-import { Snapshot } from "@prisma/client";
 
 function useDebounce(value: any, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -61,7 +61,7 @@ const Editor = ({ snapshot }: EditorProps) => {
   const debouncedValue = useDebounce(contentLeft, 2000);
   const [source, setSource] = useState<string>(
     `/api/cv/html?cv=${snapshot.cvId}` +
-      (!!snapshot.id ? `&snapshot=${snapshot.id}` : ""),
+      (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
 
   const {
@@ -141,7 +141,7 @@ const Editor = ({ snapshot }: EditorProps) => {
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
-    scaledContent: HTMLIFrameElement,
+    scaledContent: HTMLIFrameElement
   ) => {
     scaledContent.style.transform = "scale(1, 1)";
 
@@ -240,7 +240,7 @@ const Editor = ({ snapshot }: EditorProps) => {
                     <PanelTop
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        !isSplit && "text-emerald-500",
+                        !isSplit && "text-emerald-500"
                       )}
                     />
                   </Button>
@@ -262,7 +262,7 @@ const Editor = ({ snapshot }: EditorProps) => {
                     <PanelLeft
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        isSplit && "text-emerald-500",
+                        isSplit && "text-emerald-500"
                       )}
                     />
                   </Button>
@@ -278,7 +278,7 @@ const Editor = ({ snapshot }: EditorProps) => {
           <div
             className={cn(
               "grid",
-              isSplit ? "grid-cols-2 space-x-3" : "grid-cols-1",
+              isSplit ? "grid-cols-2 space-x-3" : "grid-cols-1"
             )}
           >
             <SyntaxHelper value={contentLeft} onChange={setContentLeft} />

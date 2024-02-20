@@ -30,7 +30,7 @@ const page = ({ params }: { params: { fileId: string } }) => {
 
         <Separator />
         
-        <div className="p-10 bg-[#f6f6f6]">
+        <div className="px-10 py-5 bg-[#f6f6f6]">
           <TabsContent value="edit" className="m-0">
             {!isLoading && (
               <Editor snapshot={snapshot} />
