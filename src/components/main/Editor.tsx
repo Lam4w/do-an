@@ -50,7 +50,7 @@ interface EditorProps {
   snapshot: Snapshot;
 }
 
-const Editor = ({ snapshot }: EditorProps) => {
+function Editor({ snapshot }: EditorProps) {
   const router = useRouter();
   const [title, setTitle] = useState<string>(snapshot.title);
   const [isSplit, SetIsSplit] = useState<boolean>(false);
@@ -324,6 +324,6 @@ const Editor = ({ snapshot }: EditorProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default Editor;
