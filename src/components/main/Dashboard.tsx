@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
 import CreateNewCVModal from "@/components/main/CVModal";
-import { Separator } from "@/components/ui/Separator";
 import UserCv from "@/components/main/UserCvFeed";
-import { UserCV } from "@prisma/client";
+import { Separator } from "@/components/ui/Separator";
+import { toast } from "@/hooks/use-toast";
+import { CvCreateRequest } from "@/lib/validators/cv";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { CvCreateRequest } from "@/lib/validators/cv";
-import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
 const Dashboard = () => {

@@ -1,14 +1,13 @@
 'use client'
 
+import Editor from '@/components/main/Editor'
 import { Separator } from '@/components/ui/Separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import Editor from '@/components/main/Editor'
-import { db } from '@/lib/db'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Snapshot } from '@prisma/client'
 
 const page = ({ params }: { params: { fileId: string } }) => {
+  
   const { data: snapshot, isLoading } = useQuery({
     queryKey: ["snapshot"],
     queryFn: async () => {

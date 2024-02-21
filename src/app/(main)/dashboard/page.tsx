@@ -1,8 +1,6 @@
-import { getAuthSession } from '@/lib/auth'
-import { db } from '@/lib/db'
-import { redirect } from 'next/navigation'
-import React from 'react'
 import Dashboard from '@/components/main/Dashboard';
+import { getAuthSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 const page = async () => {
   const session = await getAuthSession()

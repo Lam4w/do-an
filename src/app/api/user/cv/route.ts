@@ -2,8 +2,7 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
   CvCreateValidator,
-  CvDeleteValidator,
-  CvEditValidator,
+  CvEditValidator
 } from "@/lib/validators/cv";
 import { z } from "zod";
 

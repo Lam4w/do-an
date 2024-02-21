@@ -1,8 +1,7 @@
 import Link from "next/link";
+import { getAuthSession } from "../../lib/auth";
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import { buttonVariants } from "../ui/Button";
-import { ArrowRight } from "lucide-react";
-import { getAuthSession } from "../../lib/auth";
 import UserAccountNav from "./UserAccountNav";
 
 const Navbar = async () => {
