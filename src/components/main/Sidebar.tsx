@@ -2,11 +2,10 @@
 
 import { LucideIcon } from "lucide-react";
 import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { buttonVariants } from "../ui/Button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
+import { buttonVariants } from "@/components/ui/Button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 
 interface NavProps {
   isCollapsed: boolean;

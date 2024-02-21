@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import {
   FileStack,
   Home,
+  LogOut,
   Receipt,
   Settings,
   SquareUser,
@@ -183,7 +184,7 @@ const SidebarWrapper = ({
             links={[
               {
                 title: "Logout",
-                icon: Trash2,
+                icon: LogOut,
                 url: "/api/auth/logout",
                 variant: "ghost",
               },
