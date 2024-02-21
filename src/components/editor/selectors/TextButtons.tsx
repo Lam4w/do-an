@@ -1,18 +1,20 @@
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import { EditorBubbleItem, useEditor } from "novel";
 import {
   BoldIcon,
-  ItalicIcon,
-  UnderlineIcon,
-  StrikethroughIcon,
   CodeIcon,
+  ItalicIcon,
+  StrikethroughIcon,
+  UnderlineIcon,
 } from "lucide-react";
-import type { SelectorItem } from "./node-selector";
-import { Button } from "@/components/ui/Button";
+import { EditorBubbleItem, useEditor } from "novel";
+import type { SelectorItem } from "./NodeSelector";
 
-export const TextButtons = () => {
-  const { editor } = useEditor()
+export function TextButtons() {
+
+  const { editor } = useEditor();
   if (!editor) return null;
+
   const items: SelectorItem[] = [
     {
       name: "bold",
@@ -65,4 +67,4 @@ export const TextButtons = () => {
       ))}
     </div>
   );
-};
+}

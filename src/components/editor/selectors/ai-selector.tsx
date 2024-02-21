@@ -45,7 +45,11 @@ interface AISelectorProps {
 
 export function AISelector({ open, onOpenChange }: AISelectorProps) {
   const { editor } = useEditor();
+  // if (!editor) return null;
+  
+  
   const [extraPrompt, setExtraPrompt] = useState("");
+
 
   const { completion, complete } = useCompletion({
     // id: "novel",

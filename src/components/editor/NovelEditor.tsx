@@ -1,34 +1,36 @@
 "use client";
 
-import { defaultEditorContent } from "@/lib/editor/content";
-import React, { useEffect, useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { ColorSelector } from "@/components/editor/selectors/ColorSelector";
+import { LinkSelector } from "@/components/editor/selectors/LinkSelector";
+import { NodeSelector } from "@/components/editor/selectors/NodeSelector";
+import { TextButtons } from "@/components/editor/selectors/TextButtons";
 import {
-  defaultEditorProps,
+  slashCommand,
+  suggestionItems,
+} from "@/components/editor/slash-command";
+import { Separator } from "@/components/ui/Separator";
+import { defaultEditorContent } from "@/lib/editor/content";
+import { defaultExtensions } from "@/lib/editor/extensions";
+import {
   Editor,
-  EditorRoot,
   EditorBubble,
   EditorCommand,
-  EditorCommandItem,
   EditorCommandEmpty,
+  EditorCommandItem,
   EditorContent,
+  EditorRoot,
+  defaultEditorProps,
   type JSONContent,
 } from "novel";
 import { ImageResizer } from "novel/extensions";
-import { defaultExtensions } from "@/lib/editor/extensions";
-import { Separator } from "@/components/ui/Separator";
-import { NodeSelector } from "@/lib/editor/selectors/node-selector";
-import { LinkSelector } from "@/lib/editor/selectors/link-selector";
-import { ColorSelector } from "@/lib/editor/selectors/color-selector";
-
-import { TextButtons } from "@/lib/editor/selectors/text-buttons";
-import { slashCommand, suggestionItems } from "@/lib/editor/slash-command";
+import { useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 const extensions = [...defaultExtensions, slashCommand];
 
-function TailwindEditor() {
+function NovelEditor() {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
-    null,
+    null
   );
   const [saveStatus, setSaveStatus] = useState("Saved");
 
@@ -56,7 +58,9 @@ function TailwindEditor() {
       <div className="absolute right-5 top-5 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
         {saveStatus}
       </div>
+
       <EditorRoot>
+        {/* Editor Content Component */}
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
@@ -80,7 +84,7 @@ function TailwindEditor() {
             {suggestionItems.map((item) => (
               <EditorCommandItem
                 value={item.title}
-                onCommand={(val) => item.command(val)}
+                onCommand={(val) => item.command?.(val)} // optional chaining (?.) operator to solve the error
                 className={`flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent `}
                 key={item.title}
               >
@@ -97,6 +101,7 @@ function TailwindEditor() {
             ))}
           </EditorCommand>
 
+          {/* Editor Bubble Layout */}
           <EditorBubble
             tippyOptions={{
               placement: "top",
@@ -117,6 +122,6 @@ function TailwindEditor() {
       </EditorRoot>
     </div>
   );
-};
+}
 
-export default TailwindEditor;
+export default NovelEditor;

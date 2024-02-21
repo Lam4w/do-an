@@ -1,21 +1,18 @@
-import { Check, ChevronDown } from "lucide-react";
-import type { Dispatch, SetStateAction } from "react";
-import { EditorBubbleItem, useEditor } from "novel";
+"use client";
 
+import { Button } from "@/components/ui/Button";
 import {
-  PopoverTrigger,
   Popover,
   PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/Button";
+import { Check, ChevronDown } from "lucide-react";
+import { EditorBubbleItem, useEditor } from "novel";
+import type { Dispatch, SetStateAction } from "react";
+
 export interface BubbleColorMenuItem {
   name: string;
   color: string;
-}
-
-interface ColorSelectorProps {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const TEXT_COLORS: BubbleColorMenuItem[] = [
@@ -101,16 +98,17 @@ interface ColorSelectorProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const ColorSelector = ({ open, onOpenChange }) => {
+export function ColorSelector({ open, onOpenChange }: ColorSelectorProps) {
   const { editor } = useEditor();
 
   if (!editor) return null;
+
   const activeColorItem = TEXT_COLORS.find(({ color }) =>
-    editor.isActive("textStyle", { color }),
+    editor.isActive("textStyle", { color })
   );
 
   const activeHighlightItem = HIGHLIGHT_COLORS.find(({ color }) =>
-    editor.isActive("highlight", { color }),
+    editor.isActive("highlight", { color })
   );
 
   return (
@@ -196,4 +194,4 @@ export const ColorSelector = ({ open, onOpenChange }) => {
       </PopoverContent>
     </Popover>
   );
-};
+}

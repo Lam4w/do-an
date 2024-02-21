@@ -1,9 +1,9 @@
-import TailwindEditor from "@/components/TailwindEditor";
+import NovelEditor from "@/components/editor/NovelEditor";
 
 export default function Page() {
   return (
     <>
-      <TailwindEditor />
+      <NovelEditor />
     </>
   );
 }

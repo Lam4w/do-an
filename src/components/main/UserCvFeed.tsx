@@ -16,7 +16,7 @@ interface UserCvProps {
   cvs: UserCV[];
 }
 
-const UserCvFeed = ({ cvs }: UserCvProps) => {
+function UserCvFeed({ cvs }: UserCvProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
 

@@ -1,24 +1,21 @@
 import {
   Check,
+  CheckSquare,
   ChevronDown,
+  Code,
   Heading1,
   Heading2,
   Heading3,
-  TextQuote,
   ListOrdered,
   TextIcon,
-  Code,
-  CheckSquare,
+  TextQuote,
   type LucideIcon,
 } from "lucide-react";
 import { EditorBubbleItem, useEditor } from "novel";
 
-import { Popover } from "@radix-ui/react-popover";
-import {
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Button } from "@/components/ui/Button";
+import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Popover } from "@radix-ui/react-popover";
 
 export type SelectorItem = {
   name: string;
@@ -97,14 +94,19 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("codeBlock"),
   },
 ];
+
+
 interface NodeSelectorProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export const NodeSelector = ({ open, onOpenChange }: NodeSelectorProps) => {
+export function NodeSelector ({ open, onOpenChange }: NodeSelectorProps) {
+  
   const { editor } = useEditor();
+  
   if (!editor) return null;
+
   const activeItem = items.filter((item) => item.isActive(editor)).pop() ?? {
     name: "Multiple",
   };
