@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/Button";
 import { PopoverContent } from "@/components/ui/popover";
@@ -6,10 +6,7 @@ import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { Check, Trash } from "lucide-react";
 import { useEditor } from "novel";
-import {
-  useEffect,
-  useRef
-} from "react";
+import { useEffect, useRef } from "react";
 
 export function isValidUrl(url: string) {
   try {
@@ -30,13 +27,12 @@ export function getUrlFromString(str: string) {
     return null;
   }
 }
-
 interface LinkSelectorProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function LinkSelector ({ open, onOpenChange }: LinkSelectorProps) {
+export function LinkSelector({ open, onOpenChange }: LinkSelectorProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { editor } = useEditor();
 
@@ -44,6 +40,8 @@ export function LinkSelector ({ open, onOpenChange }: LinkSelectorProps) {
   useEffect(() => {
     inputRef.current && inputRef.current?.focus();
   });
+
+  // if editor is null this component return nothing
   if (!editor) return null;
 
   return (
@@ -99,4 +97,4 @@ export function LinkSelector ({ open, onOpenChange }: LinkSelectorProps) {
       </PopoverContent>
     </Popover>
   );
-};
+}

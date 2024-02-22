@@ -6,12 +6,11 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/Command";
-
 import { useCompletion } from "ai/react";
-import { toast } from "sonner";
 import { useEditor } from "novel";
 import { getPrevText } from "novel/extensions";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const options = [
   {
@@ -45,11 +44,8 @@ interface AISelectorProps {
 
 export function AISelector({ open, onOpenChange }: AISelectorProps) {
   const { editor } = useEditor();
-  // if (!editor) return null;
-  
-  
-  const [extraPrompt, setExtraPrompt] = useState("");
 
+  const [extraPrompt, setExtraPrompt] = useState("");
 
   const { completion, complete } = useCompletion({
     // id: "novel",
@@ -66,11 +62,13 @@ export function AISelector({ open, onOpenChange }: AISelectorProps) {
     },
   });
 
+  if (!editor) return null;
+
   return (
     <div
       className="w-full"
       onBlur={() => {
-        editor.chain().unsetHighlight().run();
+        editor!.chain().unsetHighlight().run();
       }}
     >
       <Command>
@@ -79,10 +77,9 @@ export function AISelector({ open, onOpenChange }: AISelectorProps) {
             {completion}
           </p>
         )}
-
         <CommandInput
           onFocus={() => {
-            editor.chain().setHighlight({ color: "#c1ecf970" }).run();
+            editor!.chain().setHighlight({ color: "#c1ecf970" }).run();
           }}
           value={extraPrompt}
           onValueChange={setExtraPrompt}
@@ -98,10 +95,10 @@ export function AISelector({ open, onOpenChange }: AISelectorProps) {
               value={option.value}
               onSelect={(option) => {
                 if (option === "continue") {
-                  getPrevText(editor, {
+                  getPrevText(editor!, {
                     chars: 5000,
                   });
-                  complete(editor.getText());
+                  complete(editor!.getText());
                 }
               }}
             >
