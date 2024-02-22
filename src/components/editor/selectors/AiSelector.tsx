@@ -10,7 +10,7 @@ import { useCompletion } from "ai/react";
 import { useEditor } from "novel";
 import { getPrevText } from "novel/extensions";
 import { useState } from "react";
-import { toast } from "sonner";
+import { toast } from "@/hooks/use-toast";
 
 const options = [
   {
@@ -43,8 +43,6 @@ interface AISelectorProps {
 }
 
 export function AISelector({ open, onOpenChange }: AISelectorProps) {
-  const { editor } = useEditor();
-
   const [extraPrompt, setExtraPrompt] = useState("");
 
   const { completion, complete } = useCompletion({
@@ -52,16 +50,24 @@ export function AISelector({ open, onOpenChange }: AISelectorProps) {
     api: "/api/generate",
     onResponse: (response) => {
       if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
+        toast({
+          title: "Too much requests today",
+          description: "You have reached your request limit for the day.",
+          variant: "destructive",
+        });
         return;
       }
     },
-
     onError: (e) => {
-      toast.error(e.message);
+      toast({
+        title: "Something wen't wrong!",
+        description: e.message,
+        variant: "destructive",
+      });
     },
   });
 
+  const { editor } = useEditor();
   if (!editor) return null;
 
   return (
