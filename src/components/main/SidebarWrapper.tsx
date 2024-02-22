@@ -26,6 +26,7 @@ import {
 import { Separator } from "../ui/Separator";
 import { TooltipProvider } from "../ui/Tooltip";
 import { Sidebar } from "./Sidebar";
+import { usePathname } from "next/navigation";
 
 interface SidebarWrapperProps {
   userEmail: string | null | undefined;
@@ -44,6 +45,8 @@ const SidebarWrapper = ({
   navCollapsedSize,
   children,
 }: SidebarWrapperProps) => {
+  const pathName = usePathname()
+  console.log(pathName)
   const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
 
   return (
@@ -134,19 +137,19 @@ const SidebarWrapper = ({
                 title: "My CVs",
                 icon: FileStack,
                 url: "/dashboard",
-                variant: "default",
+                variant: pathName === "/dashboard" ? "default" : "ghost",
               },
               {
                 title: "My page",
                 icon: SquareUser,
                 url: "/",
-                variant: "ghost",
+                variant: pathName === "/page" ? "default" : "ghost",
               },
               {
-                title: "Trash",
+                title: "Archive",
                 icon: Trash2,
-                url: "/",
-                variant: "ghost",
+                url: "/archive",
+                variant: pathName === "/archive" ? "default" : "ghost",
               },
             ]}
           />
@@ -158,13 +161,13 @@ const SidebarWrapper = ({
                 title: "Settings",
                 icon: Settings,
                 url: "/",
-                variant: "ghost",
+                variant: pathName === "/settings" ? "default" : "ghost",
               },
               {
                 title: "Billing",
                 icon: Receipt,
                 url: "/",
-                variant: "ghost",
+                variant: pathName === "/billing" ? "default" : "ghost",
               },
               {
                 title: "Go back",

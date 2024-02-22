@@ -6,17 +6,19 @@ import { UserCV } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { format } from "date-fns";
-import { Ghost, Pencil } from "lucide-react";
+import { Archive, ArchiveRestore, Ghost, MoreVertical, Pencil, Trash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import CVModal from "./CVModal";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "./ComfirmationModal";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/Tooltip";
 
 interface UserCvProps {
   cvs: UserCV[];
+  isArchived: boolean;
 }
 
-const UserCvFeed = ({ cvs }: UserCvProps) => {
+const UserCvFeed = ({ cvs, isArchived }: UserCvProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -117,6 +119,54 @@ const UserCvFeed = ({ cvs }: UserCvProps) => {
     },
   });
 
+  const { mutate: deleteCv, isPending: isDeletePending } = useMutation({
+    mutationFn: async (id: string) => {
+      const payload: CvDeleteRequest = {
+        cvId: id,
+      };
+      const { data } = await axios.patch("/api/user/cv/delete", payload);
+
+      return data as string;
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 409) {
+          return toast({
+            title: "CV already exists",
+            description: "Please choose a different CV name.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 422) {
+          return toast({
+            title: "Invalid CV name",
+            description: "Please choose a different CV name.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 401) {
+          return router.push("/sign-in");
+        }
+      }
+
+      toast({
+        title: "There was an error",
+        description: "Could not delete CV, please try again later.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: (data) => {
+      router.refresh();
+
+      queryClient.invalidateQueries({
+        queryKey: ["userCvs"],
+        refetchType: "all",
+      });
+    },
+  });
+
   const onEdit = (title: string, id: string) => {
     editCv({ title, id });
   };
@@ -143,10 +193,21 @@ const UserCvFeed = ({ cvs }: UserCvProps) => {
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
                     <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-emerald-400 to-green-600" />
                     <div className="flex-1 truncate">
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center justify-between space-x-3">
                         <h3 className="truncate text-lg font-medium text-zinc-900">
                           {cv.title}
                         </h3>
+
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <MoreVertical className="h-5 w-5" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>View snapshots</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
                     </div>
                   </div>
@@ -164,19 +225,27 @@ const UserCvFeed = ({ cvs }: UserCvProps) => {
                     </div>
                   </div>
 
-                  <CVModal
-                    id={cv.id}
-                    title="Edit"
-                    initialValue={cv.title}
-                    buttonLabel="Save change"
-                    ButtonIcon={Pencil}
-                    label="Edit your CV here. Click save when you're done with naming your CV."
-                    variant="ghost"
-                    clasName="w-full"
-                    actionWithId={onEdit}
-                  />
+                  {isArchived ? (
+                    <DeleteModal title="Are you absolutely sure?" desc="TThis will restore your selected CV and move it to archive." id={cv.id} action={archiveCv} ButtonIcon={ArchiveRestore}/>
+                  ) : (
+                    <CVModal
+                      id={cv.id}
+                      title="Edit"
+                      initialValue={cv.title}
+                      buttonLabel="Save change"
+                      ButtonIcon={Pencil}
+                      label="Edit your CV here. Click save when you're done with naming your CV."
+                      variant="ghost"
+                      clasName="w-full"
+                      actionWithId={onEdit}
+                    />
+                  )}
 
-                  <DeleteModal id={cv.id} action={archiveCv} />
+                  {isArchived ? (
+                    <DeleteModal title="Are you absolutely sure?" desc="TThis will delete your selected CV permanently" id={cv.id} action={archiveCv} ButtonIcon={Archive}/>
+                  ) : (
+                    <DeleteModal title="Are you absolutely sure?" desc="TThis will delete your selected CV permanently" id={cv.id} action={deleteCv} ButtonIcon={Trash}/>
+                  )}
                 </div>
               </li>
             ))}

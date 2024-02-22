@@ -1,0 +1,22 @@
+import { getAuthSession } from '@/lib/auth'
+import { db } from '@/lib/db'
+import { redirect } from 'next/navigation'
+import React from 'react'
+import Dashboard from '@/components/main/Dashboard';
+import Archive from '@/components/main/Archive';
+
+const page = async () => {
+  const session = await getAuthSession()
+
+  if (!session?.user) {
+    redirect("/")
+  }
+
+  return (
+    <div className=''>
+      <Archive />
+    </div>
+  )
+}
+
+export default page

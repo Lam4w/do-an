@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
-import { usePathname } from "next/navigation";
 
 interface NavProps {
   isCollapsed: boolean;
@@ -20,8 +19,7 @@ interface NavProps {
 }
 
 export function Sidebar({ links, isCollapsed }: NavProps) {
-  const pathName = usePathname();
-
+  console.log(links);
   return (
     <div
       data-collapsed={isCollapsed}

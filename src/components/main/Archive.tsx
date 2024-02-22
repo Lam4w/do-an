@@ -11,13 +11,13 @@ import { CvCreateRequest } from "@/lib/validators/cv";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
-const Dashboard = () => {
+const Archive = () => {
   const router = useRouter();
 
   const { data: cvs, isLoading } = useQuery({
-    queryKey: ["userCvs"],
+    queryKey: ["userTrash"],
     queryFn: async () => {
-      const { data } = await axios.get("/api/user/cv");
+      const { data } = await axios.get("/api/user/cv/archive");
 
       return data;
     },
@@ -74,7 +74,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="flex justify-between items-center py-2 px-10">
-        <h1 className="text-xl font-bold">My CVs</h1>
+        <h1 className="text-xl font-bold">Trash</h1>
 
         <CreateNewCVModal
           title="Create"
@@ -87,9 +87,9 @@ const Dashboard = () => {
       <Separator />
 
       {/* display all user CVs */}
-      {!isLoading && <UserCv cvs={cvs} isArchived={false} />}
+      {!isLoading && <UserCv cvs={cvs} isArchived={true} />}
     </>
   );
 };
 
-export default Dashboard;
+export default Archive;

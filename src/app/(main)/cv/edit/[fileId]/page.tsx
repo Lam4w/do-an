@@ -7,6 +7,7 @@ import { db } from '@/lib/db'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Snapshot } from '@prisma/client'
+import Designer from '@/components/main/Designer'
 
 const page = ({ params }: { params: { fileId: string } }) => {
   const { data: snapshot, isLoading } = useQuery({
@@ -37,6 +38,7 @@ const page = ({ params }: { params: { fileId: string } }) => {
             )}
           </TabsContent>
           <TabsContent value="design" className="m-0">
+            <Designer snapshot={snapshot} />
           </TabsContent>
         </div>
       </Tabs>

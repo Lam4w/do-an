@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/AlertDialog";
 import React from "react";
 import { Button } from "../ui/Button";
-import { Trash } from "lucide-react";
+import { LucideIcon, Trash } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { CvDeleteRequest } from "@/lib/validators/cv";
 import axios, { AxiosError } from "axios";
@@ -21,31 +21,34 @@ import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
 interface DeleteModalProps {
+  title: string;
+  desc: string;
   id: string;
+  ButtonIcon: LucideIcon;
   action: (id: string) => void;
 }
 
-const DeleteModal = ({ id, action }: DeleteModalProps) => {
+const ConfirmationModal = ({title, desc, id, action, ButtonIcon }: DeleteModalProps) => {
   const router = useRouter();
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="destructive" size="sm" className="w-full">
-          <Trash />
+          <ButtonIcon />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>
-            TThis will delete your selected CV and move it to archive.
+            {desc}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={() => action(id)}>
-            Delete
+            Yes
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -53,4 +56,4 @@ const DeleteModal = ({ id, action }: DeleteModalProps) => {
   );
 };
 
-export default DeleteModal;
+export default ConfirmationModal;

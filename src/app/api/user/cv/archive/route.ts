@@ -3,6 +3,28 @@ import { db } from "@/lib/db";
 import { CvDeleteValidator } from "@/lib/validators/cv";
 import { z } from "zod";
 
+export async function GET(req: Request) {
+  try {
+    const session = await getAuthSession();
+
+    if (!session?.user) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+
+    const cvs = await db.userCV.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      where: {
+        ownerId: session.user.id,
+        isArchived: true,
+      },
+    });
+
+    return new Response(JSON.stringify(cvs));
+  } catch (err) {}
+}
+
 export async function PATCH(req: Request) {
   try {
     const session = await getAuthSession();
@@ -26,11 +48,14 @@ export async function PATCH(req: Request) {
       return new Response("CV not found", { status: 409 });
     }
 
-    await db.userCV.delete({
+    await db.userCV.update({
       where: {
         id: cvId,
         ownerId: session.user.id,
       },
+      data: {
+        isArchived: !existingCv.isArchived
+      }
     });
 
     return new Response("OK");
