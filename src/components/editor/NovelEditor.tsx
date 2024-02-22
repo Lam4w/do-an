@@ -7,7 +7,7 @@ import { TextButtons } from "@/components/editor/selectors/TextButtons";
 import {
   slashCommand,
   suggestionItems,
-} from "@/components/editor/slash-command";
+} from "@/components/editor/SlashCommand";
 import { Separator } from "@/components/ui/Separator";
 import { defaultEditorContent } from "@/lib/editor/content";
 import { defaultExtensions } from "@/lib/editor/extensions";
