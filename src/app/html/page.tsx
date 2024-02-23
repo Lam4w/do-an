@@ -2,8 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useParams, useSearchParams } from "next/navigation";
-import React from "react";
+import { useSearchParams } from "next/navigation";
 
 const Page = () => {
   const cvId = useSearchParams().get("cv");

@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils'
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
 const page = async () => {
   const session = await getAuthSession()

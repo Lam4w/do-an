@@ -10,6 +10,7 @@ import { Snapshot } from '@prisma/client'
 import Designer from '@/app/(main)/cv/edit/[fileId]/_components/Designer'
 
 const page = ({ params }: { params: { fileId: string } }) => {
+  
   const { data: snapshot, isLoading } = useQuery({
     queryKey: ["snapshot"],
     queryFn: async () => {
@@ -31,7 +32,7 @@ const page = ({ params }: { params: { fileId: string } }) => {
 
         <Separator />
         
-        <div className="p-10 bg-[#f6f6f6]">
+        <div className="px-10 py-5 bg-[#f6f6f6]">
           <TabsContent value="edit" className="m-0">
             {!isLoading && (
               <Editor snapshot={snapshot} />

@@ -1,6 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
-import { CvDeleteValidator } from "../../../../../lib/validators/cv";
 import { db } from "@/lib/db";
+import { CvDeleteValidator } from "@/lib/validators/cv";
 import { z } from "zod";
 
 export async function POST(req: Request) {

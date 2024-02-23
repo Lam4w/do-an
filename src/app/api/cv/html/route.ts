@@ -1,8 +1,8 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { z } from "zod";
 import markdownit from "markdown-it";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function GET(req: Request) {
   try {

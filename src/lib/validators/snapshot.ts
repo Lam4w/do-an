@@ -5,7 +5,7 @@ export const SnapshotCreatetValidator = z.object({
   title: z
     .string()
     .min(3, { message: "Title must be longer than 3 characters" })
-    .max(50, { message: "Title must be less than 120 characters" }),
+    .max(120, { message: "Title must be less than 120 characters" }),
   content: z.any(),
 });
 
@@ -15,7 +15,7 @@ export const SnapshotUpdateValidator = z.object({
   title: z
     .string()
     .min(3, { message: "Title must be longer than 3 characters" })
-    .max(50, { message: "Title must be less than 120 characters" }),
+    .max(120, { message: "Title must be less than 120 characters" }),
   content: z.any(),
 });
 

@@ -11,14 +11,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
-import React from "react";
-import { Button } from "../ui/Button";
-import { LucideIcon, Trash } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
-import { CvDeleteRequest } from "@/lib/validators/cv";
-import axios, { AxiosError } from "axios";
-import { toast } from "@/hooks/use-toast";
+import { LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/Button";
 
 interface DeleteModalProps {
   title: string;

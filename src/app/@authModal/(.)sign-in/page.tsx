@@ -2,7 +2,6 @@ import CloseModal from '@/components/auth/CloseModal'
 import SignIn from '@/components/auth/SignIn'
 import { getAuthSession } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import { FC } from 'react'
 
 const page = async () => {
   const session = await getAuthSession()

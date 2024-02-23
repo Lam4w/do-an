@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import { LucideIcon } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../ui/Button";
 import {
   Dialog,
   DialogContent,
@@ -10,15 +12,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/Dialog";
-import { Button } from "../ui/Button";
-import { Label } from "../ui/Label";
 import { Input } from "../ui/Input";
-import { LucideIcon, Pencil } from "lucide-react";
-import { CvCreateRequest, CvEditRequest } from "@/lib/validators/cv";
-import axios, { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
+import { Label } from "../ui/Label";
 
 interface CVModalProps {
   id?: string;
