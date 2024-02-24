@@ -18,7 +18,7 @@ interface UserCvProps {
   isArchived: boolean;
 }
 
-const UserCvFeed = ({ cvs, isArchived }: UserCvProps) => {
+export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -172,9 +172,9 @@ const UserCvFeed = ({ cvs, isArchived }: UserCvProps) => {
   };
 
   return (
-    <div className="px-10">
+    <div className="">
       {cvs && cvs?.length !== 0 ? (
-        <ul className="mt-8 grid grid-cols-1 gap-6 divide-y divide-zinc-200 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-6 divide-y divide-zinc-200 md:grid-cols-2 lg:grid-cols-3">
           {cvs
             .sort(
               (a, b) =>
@@ -260,5 +260,3 @@ const UserCvFeed = ({ cvs, isArchived }: UserCvProps) => {
     </div>
   );
 };
-
-export default UserCvFeed;

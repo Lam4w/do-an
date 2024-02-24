@@ -23,7 +23,7 @@ interface DeleteModalProps {
   action: (id: string) => void;
 }
 
-const ConfirmationModal = ({title, desc, id, action, ButtonIcon }: DeleteModalProps) => {
+export default function ConfirmationModal ({title, desc, id, action, ButtonIcon }: DeleteModalProps) {
   const router = useRouter();
 
   return (
@@ -50,5 +50,3 @@ const ConfirmationModal = ({title, desc, id, action, ButtonIcon }: DeleteModalPr
     </AlertDialog>
   );
 };
-
-export default ConfirmationModal;

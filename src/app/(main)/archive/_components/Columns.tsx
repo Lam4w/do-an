@@ -54,7 +54,7 @@ export const columns: ColumnDef<UserCV>[] = [
             <DropdownMenuItem
               onClick={() => {}}
             >
-              Edit CV
+              Recover CV
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {}}

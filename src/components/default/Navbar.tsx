@@ -4,7 +4,7 @@ import MaxWidthWrapper from "../MaxWidthWrapper";
 import { buttonVariants } from "../ui/Button";
 import UserAccountNav from "./UserAccountNav";
 
-const Navbar = async () => {
+export default async function Navbar () {
   const session = await getAuthSession();
 
   return (
@@ -60,5 +60,3 @@ const Navbar = async () => {
     </nav>
   );
 };
-
-export default Navbar;

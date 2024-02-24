@@ -9,7 +9,7 @@ import { Button } from "../ui/Button";
 
 interface UserAuthFormProps extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 
-const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
+export default function UserAuthForm ({ className, ...props } : UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast()
 
@@ -45,5 +45,3 @@ const UserAuthForm: FC<UserAuthFormProps> = ({ className, ...props }) => {
     </div>
   );
 };
-
-export default UserAuthForm;
