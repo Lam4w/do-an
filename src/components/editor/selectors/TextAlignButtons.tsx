@@ -12,6 +12,33 @@ import { EditorBubbleItem, useEditor } from "novel";
 import type { SelectorItem } from "./NodeSelector";
 import TextAlign from "@tiptap/extension-text-align";
 
+const items: SelectorItem[] = [
+  {
+    name: "left",
+    isActive: (editor) => editor!.isActive({ textAlign: "left" }),
+    command: (editor) => editor!.chain().focus().setTextAlign("left").run(),
+    icon: AlignLeftIcon,
+  },
+  {
+    name: "center",
+    isActive: (editor) => editor!.isActive({ textAlign: "center" }),
+    command: (editor) => editor!.chain().focus().setTextAlign("center").run(),
+    icon: AlignCenterIcon,
+  },
+  {
+    name: "right",
+    isActive: (editor) => editor!.isActive({ textAlign: "right" }),
+    command: (editor) => editor!.chain().focus().setTextAlign("right").run(),
+    icon: AlignRightIcon,
+  },
+  // {
+  //   name: "justify",
+  //   isActive: (editor) => editor!.isActive("justify"),
+  //   command: (editor) =>
+  //     editor!.chain().focus().setTextAlign("justify").run(),
+  //   icon: AlignJustifyIcon,
+  // },
+];
 interface TextAlignButtonsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -23,34 +50,6 @@ export function TextAlignButtons({
 }: TextAlignButtonsProps) {
   const { editor } = useEditor();
   if (!editor) return null;
-
-  const items: SelectorItem[] = [
-    {
-      name: "left",
-      isActive: (editor) => editor!.isActive("left"),
-      command: (editor) => editor!.chain().focus().setTextAlign("left").run(),
-      icon: AlignLeftIcon,
-    },
-    {
-      name: "center",
-      isActive: (editor) => editor!.isActive("center"),
-      command: (editor) => editor!.chain().focus().setTextAlign("center").run(),
-      icon: AlignCenterIcon,
-    },
-    {
-      name: "right",
-      isActive: (editor) => editor!.isActive("right"),
-      command: (editor) => editor!.chain().focus().setTextAlign("right").run(),
-      icon: AlignRightIcon,
-    },
-    // {
-    //   name: "justify",
-    //   isActive: (editor) => editor!.isActive("justify"),
-    //   command: (editor) =>
-    //     editor!.chain().focus().setTextAlign("justify").run(),
-    //   icon: AlignJustifyIcon,
-    // },
-  ];
 
   return (
     <div className="flex">
