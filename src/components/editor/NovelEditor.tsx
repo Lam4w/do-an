@@ -26,6 +26,7 @@ import { ImageResizer } from "novel/extensions";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
+
 const extensions = [...defaultExtensions, slashCommand];
 
 function NovelEditor() {

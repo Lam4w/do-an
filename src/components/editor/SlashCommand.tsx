@@ -158,11 +158,24 @@ export const suggestionItems = createSuggestionItems([
       editor
         .chain()
         .focus()
+        .deleteRange(range)
         .insertTable({ rows: 1, cols: 2, withHeaderRow: false })
         .run();
     },
   },
-]);
+  {
+    title: "Three block",
+    description: "Create two blocks.",
+    icon: <MessageSquarePlus size={18} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertTable({ rows: 1, cols: 3, withHeaderRow: false })
+        .run();
+    },
+  },]);
 
 export const slashCommand = Command.configure({
   suggestion: {
