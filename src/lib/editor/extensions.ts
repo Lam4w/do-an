@@ -1,25 +1,27 @@
+import Table from "@tiptap/extension-table";
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
+import { cx } from "class-variance-authority";
 import {
+  HorizontalRule,
+  Placeholder,
+  StarterKit,
+  TaskItem,
+  TaskList,
   TiptapImage,
   TiptapLink,
   UpdatedImage,
-  TaskList,
-  TaskItem,
-  HorizontalRule,
-  StarterKit,
-  Placeholder,
 } from "novel/extensions";
 import { UploadImagesPlugin } from "novel/plugins";
 
-import { cx } from "class-variance-authority";
-
 //TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
-
 //You can overwrite the placeholder with your own configuration
 const placeholder = Placeholder;
 const tiptapLink = TiptapLink.configure({
   HTMLAttributes: {
     class: cx(
-      "text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer",
+      "text-muted-foreground underline underline-offset-[3px] hover:text-primary transition-colors cursor-pointer"
     ),
   },
 });
@@ -99,6 +101,12 @@ const starterKit = StarterKit.configure({
   gapcursor: false,
 });
 
+const table = Table.configure({
+  HTMLAttributes: {
+    class: "two-block",
+  },
+});
+
 export const defaultExtensions = [
   starterKit,
   placeholder,
@@ -108,4 +116,8 @@ export const defaultExtensions = [
   taskList,
   taskItem,
   horizontalRule,
+  table,
+  TableRow,
+  TableHeader,
+  TableCell,
 ];
