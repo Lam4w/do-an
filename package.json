@@ -30,6 +30,7 @@
     "@tiptap/extension-table-cell": "^2.2.4",
     "@tiptap/extension-table-header": "^2.2.4",
     "@tiptap/extension-table-row": "^2.2.4",
+    "@tiptap/extension-text-align": "^2.2.4",
     "@upstash/ratelimit": "^1.0.1",
     "@vercel/kv": "^1.0.1",
     "ai": "^2.2.35",
