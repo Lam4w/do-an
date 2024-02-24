@@ -10,6 +10,8 @@ import {
   MessageSquarePlus,
   Text,
   TextQuote,
+  Columns2,
+  Columns3
 } from "lucide-react";
 import { Command, createSuggestionItems, renderItems } from "novel/extensions";
 import { startImageUpload } from "novel/plugins";
@@ -153,7 +155,7 @@ export const suggestionItems = createSuggestionItems([
   {
     title: "Two block",
     description: "Create two blocks.",
-    icon: <MessageSquarePlus size={18} />,
+    icon: <Columns2 size={18} />,
     command: ({ editor, range }) => {
       editor
         .chain()
@@ -166,7 +168,7 @@ export const suggestionItems = createSuggestionItems([
   {
     title: "Three block",
     description: "Create two blocks.",
-    icon: <MessageSquarePlus size={18} />,
+    icon: <Columns3 size={18} />,
     command: ({ editor, range }) => {
       editor
         .chain()

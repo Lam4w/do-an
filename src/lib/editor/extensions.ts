@@ -1,7 +1,8 @@
 import Table from "@tiptap/extension-table";
-import TableCell from '@tiptap/extension-table-cell';
-import TableHeader from '@tiptap/extension-table-header';
-import TableRow from '@tiptap/extension-table-row';
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import TextAlign from "@tiptap/extension-text-align";
 import { cx } from "class-variance-authority";
 import {
   HorizontalRule,
@@ -107,6 +108,12 @@ const table = Table.configure({
   },
 });
 
+const textAlign = TextAlign.configure({
+  types: ["heading", "paragraph"],
+  // alignments:['left', 'center', 'right', 'justify'],
+  // defaultAlignment: "left",
+});
+
 export const defaultExtensions = [
   starterKit,
   placeholder,
@@ -120,4 +127,5 @@ export const defaultExtensions = [
   TableRow,
   TableHeader,
   TableCell,
+  textAlign,
 ];

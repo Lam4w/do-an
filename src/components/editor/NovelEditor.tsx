@@ -25,7 +25,7 @@ import {
 import { ImageResizer } from "novel/extensions";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-
+import { TextAlignButtons } from "./selectors/TextAlignButtons";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -112,8 +112,9 @@ function NovelEditor() {
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
             <Separator orientation="vertical" />
-
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
+            <Separator orientation="vertical" />
+            <TextAlignButtons open={openColor} onOpenChange={setOpenColor} />
             <Separator orientation="vertical" />
             <TextButtons />
             <Separator orientation="vertical" />
