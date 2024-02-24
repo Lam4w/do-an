@@ -110,16 +110,16 @@ const table = Table.configure({
 
 const textAlign = TextAlign.configure({
   types: ["heading", "paragraph"],
-  // alignments:['left', 'center', 'right', 'justify'],
-  // defaultAlignment: "left",
+  alignments: ["left", "right"],
+  defaultAlignment: 'right',
+
+
 });
 
 export const defaultExtensions = [
   starterKit,
   placeholder,
   tiptapLink,
-  tiptapImage,
-  updatedImage,
   taskList,
   taskItem,
   horizontalRule,
@@ -127,5 +127,4 @@ export const defaultExtensions = [
   TableRow,
   TableHeader,
   TableCell,
-  textAlign,
 ];
