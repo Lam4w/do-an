@@ -1,4 +1,4 @@
-import "@/app/table.css";
+import "@/app/editor.css";
 import NovelEditor from "@/components/editor/NovelEditor";
 
 export default function Page() {

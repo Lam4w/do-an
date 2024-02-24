@@ -1,13 +1,14 @@
 "use client";
 
-import { ColorSelector } from "@/components/editor/selectors/ColorSelector";
-import { LinkSelector } from "@/components/editor/selectors/LinkSelector";
-import { NodeSelector } from "@/components/editor/selectors/NodeSelector";
-import { TextButtons } from "@/components/editor/selectors/TextButtons";
 import {
   slashCommand,
   suggestionItems,
 } from "@/components/editor/SlashCommand";
+import { ColorSelector } from "@/components/editor/selectors/ColorSelector";
+import { LinkSelector } from "@/components/editor/selectors/LinkSelector";
+import { NodeSelector } from "@/components/editor/selectors/NodeSelector";
+import { TextAlignButtons } from "@/components/editor/selectors/TextAlignButtons";
+import { TextButtons } from "@/components/editor/selectors/TextButtons";
 import { Separator } from "@/components/ui/Separator";
 import { defaultEditorContent } from "@/lib/editor/content";
 import { defaultExtensions } from "@/lib/editor/extensions";
@@ -25,7 +26,6 @@ import {
 import { ImageResizer } from "novel/extensions";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -114,8 +114,9 @@ function NovelEditor() {
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
             <Separator orientation="vertical" />
-
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
+            <Separator orientation="vertical" />
+            <TextAlignButtons open={openColor} onOpenChange={setOpenColor} />
             <Separator orientation="vertical" />
             <TextButtons />
             <Separator orientation="vertical" />
