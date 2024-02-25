@@ -1,11 +1,19 @@
 "use client";
 
+import { Sidebar } from "@/components/main/Sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/Resizable";
+import { Separator } from "@/components/ui/Separator";
+import { TooltipProvider } from "@/components/ui/Tooltip";
 import { cn } from "@/lib/utils";
 import {
   FileStack,
@@ -18,16 +26,8 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { ReactNode, useState } from "react";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "../ui/Resizable";
-import { Separator } from "../ui/Separator";
-import { TooltipProvider } from "../ui/Tooltip";
-import { Sidebar } from "./Sidebar";
 import { usePathname } from "next/navigation";
+import { ReactNode, useState } from "react";
 
 interface SidebarWrapperProps {
   userEmail: string | null | undefined;
@@ -38,7 +38,7 @@ interface SidebarWrapperProps {
   children: ReactNode;
 }
 
-export default function SidebarWrapper ({
+export default function SidebarWrapper({
   userEmail,
   userImg,
   defaultLayout = [250, 1100],
@@ -46,7 +46,7 @@ export default function SidebarWrapper ({
   navCollapsedSize,
   children,
 }: SidebarWrapperProps) {
-  const pathName = usePathname()
+  const pathName = usePathname();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
 
   return (
@@ -135,7 +135,6 @@ export default function SidebarWrapper ({
           <Separator />
           <div className="flex flex-col h-[90vh] justify-between">
             <div className="">
-
               <Sidebar
                 isCollapsed={isCollapsed}
                 links={[
@@ -166,7 +165,7 @@ export default function SidebarWrapper ({
                   {
                     title: "Settings",
                     icon: Settings,
-                    url: "/",
+                    url: "/settings",
                     variant: pathName === "/settings" ? "default" : "ghost",
                   },
                   {
@@ -196,9 +195,11 @@ export default function SidebarWrapper ({
                     icon: LogOut,
                     url: "/api/auth/logout",
                     variant: "ghost",
-                    action: () => {signOut({
-                      callbackUrl: `/`,
-                    });}
+                    action: () => {
+                      signOut({
+                        callbackUrl: `/`,
+                      });
+                    },
                   },
                 ]}
               />
@@ -220,4 +221,4 @@ export default function SidebarWrapper ({
       </ResizablePanelGroup>
     </TooltipProvider>
   );
-};
+}
