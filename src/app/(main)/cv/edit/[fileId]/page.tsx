@@ -1,10 +1,13 @@
 'use client'
 
-import Editor from '@/components/main/Editor'
 import { Separator } from '@/components/ui/Separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import Editor from '@/app/(main)/cv/edit/[fileId]/_components/Editor'
+import { db } from '@/lib/db'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { Snapshot } from '@prisma/client'
+import Designer from '@/app/(main)/cv/edit/[fileId]/_components/Designer'
 
 const page = ({ params }: { params: { fileId: string } }) => {
   
@@ -36,6 +39,7 @@ const page = ({ params }: { params: { fileId: string } }) => {
             )}
           </TabsContent>
           <TabsContent value="design" className="m-0">
+            <Designer snapshot={snapshot} />
           </TabsContent>
         </div>
       </Tabs>

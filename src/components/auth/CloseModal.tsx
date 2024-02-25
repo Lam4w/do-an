@@ -4,7 +4,7 @@ import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/Button'
 
-const CloseModal = () => {
+export default function CloseModal () {
     const router = useRouter()
     return (
         <Button 
@@ -17,5 +17,3 @@ const CloseModal = () => {
         </Button>
     )
 }
-
-export default CloseModal

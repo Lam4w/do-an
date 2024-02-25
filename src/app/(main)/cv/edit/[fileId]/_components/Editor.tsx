@@ -2,7 +2,7 @@
 
 import SnapshotModal from "@/components/main/CVModal";
 import { Input } from "@/components/ui/Input";
-import { designTemplate } from "@/const";
+import { designTemplate } from "@/lib/const";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import {
@@ -21,14 +21,15 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button"; 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/Tooltip";
-import SyntaxHelper from "./SyntaxHelper";
+} from "@/components/ui/Tooltip"
+
+import SyntaxHelper from "@/app/(main)/cv/edit/[fileId]/_components/SyntaxHelper"; 
 
 function useDebounce(value: any, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -50,7 +51,7 @@ interface EditorProps {
   snapshot: Snapshot;
 }
 
-const Editor = ({ snapshot }: EditorProps) => {
+function Editor({ snapshot }: EditorProps) {
   const router = useRouter();
   const [title, setTitle] = useState<string>(snapshot.title);
   const [isSplit, SetIsSplit] = useState<boolean>(false);
@@ -324,6 +325,6 @@ const Editor = ({ snapshot }: EditorProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default Editor;

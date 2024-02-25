@@ -8,7 +8,7 @@ import {
   CommandList,
 } from "@/components/ui/Command";
 import { Textarea } from "@/components/ui/Textarea";
-import { markdownSyntax } from "@/const";
+import { markdownSyntax } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 var getCaretCoordinates = require("textarea-caret");

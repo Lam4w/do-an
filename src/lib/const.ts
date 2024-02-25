@@ -49,3 +49,18 @@ export const designTemplate = [
     template: "Vega",
   },
 ];
+
+export const defaultColors = [
+  "#E8384F",
+  "#E74C3C",
+  "#E67E22",
+  "#F1C40F",
+  "#A4CF30",
+  "#2ECC71", 
+  "#1ABC9C",
+  "#016EF1",
+  "#7A6FF0",
+  "#E362E3",
+  "#8DA3A6",
+  "#222222",
+]

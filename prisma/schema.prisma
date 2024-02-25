@@ -53,7 +53,6 @@ model UserCV {
   id         String     @id @default(auto()) @map("_id") @db.ObjectId
   ownerId    String     @db.ObjectId
   title      String
-  template   String
   isArchived Boolean
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
@@ -65,54 +64,16 @@ model Snapshot {
   cvId      String   @db.ObjectId
   title     String
   content   String
+  settings Settings
   cv        UserCV   @relation(fields: [cvId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-  // settings {
-  //   theme:
-  //   font:
-  //   color:
-  //   spacing:
-  //   titleAlignment: 
-  // }
-
-// model Account {
-//   id                 String    @id @default(auto()) @map("_id") @db.ObjectId
-//   userId             String    @db.ObjectId
-//   providerType       String
-//   providerId         String
-//   providerAccountId  String
-//   refreshToken       String?
-//   accessToken        String?
-//   accessTokenExpires DateTime?
-//   createdAt          DateTime  @default(now())
-//   updatedAt          DateTime  @updatedAt
-//   user               User      @relation(fields: [userId], references: [id])
-
-//   @@unique([providerId, providerAccountId])
-// }
-
-// model Session {
-//   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-//   userId       String   @db.ObjectId
-//   expires      DateTime
-//   sessionToken String   @unique
-//   accessToken  String   @unique
-//   createdAt    DateTime @default(now())
-//   updatedAt    DateTime @updatedAt
-//   user         User     @relation(fields: [userId], references: [id])
-// }
-
-// model User {
-//   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-//   name          String?
-//   email         String?   @unique
-//   emailVerified DateTime?
-//   image         String?
-//   createdAt     DateTime  @default(now())
-//   updatedAt     DateTime  @updatedAt
-//   accounts      Account[]
-//   sessions      Session[]
-// }
+type Settings {
+  template String
+  spacing Int @default(1)
+  fontSize Int @default(12)
+  color String 
+  titleAlignment String
+}

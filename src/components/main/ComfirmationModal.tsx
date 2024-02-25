@@ -11,41 +11,42 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
-import { Trash } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
 
 interface DeleteModalProps {
+  title: string;
+  desc: string;
   id: string;
+  ButtonIcon: LucideIcon;
   action: (id: string) => void;
 }
 
-const DeleteModal = ({ id, action }: DeleteModalProps) => {
+export default function ConfirmationModal ({title, desc, id, action, ButtonIcon }: DeleteModalProps) {
   const router = useRouter();
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="destructive" size="sm" className="w-full">
-          <Trash />
+          <ButtonIcon />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>
-            TThis will delete your selected CV and move it to archive.
+            {desc}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={() => action(id)}>
-            Delete
+            Yes
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
-
-export default DeleteModal;

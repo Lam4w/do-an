@@ -35,7 +35,7 @@ interface CVModalProps {
   actionWithoutId?: (title: string) => void;
 }
 
-const CVModal = ({
+export default function CVModal ({
   id,
   title,
   label,
@@ -47,7 +47,7 @@ const CVModal = ({
   clasName,
   actionWithId,
   actionWithoutId,
-}: CVModalProps) => {
+}: CVModalProps) {
   const [input, setInput] = useState<string>(initialValue);
 
   return (
@@ -95,5 +95,3 @@ const CVModal = ({
     </Dialog>
   );
 };
-
-export default CVModal;

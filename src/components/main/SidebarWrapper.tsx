@@ -1,11 +1,19 @@
 "use client";
 
+import { Sidebar } from "@/components/main/Sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/Resizable";
+import { Separator } from "@/components/ui/Separator";
+import { TooltipProvider } from "@/components/ui/Tooltip";
 import { cn } from "@/lib/utils";
 import {
   FileStack,
@@ -18,15 +26,8 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "../ui/Resizable";
-import { Separator } from "../ui/Separator";
-import { TooltipProvider } from "../ui/Tooltip";
-import { Sidebar } from "./Sidebar";
 
 interface SidebarWrapperProps {
   userEmail: string | null | undefined;
@@ -37,14 +38,15 @@ interface SidebarWrapperProps {
   children: ReactNode;
 }
 
-const SidebarWrapper = ({
+export default function SidebarWrapper({
   userEmail,
   userImg,
   defaultLayout = [250, 1100],
   defaultCollapsed = false,
   navCollapsedSize,
   children,
-}: SidebarWrapperProps) => {
+}: SidebarWrapperProps) {
+  const pathName = usePathname();
   const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
 
   return (
@@ -131,65 +133,78 @@ const SidebarWrapper = ({
             </DropdownMenu>
           </div>
           <Separator />
-          <Sidebar
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "My CVs",
-                icon: FileStack,
-                url: "/dashboard",
-                variant: "default",
-              },
-              {
-                title: "My page",
-                icon: SquareUser,
-                url: "/",
-                variant: "ghost",
-              },
-              {
-                title: "Trash",
-                icon: Trash2,
-                url: "/",
-                variant: "ghost",
-              },
-            ]}
-          />
-          <Separator />
-          <Sidebar
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "Settings",
-                icon: Settings,
-                url: "/",
-                variant: "ghost",
-              },
-              {
-                title: "Billing",
-                icon: Receipt,
-                url: "/",
-                variant: "ghost",
-              },
-              {
-                title: "Go back",
-                icon: Home,
-                url: "/",
-                variant: "ghost",
-              },
-            ]}
-          />
-          <Separator />
-          <Sidebar
-            isCollapsed={isCollapsed}
-            links={[
-              {
-                title: "Logout",
-                icon: LogOut,
-                url: "/api/auth/logout",
-                variant: "ghost",
-              },
-            ]}
-          />
+          <div className="flex flex-col h-[90vh] justify-between">
+            <div className="">
+              <Sidebar
+                isCollapsed={isCollapsed}
+                links={[
+                  {
+                    title: "My CVs",
+                    icon: FileStack,
+                    url: "/dashboard",
+                    variant: pathName === "/dashboard" ? "default" : "ghost",
+                  },
+                  {
+                    title: "My page",
+                    icon: SquareUser,
+                    url: "/",
+                    variant: pathName === "/page" ? "default" : "ghost",
+                  },
+                  {
+                    title: "Archive",
+                    icon: Trash2,
+                    url: "/archive",
+                    variant: pathName === "/archive" ? "default" : "ghost",
+                  },
+                ]}
+              />
+              <Separator />
+              <Sidebar
+                isCollapsed={isCollapsed}
+                links={[
+                  {
+                    title: "Settings",
+                    icon: Settings,
+                    url: "/settings",
+                    variant: pathName === "/settings" ? "default" : "ghost",
+                  },
+                  {
+                    title: "Billing",
+                    icon: Receipt,
+                    url: "/",
+                    variant: pathName === "/billing" ? "default" : "ghost",
+                  },
+                  {
+                    title: "Go back",
+                    icon: Home,
+                    url: "/",
+                    variant: "ghost",
+                  },
+                ]}
+              />
+              <Separator />
+            </div>
+
+            <div className="">
+              <Separator />
+              <Sidebar
+                isCollapsed={isCollapsed}
+                links={[
+                  {
+                    title: "Logout",
+                    icon: LogOut,
+                    url: "/api/auth/logout",
+                    variant: "ghost",
+                    action: () => {
+                      signOut({
+                        callbackUrl: `/`,
+                      });
+                    },
+                  },
+                ]}
+              />
+            </div>
+          </div>
           <p
             className={cn(
               "truncate text-sm text-muted-foreground text-center",
@@ -206,6 +221,4 @@ const SidebarWrapper = ({
       </ResizablePanelGroup>
     </TooltipProvider>
   );
-};
-
-export default SidebarWrapper;
+}

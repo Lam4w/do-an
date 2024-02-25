@@ -1,7 +1,7 @@
 import { Icons } from "../Icons";
 import UserAuthForm from "./UserAuthForm";
 
-const SignIn = () => {
+export default function SignIn () {
   return (
     <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
       <div className="flex flex-col space-y-2 text-center">
@@ -18,5 +18,3 @@ const SignIn = () => {
     </div>
   );
 };
-
-export default SignIn;
