@@ -6,6 +6,7 @@ import { Separator } from '../../../../../../components/ui/Separator';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 import { Slider } from '../../../../../../components/ui/Slider';
+import { Label } from '@/components/ui/Label';
 
 interface DesignerProps {
   snapshot: Snapshot;
@@ -19,6 +20,8 @@ const Designer = ({ snapshot } : DesignerProps) => {
     `/api/cv/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : ""),
   );
+  const [fontSize, setFontSize] = useState(snapshot.settings.fontSize)
+  const [spacing, setSpacing] = useState(snapshot.settings.spacing)
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -82,7 +85,7 @@ const Designer = ({ snapshot } : DesignerProps) => {
         </Button>
         <Separator />
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Title alignment</span>
+          <Label className='uppercase font-bold text-muted-foreground'>Title alignment</Label>
 
           <div className="flex">
             <Button size={"sm"} variant={"ghost"} >Left</Button>
@@ -92,7 +95,7 @@ const Designer = ({ snapshot } : DesignerProps) => {
         </div>
 
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Colour</span>
+          <Label className='uppercase font-bold text-muted-foreground'>Colour</Label>
 
           <div className="flex gap-2 flex-wrap">
             {defaultColors.map((c, i) => (
@@ -104,18 +107,46 @@ const Designer = ({ snapshot } : DesignerProps) => {
         </div>
 
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Font size</span>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="fontSize" className='uppercase font-bold text-muted-foreground'>Font size</Label>
+            <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+              {fontSize}
+            </span>
+          </div>
 
           <div className="py-3">
-            <Slider defaultValue={[33]} max={100} step={1} />
+            <Slider
+              id="fontSize"
+              max={15}
+              min={10}
+              defaultValue={[fontSize]}
+              step={1}
+              onValueChange={(val) => setFontSize(val[0])}
+              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+              aria-label="FontSize"
+            />
           </div>
         </div>
 
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Spacing</span>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="spacing" className='uppercase font-bold text-muted-foreground'>Spacing</Label>
+            <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+              {spacing}
+            </span>
+          </div>
 
           <div className="py-3">
-            <Slider defaultValue={[33]} max={100} step={1} />
+            <Slider
+              id="spacing"
+              max={5}
+              min={1}
+              defaultValue={[spacing]}
+              step={1}
+              onValueChange={(val) => setSpacing(val[0])}
+              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+              aria-label="Spacing"
+            />
           </div>
         </div>
 

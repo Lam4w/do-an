@@ -12,7 +12,7 @@ import Designer from '@/app/(main)/cv/edit/[fileId]/_components/Designer'
 const page = ({ params }: { params: { fileId: string } }) => {
   
   const { data: snapshot, isLoading } = useQuery({
-    queryKey: ["snapshot"],
+    queryKey: ["getSnapshot"],
     queryFn: async () => {
       const { data } = await axios.get(`/api/cv/snapshot?cv=${params.fileId}`);
 
@@ -32,7 +32,7 @@ const page = ({ params }: { params: { fileId: string } }) => {
 
         <Separator />
         
-        <div className="px-10 py-5 bg-[#f6f6f6]">
+        <div className="px-10 py-5 bg-[#f6f6f6] h-[95vh] overflow-y-scroll">
           <TabsContent value="edit" className="m-0">
             {!isLoading && (
               <Editor snapshot={snapshot} />
