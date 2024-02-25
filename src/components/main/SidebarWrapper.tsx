@@ -27,7 +27,7 @@ import {
 import { Separator } from "../ui/Separator";
 import { TooltipProvider } from "../ui/Tooltip";
 import { Sidebar } from "./Sidebar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface SidebarWrapperProps {
   userEmail: string | null | undefined;
@@ -47,6 +47,7 @@ export default function SidebarWrapper ({
   children,
 }: SidebarWrapperProps) {
   const pathName = usePathname()
+  const router = useRouter()
   const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
 
   return (
@@ -142,20 +143,20 @@ export default function SidebarWrapper ({
                   {
                     title: "My CVs",
                     icon: FileStack,
-                    url: "/dashboard",
                     variant: pathName === "/dashboard" ? "default" : "ghost",
+                    action: () => router.push('/dashboard')
                   },
                   {
                     title: "My page",
                     icon: SquareUser,
-                    url: "/",
                     variant: pathName === "/page" ? "default" : "ghost",
+                    action: () => router.push('/')
                   },
                   {
                     title: "Archive",
                     icon: Trash2,
-                    url: "/archive",
                     variant: pathName === "/archive" ? "default" : "ghost",
+                    action: () => router.push('/archive')
                   },
                 ]}
               />
@@ -166,20 +167,20 @@ export default function SidebarWrapper ({
                   {
                     title: "Settings",
                     icon: Settings,
-                    url: "/",
                     variant: pathName === "/settings" ? "default" : "ghost",
+                    action: () => router.push('/settings')
                   },
                   {
                     title: "Billing",
                     icon: Receipt,
-                    url: "/",
                     variant: pathName === "/billing" ? "default" : "ghost",
+                    action: () => router.push('/billing')
                   },
                   {
                     title: "Go back",
                     icon: Home,
-                    url: "/",
                     variant: "ghost",
+                    action: () => router.push('/')
                   },
                 ]}
               />
@@ -194,7 +195,6 @@ export default function SidebarWrapper ({
                   {
                     title: "Logout",
                     icon: LogOut,
-                    url: "/api/auth/logout",
                     variant: "ghost",
                     action: () => {signOut({
                       callbackUrl: `/`,
