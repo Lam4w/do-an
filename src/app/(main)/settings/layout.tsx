@@ -40,7 +40,7 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <>
       <div className="flex justify-between items-center py-3 px-10">
-        <h1 className="text-xl font-bold">My CVs</h1>
+        <h1 className="text-xl font-bold">Settings</h1>
       </div>
       <Separator />
       <div className="hidden space-y-6 p-10 pb-16 md:block overflow-y-scroll h-[95vh]">
