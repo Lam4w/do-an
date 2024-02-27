@@ -11,21 +11,21 @@ import {
   Text,
   TextQuote,
   Columns2,
-  Columns3
+  Columns3,
 } from "lucide-react";
 import { Command, createSuggestionItems, renderItems } from "novel/extensions";
 import { startImageUpload } from "novel/plugins";
 
 export const suggestionItems = createSuggestionItems([
-  {
-    title: "Send Feedback",
-    description: "Let us know how we can improve.",
-    icon: <MessageSquarePlus size={18} />,
-    command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).run();
-      window.open("/feedback", "_blank");
-    },
-  },
+  // {
+  //   title: "Send Feedback",
+  //   description: "Let us know how we can improve.",
+  //   icon: <MessageSquarePlus size={18} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).run();
+  //     window.open("/feedback", "_blank");
+  //   },
+  // },
   {
     title: "Text",
     description: "Just start typing with plain text.",
@@ -37,6 +37,32 @@ export const suggestionItems = createSuggestionItems([
         .focus()
         .deleteRange(range)
         .toggleNode("paragraph", "paragraph")
+        .run();
+    },
+  },
+  {
+    title: "Two block",
+    description: "Create two blocks.",
+    icon: <Columns2 size={18} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertTable({ rows: 1, cols: 2, withHeaderRow: false })
+        .run();
+    },
+  },
+  {
+    title: "Three block",
+    description: "Create three blocks.",
+    icon: <Columns3 size={18} />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertTable({ rows: 1, cols: 3, withHeaderRow: false })
         .run();
     },
   },
@@ -152,32 +178,7 @@ export const suggestionItems = createSuggestionItems([
       input.click();
     },
   },
-  {
-    title: "Two block",
-    description: "Create two blocks.",
-    icon: <Columns2 size={18} />,
-    command: ({ editor, range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .insertTable({ rows: 1, cols: 2, withHeaderRow: false })
-        .run();
-    },
-  },
-  {
-    title: "Three block",
-    description: "Create two blocks.",
-    icon: <Columns3 size={18} />,
-    command: ({ editor, range }) => {
-      editor
-        .chain()
-        .focus()
-        .deleteRange(range)
-        .insertTable({ rows: 1, cols: 3, withHeaderRow: false })
-        .run();
-    },
-  },]);
+]);
 
 export const slashCommand = Command.configure({
   suggestion: {
