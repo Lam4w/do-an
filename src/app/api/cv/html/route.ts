@@ -3,6 +3,28 @@ import { db } from "@/lib/db";
 import markdownit from "markdown-it";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { generateHTML } from '@tiptap/html'
+import Bold from '@tiptap/extension-bold'
+import Italic from "@tiptap/extension-italic";
+// Option 2: Browser-only (lightweight)
+// import { generateHTML } from '@tiptap/core'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Heading from '@tiptap/extension-heading'
+import Blockquote from "@tiptap/extension-blockquote";
+import BulletList from "@tiptap/extension-bullet-list";
+import ListItem from "@tiptap/extension-list-item";
+import CodeBlock from "@tiptap/extension-code-block";
+import HardBreak from "@tiptap/extension-hard-break";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import Code from "@tiptap/extension-code";
+import Link from "@tiptap/extension-link";
 
 export async function GET(req: Request) {
   try {
@@ -61,7 +83,28 @@ export async function GET(req: Request) {
     let res;
 
     if (snapshot?.content) {
-      res = md.render(snapshot?.content);
+      // res = md.render(snapshot?.content);
+      res = generateHTML(JSON.parse(snapshot.content), [
+        Document,
+        Paragraph,
+        Text,
+        Bold,
+        Italic,
+        Heading,
+        Blockquote,
+        BulletList,
+        ListItem,
+        CodeBlock,
+        HardBreak,
+        HorizontalRule,
+        OrderedList,
+        Table,
+        TableCell,
+        TableRow,
+        TableHeader,
+        Code,
+        Link,
+      ])
     }
 
     const response = new NextResponse(res);
