@@ -44,7 +44,6 @@ export async function POST(req: Request) {
       data: {
         title,
         ownerId: session.user.id,
-        template: "default",
         isArchived: false,
       },
     });
@@ -54,6 +53,13 @@ export async function POST(req: Request) {
         cvId: cv.id,
         title: "default",
         content: "Default",
+        settings: {
+          color: "#000000",
+          template: "default",
+          titleAlignment: "center",
+          fontSize: 12,
+          spacing: 1,
+        }
       },
     });
 

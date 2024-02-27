@@ -1,28 +1,31 @@
-import { defaultColors, designTemplate } from '@/lib/const';
-import { Snapshot } from '@prisma/client';
-import React, { useCallback, useRef, useState } from 'react'
-import { Button, buttonVariants } from '../../../../../../components/ui/Button';
-import { Separator } from '../../../../../../components/ui/Separator';
-import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
-import { Slider } from '../../../../../../components/ui/Slider';
+import { Button, buttonVariants } from "@/components/ui/Button";
+import { Label } from "@/components/ui/Label";
+import { Separator } from "@/components/ui/Separator";
+import { Slider } from "@/components/ui/Slider";
+import { defaultColors, designTemplate } from "@/lib/const";
+import { cn } from "@/lib/utils";
+import { Snapshot } from "@prisma/client";
+import { Check } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
 
 interface DesignerProps {
   snapshot: Snapshot;
 }
 
-const Designer = ({ snapshot } : DesignerProps) => {
-  const [selectedColour, setSelectedColour] = useState<string>("#222222")
+const Designer = ({ snapshot }: DesignerProps) => {
+  const [selectedColour, setSelectedColour] = useState<string>("#222222");
   const scaledContentDesigner = useRef<HTMLIFrameElement | null>(null);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const [source, setSource] = useState<string>(
     `/api/cv/html?cv=${snapshot.cvId}` +
-      (!!snapshot.id ? `&snapshot=${snapshot.id}` : ""),
+      (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
+  const [fontSize, setFontSize] = useState(snapshot.settings.fontSize);
+  const [spacing, setSpacing] = useState(snapshot.settings.spacing);
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
-    scaledContent: HTMLIFrameElement,
+    scaledContent: HTMLIFrameElement
   ) => {
     scaledContent.style.transform = "scale(1, 1)";
 
@@ -50,10 +53,12 @@ const Designer = ({ snapshot } : DesignerProps) => {
   }, []);
 
   return (
-    <div className='grid grid-cols-5 space-x-5'>
+    <div className="grid grid-cols-5 space-x-5">
       <div className="col-span-4">
         <div className="flex flex-wrap items-center gap-2 pb-5">
-          <span className="text-sm font-bold text-black/70 pr-2 uppercase">Design</span>
+          <span className="text-sm font-bold text-black/70 pr-2 uppercase">
+            Design
+          </span>
           {designTemplate.map((t, i) => (
             <Button variant={"outline"} size={"sm"} key={i}>
               {t.template}
@@ -62,11 +67,11 @@ const Designer = ({ snapshot } : DesignerProps) => {
         </div>
 
         <div
-            ref={scaledWrapperDesigner}
-            className="relative bg-white rounded-sm overflow-hidden cursor-pointer"
-            style={{
-              height: `${currHeight}px`,
-            }}
+          ref={scaledWrapperDesigner}
+          className="relative bg-white rounded-sm overflow-hidden cursor-pointer"
+          style={{
+            height: `${currHeight}px`,
+          }}
         >
           <iframe
             ref={scaledContentDesigner}
@@ -77,51 +82,109 @@ const Designer = ({ snapshot } : DesignerProps) => {
         </div>
       </div>
       <div className="col-span-1 bg-white p-4 rounded-sm">
-        <Button className='w-full mb-5'>
-          PDF Downloads
-        </Button>
+        <Button className="w-full mb-5">PDF Downloads</Button>
         <Separator />
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Title alignment</span>
+          <Label className="uppercase font-bold text-muted-foreground">
+            Title alignment
+          </Label>
 
           <div className="flex">
-            <Button size={"sm"} variant={"ghost"} >Left</Button>
-            <Button size={"sm"} variant={"ghost"} >Center</Button>
-            <Button size={"sm"} variant={"ghost"} >Right</Button>
+            <Button size={"sm"} variant={"ghost"}>
+              Left
+            </Button>
+            <Button size={"sm"} variant={"ghost"}>
+              Center
+            </Button>
+            <Button size={"sm"} variant={"ghost"}>
+              Right
+            </Button>
           </div>
         </div>
 
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Colour</span>
+          <Label className="uppercase font-bold text-muted-foreground">
+            Colour
+          </Label>
 
           <div className="flex gap-2 flex-wrap">
             {defaultColors.map((c, i) => (
-              <div onClick={() => setSelectedColour(c)} key={i} className={cn(buttonVariants({size: "sm"}), "cursor-pointer aspect-square relative")} style={{ backgroundColor: c}}>
-                <Check className={cn('w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2', selectedColour === c ? "block" : "hidden")}/>
+              <div
+                onClick={() => setSelectedColour(c)}
+                key={i}
+                className={cn(
+                  buttonVariants({ size: "sm" }),
+                  "cursor-pointer aspect-square relative"
+                )}
+                style={{ backgroundColor: c }}
+              >
+                <Check
+                  className={cn(
+                    "w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                    selectedColour === c ? "block" : "hidden"
+                  )}
+                />
               </div>
             ))}
           </div>
         </div>
 
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Font size</span>
+          <div className="flex items-center justify-between">
+            <Label
+              htmlFor="fontSize"
+              className="uppercase font-bold text-muted-foreground"
+            >
+              Font size
+            </Label>
+            <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+              {fontSize}
+            </span>
+          </div>
 
           <div className="py-3">
-            <Slider defaultValue={[33]} max={100} step={1} />
+            <Slider
+              id="fontSize"
+              max={15}
+              min={10}
+              defaultValue={[fontSize]}
+              step={1}
+              onValueChange={(val) => setFontSize(val[0])}
+              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+              aria-label="FontSize"
+            />
           </div>
         </div>
 
         <div className="flex flex-col space-y-2 pt-3">
-          <span className='uppercase text-sm font-bold text-muted-foreground'>Spacing</span>
+          <div className="flex items-center justify-between">
+            <Label
+              htmlFor="spacing"
+              className="uppercase font-bold text-muted-foreground"
+            >
+              Spacing
+            </Label>
+            <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+              {spacing}
+            </span>
+          </div>
 
           <div className="py-3">
-            <Slider defaultValue={[33]} max={100} step={1} />
+            <Slider
+              id="spacing"
+              max={5}
+              min={1}
+              defaultValue={[spacing]}
+              step={1}
+              onValueChange={(val) => setSpacing(val[0])}
+              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+              aria-label="Spacing"
+            />
           </div>
         </div>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Designer
+export default Designer;

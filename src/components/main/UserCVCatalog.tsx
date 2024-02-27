@@ -242,9 +242,9 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                   )}
 
                   {isArchived ? (
-                    <DeleteModal title="Are you absolutely sure?" desc="TThis will delete your selected CV permanently" id={cv.id} action={archiveCv} ButtonIcon={Archive}/>
-                  ) : (
                     <DeleteModal title="Are you absolutely sure?" desc="TThis will delete your selected CV permanently" id={cv.id} action={deleteCv} ButtonIcon={Trash}/>
+                  ) : (
+                    <DeleteModal title="Are you absolutely sure?" desc="TThis will delete your selected CV" id={cv.id} action={archiveCv} ButtonIcon={Archive}/>
                   )}
                 </div>
               </li>

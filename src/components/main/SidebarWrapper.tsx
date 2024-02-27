@@ -1,11 +1,19 @@
 "use client";
 
+import { Sidebar } from "@/components/main/Sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/Resizable";
+import { Separator } from "@/components/ui/Separator";
+import { TooltipProvider } from "@/components/ui/Tooltip";
 import { cn } from "@/lib/utils";
 import {
   FileStack,
@@ -19,15 +27,7 @@ import {
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { ReactNode, useState } from "react";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "../ui/Resizable";
-import { Separator } from "../ui/Separator";
-import { TooltipProvider } from "../ui/Tooltip";
-import { Sidebar } from "./Sidebar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface SidebarWrapperProps {
   userEmail: string | null | undefined;
@@ -38,7 +38,7 @@ interface SidebarWrapperProps {
   children: ReactNode;
 }
 
-export default function SidebarWrapper ({
+export default function SidebarWrapper({
   userEmail,
   userImg,
   defaultLayout = [250, 1100],
@@ -47,7 +47,12 @@ export default function SidebarWrapper ({
   children,
 }: SidebarWrapperProps) {
   const pathName = usePathname()
+  const router = useRouter()
   const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
+
+  const getPathname = (pathName: string) => {
+    return pathName.split("/")[1]
+  }
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -135,27 +140,26 @@ export default function SidebarWrapper ({
           <Separator />
           <div className="flex flex-col h-[90vh] justify-between">
             <div className="">
-
               <Sidebar
                 isCollapsed={isCollapsed}
                 links={[
                   {
                     title: "My CVs",
                     icon: FileStack,
-                    url: "/dashboard",
-                    variant: pathName === "/dashboard" ? "default" : "ghost",
+                    variant: getPathname(pathName) === "dashboard" ? "default" : "ghost",
+                    action: () => router.push('/dashboard')
                   },
                   {
                     title: "My page",
                     icon: SquareUser,
-                    url: "/",
-                    variant: pathName === "/page" ? "default" : "ghost",
+                    variant: getPathname(pathName) === "page" ? "default" : "ghost",
+                    action: () => router.push('/')
                   },
                   {
                     title: "Archive",
                     icon: Trash2,
-                    url: "/archive",
-                    variant: pathName === "/archive" ? "default" : "ghost",
+                    variant: getPathname(pathName) === "archive" ? "default" : "ghost",
+                    action: () => router.push('/archive')
                   },
                 ]}
               />
@@ -166,20 +170,20 @@ export default function SidebarWrapper ({
                   {
                     title: "Settings",
                     icon: Settings,
-                    url: "/",
-                    variant: pathName === "/settings" ? "default" : "ghost",
+                    variant: getPathname(pathName) === "settings" ? "default" : "ghost",
+                    action: () => router.push('/settings')
                   },
                   {
                     title: "Billing",
                     icon: Receipt,
-                    url: "/",
-                    variant: pathName === "/billing" ? "default" : "ghost",
+                    variant: getPathname(pathName) === "billing" ? "default" : "ghost",
+                    action: () => router.push('/billing')
                   },
                   {
                     title: "Go back",
                     icon: Home,
-                    url: "/",
                     variant: "ghost",
+                    action: () => router.push('/')
                   },
                 ]}
               />
@@ -194,11 +198,12 @@ export default function SidebarWrapper ({
                   {
                     title: "Logout",
                     icon: LogOut,
-                    url: "/api/auth/logout",
                     variant: "ghost",
-                    action: () => {signOut({
-                      callbackUrl: `/`,
-                    });}
+                    action: () => {
+                      signOut({
+                        callbackUrl: `/`,
+                      });
+                    },
                   },
                 ]}
               />
@@ -220,4 +225,4 @@ export default function SidebarWrapper ({
       </ResizablePanelGroup>
     </TooltipProvider>
   );
-};
+}

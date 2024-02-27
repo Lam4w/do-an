@@ -64,7 +64,7 @@ model Snapshot {
   cvId      String   @db.ObjectId
   title     String
   content   String
-  settings Settings
+  settings  Settings
   cv        UserCV   @relation(fields: [cvId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -27,12 +27,12 @@ export async function GET(req: Request) {
 
     if (!!snapshotId) {
       whereClause = {
-          cvId,
-          snapshotId,
+        cvId,
+        snapshotId,
       };
     } else {
       whereClause = {
-          cvId,
+        cvId,
       };
     }
 
@@ -60,8 +60,7 @@ export async function GET(req: Request) {
     if (err instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });
     }
-
-    return new Response("Could not fetch snapshot", { status: 500 });
+    return new Response("Could not get snapshot", { status: 500 });
   }
 }
 
@@ -82,6 +81,13 @@ export async function POST(req: Request) {
         cvId,
         title,
         content,
+        settings: {
+          color: "#000000",
+          template: "default",
+          titleAlignment: "center",
+          fontSize: 12,
+          spacing: 1,
+        }
       },
     });
 
