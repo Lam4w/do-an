@@ -60,20 +60,28 @@ model UserCV {
 }
 
 model Snapshot {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  cvId      String   @db.ObjectId
-  title     String
-  content   String
-  settings  Settings
-  cv        UserCV   @relation(fields: [cvId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  cvId        String   @db.ObjectId
+  title       String
+  contentMain String
+  contentSide String
+  settings    Settings
+  cv          UserCV   @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  isArchived  Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Display {
+  ONECOL
+  TWOCOL
 }
 
 type Settings {
-  template String
-  spacing Int @default(1)
-  fontSize Int @default(12)
-  color String 
-  titleAlignment String
+  display        Display @default(ONECOL)
+  template       String  @default("default")
+  spacing        Int     @default(1)
+  fontSize       Int     @default(12)
+  color          String  @default("#000000")
+  titleAlignment String  @default("center")
 }
