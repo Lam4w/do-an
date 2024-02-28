@@ -12,7 +12,7 @@ interface DesignerProps {
   snapshot: Snapshot;
 }
 
-const Designer = ({ snapshot }: DesignerProps) => {
+export default function Designer ({ snapshot }: DesignerProps) {
   const [selectedColour, setSelectedColour] = useState<string>("#222222");
   const scaledContentDesigner = useRef<HTMLIFrameElement | null>(null);
   const [currHeight, setCurrHeight] = useState<number>(0);
@@ -186,5 +186,3 @@ const Designer = ({ snapshot }: DesignerProps) => {
     </div>
   );
 };
-
-export default Designer;

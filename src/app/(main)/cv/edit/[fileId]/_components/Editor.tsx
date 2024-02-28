@@ -1,9 +1,17 @@
 "use client";
 
+import SyntaxHelper from "@/app/(main)/cv/edit/[fileId]/_components/SyntaxHelper";
 import SnapshotModal from "@/components/main/CVModal";
+import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { designTemplate } from "@/lib/const";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 import { toast } from "@/hooks/use-toast";
+import { designTemplate } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import {
   SnapshotCreateRequest,
@@ -21,15 +29,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/Button"; 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/Tooltip"
-
-import SyntaxHelper from "@/app/(main)/cv/edit/[fileId]/_components/SyntaxHelper"; 
 
 function useDebounce(value: any, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);

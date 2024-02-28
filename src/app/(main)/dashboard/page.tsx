@@ -2,7 +2,7 @@ import Dashboard from "@/app/(main)/dashboard/_components/Dashboard";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-const page = async () => {
+async function DashboardPage() {
   const session = await getAuthSession();
 
   if (!session?.user) {
@@ -14,6 +14,6 @@ const page = async () => {
       <Dashboard />
     </div>
   );
-};
+}
 
-export default page;
+export default DashboardPage;
