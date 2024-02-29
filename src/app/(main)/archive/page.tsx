@@ -1,22 +1,19 @@
-import { getAuthSession } from '@/lib/auth'
-import { db } from '@/lib/db'
-import { redirect } from 'next/navigation'
-import React from 'react'
-import Dashboard from '@/app/(main)/dashboard/_components/Dashboard';
-import Archive from '@/app/(main)/archive/_components/Archive';
+import Archive from "@/app/(main)/archive/_components/Archive";
+import { getAuthSession } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-const page = async () => {
-  const session = await getAuthSession()
+async function ArchivePage() {
+  const session = await getAuthSession();
 
   if (!session?.user) {
-    redirect("/")
+    redirect("/");
   }
 
   return (
-    <div className=''>
+    <div className="">
       <Archive />
     </div>
-  )
+  );
 }
 
-export default page
+export default ArchivePage;

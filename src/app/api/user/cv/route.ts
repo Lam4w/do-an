@@ -1,4 +1,5 @@
 import { getAuthSession } from "@/lib/auth";
+import { defaultContent } from "@/lib/const";
 import { db } from "@/lib/db";
 import {
   CvCreateValidator,
@@ -52,14 +53,10 @@ export async function POST(req: Request) {
       data: {
         cvId: cv.id,
         title: "default",
-        content: "Default",
-        settings: {
-          color: "#000000",
-          template: "default",
-          titleAlignment: "center",
-          fontSize: 12,
-          spacing: 1,
-        }
+        contentMain: defaultContent,
+        contentSide: defaultContent,
+        isArchived: false,
+        settings: {}
       },
     });
 

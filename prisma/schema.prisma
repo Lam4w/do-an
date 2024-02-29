@@ -72,14 +72,9 @@ model Snapshot {
   updatedAt   DateTime @updatedAt
 }
 
-enum Display {
-  ONECOL
-  TWOCOL
-}
-
 type Settings {
-  display        Display @default(ONECOL)
-  template       String  @default("default")
+  layout         String  @default("oneCol")
+  template       String  @default("Indius")
   spacing        Int     @default(1)
   fontSize       Int     @default(12)
   color          String  @default("#000000")

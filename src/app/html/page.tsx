@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 
-const Page = () => {
+export default function HtmlPage() {
   const cvId = useSearchParams().get("cv");
   const snapshotId = useSearchParams().get("snapshot");
 
@@ -13,7 +13,7 @@ const Page = () => {
     queryFn: async () => {
       const { data } = await axios.get(
         `/api/cv/html?cv=${cvId}` +
-          (!!snapshotId ? `&snapshot=${snapshotId}` : ""),
+          (!!snapshotId ? `&snapshot=${snapshotId}` : "")
       );
 
       return data;
@@ -29,6 +29,4 @@ const Page = () => {
       )}
     </>
   );
-};
-
-export default Page;
+}

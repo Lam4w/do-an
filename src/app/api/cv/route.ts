@@ -13,7 +13,7 @@ export async function PATCH(req: Request) {
 
     const body = await req.json();
 
-    const { cvId, snapshotId, title, content } = SnapshotUpdateValidator.parse(body);
+    const { cvId, snapshotId, title, contentMain, contentSide, settings } = SnapshotUpdateValidator.parse(body);
 
     const existingCv = await db.userCV.findFirst({
       where: {
@@ -44,7 +44,9 @@ export async function PATCH(req: Request) {
       },
       data: {
         title,
-        content,
+        contentMain, 
+        contentSide, 
+        settings
       },
     });
 

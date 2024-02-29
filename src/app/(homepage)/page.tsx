@@ -1,11 +1,11 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { buttonVariants } from "@/components/ui/Button";
+import { getAuthSession } from "@/lib/auth";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getAuthSession } from "../../lib/auth";
 
-export default async function Home() {
+export default async function HomePage() {
   const session = await getAuthSession();
 
   return (

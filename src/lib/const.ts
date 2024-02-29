@@ -41,7 +41,7 @@ export const markdownSyntax = [
   },
 ];
 
-export const designTemplate = [
+export const designTemplates = [
   {
     template: "Indius",
   },
@@ -49,6 +49,21 @@ export const designTemplate = [
     template: "Vega",
   },
 ];
+
+export const titleAlignment = [
+  {
+    value: "left",
+    alignment: "Left",
+  },
+  {
+    value: "center",
+    alignment: "Center",
+  },
+  {
+    value: "right",
+    alignment: "Right",
+  },
+]
 
 export const defaultColors = [
   "#E8384F",
@@ -64,3 +79,18 @@ export const defaultColors = [
   "#8DA3A6",
   "#222222",
 ]
+
+export const defaultContent = JSON.stringify({
+  "type": "doc",
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Wow, this editor instance exports its content as JSON."
+        }
+      ]
+    }
+  ]
+})

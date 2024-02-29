@@ -31,7 +31,7 @@ const extensions = [...defaultExtensions, slashCommand];
 
 interface NovelEditorProps {
   content: JSONContent;
-  onChange: (value: string) => void;
+  onChange: (value: JSONContent) => void;
 }
 
 function NovelEditor({ content, onChange } : NovelEditorProps) {
@@ -42,22 +42,16 @@ function NovelEditor({ content, onChange } : NovelEditorProps) {
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
 
-  // update function
   const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
     const json = editor.getJSON();
-
     // window.localStorage.setItem("novel-content", JSON.stringify(json));
-
-    onChange(JSON.stringify(json))
-
-    console.log(JSON.stringify(json))
-
+    onChange(json)
     setSaveStatus("Saved");
   }, 2000);
 
   useEffect(() => {
-    const content = window.localStorage.getItem("novel-content");
-    if (content) setInitialContent(JSON.parse(content));
+    // const content = window.localStorage.getItem("novel-content");
+    if (!!content) setInitialContent(content);
     else setInitialContent(defaultEditorContent);
   }, []);
 

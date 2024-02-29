@@ -6,7 +6,16 @@ export const SnapshotCreatetValidator = z.object({
     .string()
     .min(3, { message: "Title must be longer than 3 characters" })
     .max(120, { message: "Title must be less than 120 characters" }),
-  content: z.any(),
+  contentMain: z.any(),
+  contentSide: z.any(),
+  settings: z.object({
+    layout: z.string(),
+    template: z.string(),
+    spacing: z.number(),
+    fontSize: z.number(),
+    color: z.string(),
+    titleAlignment: z.string(),
+    })
 });
 
 export const SnapshotUpdateValidator = z.object({
@@ -16,7 +25,16 @@ export const SnapshotUpdateValidator = z.object({
     .string()
     .min(3, { message: "Title must be longer than 3 characters" })
     .max(120, { message: "Title must be less than 120 characters" }),
-  content: z.any(),
+  contentMain: z.any(),
+  contentSide: z.any(),
+  settings: z.object({
+    layout: z.string(),
+    template: z.string(),
+    spacing: z.number(),
+    fontSize: z.number(),
+    color: z.string(),
+    titleAlignment: z.string(),
+    })
 });
 
 export type SnapshotCreateRequest = z.infer<typeof SnapshotCreatetValidator>;

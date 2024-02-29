@@ -60,6 +60,8 @@ export async function GET(req: Request) {
     if (err instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });
     }
+
+    console.log(err)
     return new Response("Could not get snapshot", { status: 500 });
   }
 }
@@ -74,20 +76,16 @@ export async function POST(req: Request) {
 
     const body = await req.body;
 
-    const { cvId, title, content } = SnapshotCreatetValidator.parse(body);
+    const { cvId, title, contentMain, contentSide, settings } = SnapshotCreatetValidator.parse(body);
 
     await db.snapshot.create({
       data: {
         cvId,
         title,
-        content,
-        settings: {
-          color: "#000000",
-          template: "default",
-          titleAlignment: "center",
-          fontSize: 12,
-          spacing: 1,
-        }
+        contentMain,
+        contentSide,
+        settings,
+        isArchived: false,
       },
     });
 

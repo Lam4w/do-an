@@ -1,8 +1,11 @@
+"use client"
+
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Separator } from "@/components/ui/Separator";
 import { Slider } from "@/components/ui/Slider";
-import { defaultColors, designTemplate } from "@/lib/const";
+import { defaultColors, designTemplates, titleAlignment } from "@/lib/const";
+import useSnapshotContent from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { Snapshot } from "@prisma/client";
 import { Check } from "lucide-react";
@@ -12,16 +15,17 @@ interface DesignerProps {
   snapshot: Snapshot;
 }
 
-const Designer = ({ snapshot }: DesignerProps) => {
-  const [selectedColour, setSelectedColour] = useState<string>("#222222");
+export default function Designer ({ snapshot }: DesignerProps) {
+  const store = useSnapshotContent()
+
+  console.log(store.settings)
+
   const scaledContentDesigner = useRef<HTMLIFrameElement | null>(null);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const [source, setSource] = useState<string>(
     `/api/cv/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
-  const [fontSize, setFontSize] = useState(snapshot.settings.fontSize);
-  const [spacing, setSpacing] = useState(snapshot.settings.spacing);
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -59,8 +63,12 @@ const Designer = ({ snapshot }: DesignerProps) => {
           <span className="text-sm font-bold text-black/70 pr-2 uppercase">
             Design
           </span>
-          {designTemplate.map((t, i) => (
-            <Button variant={"outline"} size={"sm"} key={i}>
+          {designTemplates.map((t, i) => (
+            <Button 
+              variant={store.settings.template === t.template ? "default" : "outline"} 
+              size={"sm"} key={i}
+              onClick={() => store.setSettings("template", t.template)}  
+            >
               {t.template}
             </Button>
           ))}
@@ -89,16 +97,20 @@ const Designer = ({ snapshot }: DesignerProps) => {
             Title alignment
           </Label>
 
-          <div className="flex">
-            <Button size={"sm"} variant={"ghost"}>
-              Left
-            </Button>
-            <Button size={"sm"} variant={"ghost"}>
-              Center
-            </Button>
-            <Button size={"sm"} variant={"ghost"}>
-              Right
-            </Button>
+          <div className="flex flex-wrap items-center gap-2 pb-5">
+            {titleAlignment.map((t, i) => (
+              <Button 
+                key={i} 
+                size={"sm"} 
+                variant={store.settings.titleAlignment === t.value ? "default" : "outline"} 
+                onClick={() => {
+                  store.setSettings("titleAlignment", t.value)
+                  console.log(store.settings)
+                }}
+              >
+                {t.value}
+              </Button>
+            ))}
           </div>
         </div>
 
@@ -110,7 +122,7 @@ const Designer = ({ snapshot }: DesignerProps) => {
           <div className="flex gap-2 flex-wrap">
             {defaultColors.map((c, i) => (
               <div
-                onClick={() => setSelectedColour(c)}
+                onClick={() => store.setSettings("color", c)}
                 key={i}
                 className={cn(
                   buttonVariants({ size: "sm" }),
@@ -121,7 +133,7 @@ const Designer = ({ snapshot }: DesignerProps) => {
                 <Check
                   className={cn(
                     "w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                    selectedColour === c ? "block" : "hidden"
+                    store.settings.color === c ? "block" : "hidden"
                   )}
                 />
               </div>
@@ -138,7 +150,7 @@ const Designer = ({ snapshot }: DesignerProps) => {
               Font size
             </Label>
             <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-              {fontSize}
+              {store.settings.fontSize}
             </span>
           </div>
 
@@ -147,9 +159,9 @@ const Designer = ({ snapshot }: DesignerProps) => {
               id="fontSize"
               max={15}
               min={10}
-              defaultValue={[fontSize]}
+              defaultValue={[store.settings.fontSize]}
               step={1}
-              onValueChange={(val) => setFontSize(val[0])}
+              onValueChange={(val) => store.setSettings("fontSize", val[0])}
               className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
               aria-label="FontSize"
             />
@@ -165,7 +177,7 @@ const Designer = ({ snapshot }: DesignerProps) => {
               Spacing
             </Label>
             <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-              {spacing}
+              {store.settings.spacing}
             </span>
           </div>
 
@@ -174,9 +186,9 @@ const Designer = ({ snapshot }: DesignerProps) => {
               id="spacing"
               max={5}
               min={1}
-              defaultValue={[spacing]}
+              defaultValue={[store.settings.spacing]}
               step={1}
-              onValueChange={(val) => setSpacing(val[0])}
+              onValueChange={(val) => store.setSettings("spacing", val[0])}
               className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
               aria-label="Spacing"
             />
@@ -186,5 +198,3 @@ const Designer = ({ snapshot }: DesignerProps) => {
     </div>
   );
 };
-
-export default Designer;

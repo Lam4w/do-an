@@ -82,9 +82,9 @@ export async function GET(req: Request) {
 
     let res;
 
-    if (snapshot?.content) {
+    if (snapshot?.contentMain) {
       // res = md.render(snapshot?.content);
-      res = generateHTML(JSON.parse(snapshot.content), [
+      res = generateHTML(JSON.parse(snapshot.contentMain), [
         Document,
         Paragraph,
         Text,

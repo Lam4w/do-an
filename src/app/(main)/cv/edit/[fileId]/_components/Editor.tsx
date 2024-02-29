@@ -2,8 +2,8 @@
 
 import SnapshotModal from "@/components/main/CVModal";
 import { Input } from "@/components/ui/Input";
-import { designTemplate } from "@/lib/const";
 import { toast } from "@/hooks/use-toast";
+import { designTemplates } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import {
   SnapshotCreateRequest,
@@ -31,22 +31,8 @@ import {
 
 import SyntaxHelper from "@/app/(main)/cv/edit/[fileId]/_components/SyntaxHelper"; 
 import NovelEditor from "@/components/editor/NovelEditor";
-
-function useDebounce(value: any, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
+import { JSONContent } from "novel";
+import useSnapshotContent from "@/lib/store";
 
 interface EditorProps {
   snapshot: Snapshot;
@@ -54,13 +40,12 @@ interface EditorProps {
 
 function Editor({ snapshot }: EditorProps) {
   const router = useRouter();
+  const store = useSnapshotContent();
   const [title, setTitle] = useState<string>(snapshot.title);
+  // const [settings, setSettings] = useState<any>(snapshot.settings);
   const [isSplit, SetIsSplit] = useState<boolean>(false);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
-  const [contentLeft, setContentLeft] = useState<any>(snapshot.content);
-  const [contentRight, setContentRight] = useState<any>("");
-  const debouncedValue = useDebounce(contentLeft, 0);
   const [source, setSource] = useState<string>(
     `/api/cv/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
@@ -76,7 +61,9 @@ function Editor({ snapshot }: EditorProps) {
         cvId: snapshot.cvId,
         snapshotId: snapshot.id,
         title,
-        content: contentLeft,
+        contentMain: JSON.stringify(store.contentMain),
+        contentSide: JSON.stringify(store.contentSide),
+        settings: store.settings,
       };
       const { data } = await axios.patch("/api/cv", payload);
 
@@ -104,7 +91,9 @@ function Editor({ snapshot }: EditorProps) {
       const payload: SnapshotCreateRequest = {
         cvId: snapshot.cvId,
         title: snapshotTitle,
-        content: contentLeft,
+        contentMain: JSON.stringify(store.contentMain),
+        contentSide: JSON.stringify(store.contentSide),
+        settings: store.settings,
       };
       const { data } = await axios.post("/api/user/cv/snapshot", payload);
 
@@ -171,10 +160,8 @@ function Editor({ snapshot }: EditorProps) {
   }, []);
 
   useEffect(() => {
-    if (debouncedValue) {
-      updateContent();
-    }
-  }, [debouncedValue]); // eslint-disable-line
+    updateContent();
+  }, [store.contentMain]);
 
   const handleEditTitle = (code: string) => {
     if (code === "Enter") {
@@ -283,12 +270,12 @@ function Editor({ snapshot }: EditorProps) {
               isSplit ? "grid-cols-2 space-x-3" : "grid-cols-1"
             )}
           >
-            {/* <SyntaxHelper value={contentLeft} onChange={setContentLeft} /> */}
-            <NovelEditor content={contentLeft} onChange={setContentLeft} />
             {isSplit && (
               // <SyntaxHelper value={contentRight} onChange={setContentRight} />
-              <NovelEditor content={contentRight} onChange={setContentRight} />
+              <NovelEditor content={store.contentSide} onChange={store.setContentSide} />
             )}
+            {/* <SyntaxHelper value={contentLeft} onChange={setContentLeft} /> */}
+            <NovelEditor content={store.contentMain} onChange={store.setContentMain} />
           </div>
         </div>
       </div>
@@ -313,8 +300,12 @@ function Editor({ snapshot }: EditorProps) {
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm font-bold text-black/70 pr-2">Design</span>
-          {designTemplate.map((t, i) => (
-            <Button variant={"outline"} size={"sm"} key={i}>
+          {designTemplates.map((t, i) => (
+            <Button 
+              variant={store.settings.template === t.template ? "default" : "outline"} 
+              size={"sm"} key={i}
+              onClick={() => store.setSettings("template", t.template)}  
+            >
               {t.template}
             </Button>
           ))}
