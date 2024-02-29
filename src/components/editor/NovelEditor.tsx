@@ -29,24 +29,31 @@ import { useDebouncedCallback } from "use-debounce";
 
 const extensions = [...defaultExtensions, slashCommand];
 
-function NovelEditor() {
-  const [initialContent, setInitialContent] = useState<null | JSONContent>(
-    null
-  );
+interface NovelEditorProps {
+  content: JSONContent;
+  onChange: (value: string) => void;
+}
+
+function NovelEditor({ content, onChange } : NovelEditorProps) {
+  const [initialContent, setInitialContent] = useState<JSONContent>(content);
   const [saveStatus, setSaveStatus] = useState("Saved");
 
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
 
+  // update function
   const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
     const json = editor.getJSON();
 
-    window.localStorage.setItem("novel-content", JSON.stringify(json));
+    // window.localStorage.setItem("novel-content", JSON.stringify(json));
+
+    onChange(JSON.stringify(json))
 
     console.log(JSON.stringify(json))
+
     setSaveStatus("Saved");
-  }, 500);
+  }, 2000);
 
   useEffect(() => {
     const content = window.localStorage.getItem("novel-content");
@@ -57,7 +64,7 @@ function NovelEditor() {
   if (!initialContent) return null;
 
   return (
-    <div className="relative w-full max-w-screen-lg">
+    <div className="relative w-full min-h-[80vh] overflow-auto2">
       <div className="absolute right-5 top-5 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
         {saveStatus}
       </div>
@@ -67,7 +74,7 @@ function NovelEditor() {
         <EditorContent
           initialContent={initialContent}
           extensions={extensions}
-          className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg p-5"
+          className="relative min-h-full w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg p-5"
           editorProps={{
             ...defaultEditorProps,
             attributes: {

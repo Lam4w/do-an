@@ -1,7 +1,7 @@
 "use client";
 
-import SyntaxHelper from "@/app/(main)/cv/edit/[fileId]/_components/SyntaxHelper";
 import SnapshotModal from "@/components/main/CVModal";
+import NovelEditor from "@/components/editor/NovelEditor";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
@@ -17,6 +17,7 @@ import {
   SnapshotCreateRequest,
   SnapshotUpdateRequest,
 } from "@/lib/validators/snapshot";
+import "@/styles/editor.css";
 import { Snapshot } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
@@ -58,7 +59,7 @@ function Editor({ snapshot }: EditorProps) {
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
   const [contentLeft, setContentLeft] = useState<any>(snapshot.content);
   const [contentRight, setContentRight] = useState<any>("");
-  const debouncedValue = useDebounce(contentLeft, 2000);
+  const debouncedValue = useDebounce(contentLeft, 0);
   const [source, setSource] = useState<string>(
     `/api/cv/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
@@ -281,9 +282,11 @@ function Editor({ snapshot }: EditorProps) {
               isSplit ? "grid-cols-2 space-x-3" : "grid-cols-1"
             )}
           >
-            <SyntaxHelper value={contentLeft} onChange={setContentLeft} />
+            {/* <SyntaxHelper value={contentLeft} onChange={setContentLeft} /> */}
+            <NovelEditor content={contentLeft} onChange={setContentLeft} />
             {isSplit && (
-              <SyntaxHelper value={contentRight} onChange={setContentRight} />
+              // <SyntaxHelper value={contentRight} onChange={setContentRight} />
+              <NovelEditor content={contentRight} onChange={setContentRight} />
             )}
           </div>
         </div>
