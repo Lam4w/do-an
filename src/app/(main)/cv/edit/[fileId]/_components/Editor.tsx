@@ -1,7 +1,7 @@
 "use client";
 
-import SnapshotModal from "@/components/main/CVModal";
 import NovelEditor from "@/components/editor/NovelEditor";
+import SnapshotModal from "@/components/main/CVModal";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
@@ -20,6 +20,7 @@ import {
 import "@/styles/editor.css";
 import { Snapshot } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
+import { generateHTML } from "@tiptap/html";
 import axios, { AxiosError } from "axios";
 import {
   ArrowLeft,
@@ -30,6 +31,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { defaultExtensions } from "@/lib/editor/extensions";
 
 function useDebounce(value: any, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
