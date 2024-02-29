@@ -1,17 +1,16 @@
 import {
   CheckSquare,
   Code,
+  Columns2,
+  Columns3,
   Heading1,
   Heading2,
   Heading3,
   ImageIcon,
   List,
   ListOrdered,
-  MessageSquarePlus,
   Text,
-  TextQuote,
-  Columns2,
-  Columns3,
+  TextQuote
 } from "lucide-react";
 import { Command, createSuggestionItems, renderItems } from "novel/extensions";
 import { startImageUpload } from "novel/plugins";
