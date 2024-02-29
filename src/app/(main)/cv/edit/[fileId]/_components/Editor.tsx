@@ -9,6 +9,7 @@ import {
   SnapshotCreateRequest,
   SnapshotUpdateRequest,
 } from "@/lib/validators/snapshot";
+import "@/styles/editor.css";
 import { Snapshot } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
@@ -29,9 +30,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip"
 
-import SyntaxHelper from "@/app/(main)/cv/edit/[fileId]/_components/SyntaxHelper"; 
 import NovelEditor from "@/components/editor/NovelEditor";
-import { JSONContent } from "novel";
 import useSnapshotContent from "@/lib/store";
 
 interface EditorProps {
@@ -42,7 +41,6 @@ function Editor({ snapshot }: EditorProps) {
   const router = useRouter();
   const store = useSnapshotContent();
   const [title, setTitle] = useState<string>(snapshot.title);
-  // const [settings, setSettings] = useState<any>(snapshot.settings);
   const [isSplit, SetIsSplit] = useState<boolean>(false);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);

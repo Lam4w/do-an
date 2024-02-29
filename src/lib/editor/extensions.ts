@@ -104,16 +104,15 @@ const starterKit = StarterKit.configure({
 
 const table = Table.configure({
   HTMLAttributes: {
-    class: "two-block",
+    class: "block",
   },
+  resizable: true,
 });
 
 const textAlign = TextAlign.configure({
   types: ["heading", "paragraph"],
   alignments: ["left", "right"],
-  defaultAlignment: 'right',
-
-
+  defaultAlignment: "right",
 });
 
 export const defaultExtensions = [
