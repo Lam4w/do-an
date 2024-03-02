@@ -15,6 +15,36 @@ export async function PATCH(req: Request) {
 
     const { cvId, snapshotId, title, contentMain, contentSide, settings } = SnapshotUpdateValidator.parse(body);
 
+    let updateData = {}
+
+    if (title) {
+      updateData = {
+        ...updateData,
+        title: title
+      }
+    }
+
+    if (contentMain) {
+      updateData = {
+        ...updateData,
+        contentMain: contentMain
+      }
+    }
+
+    if (contentSide) {
+      updateData = {
+        ...updateData,
+        contentSide: contentSide
+      }
+    }
+
+    if (settings) {
+      updateData = {
+        ...updateData,
+        settings: settings
+      }
+    }
+
     const existingCv = await db.userCV.findFirst({
       where: {
         id: cvId,
@@ -42,12 +72,7 @@ export async function PATCH(req: Request) {
         id: snapshotId,
         cvId: cvId,
       },
-      data: {
-        title,
-        contentMain, 
-        contentSide, 
-        settings
-      },
+      data: updateData,
     });
 
     return new Response("OK");

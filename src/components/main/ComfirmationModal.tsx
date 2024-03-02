@@ -19,18 +19,23 @@ interface DeleteModalProps {
   title: string;
   desc: string;
   id: string;
-  ButtonIcon: LucideIcon;
+  buttonLabel: string;
+  ButtonIcon?: LucideIcon;
   action: (id: string) => void;
 }
 
-export default function ConfirmationModal ({title, desc, id, action, ButtonIcon }: DeleteModalProps) {
+export default function ConfirmationModal ({title, desc, id, action, buttonLabel, ButtonIcon }: DeleteModalProps) {
   const router = useRouter();
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="destructive" size="sm" className="w-full">
-          <ButtonIcon />
+          {ButtonIcon ? (
+            <ButtonIcon />
+          ) : (
+            <span>{buttonLabel}</span>
+          )}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

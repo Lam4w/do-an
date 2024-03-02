@@ -40,7 +40,6 @@ interface EditorProps {
 function Editor({ snapshot }: EditorProps) {
   const router = useRouter();
   const store = useSnapshotContent();
-  const [title, setTitle] = useState<string>(snapshot.title);
   const [isSplit, SetIsSplit] = useState<boolean>(false);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
@@ -58,7 +57,7 @@ function Editor({ snapshot }: EditorProps) {
       const payload: SnapshotUpdateRequest = {
         cvId: snapshot.cvId,
         snapshotId: snapshot.id,
-        title,
+        title: store.title,
         contentMain: JSON.stringify(store.contentMain),
         contentSide: JSON.stringify(store.contentSide),
         settings: store.settings,
@@ -159,7 +158,7 @@ function Editor({ snapshot }: EditorProps) {
 
   useEffect(() => {
     updateContent();
-  }, [store.contentMain]);
+  }, [store.contentMain, store.contentSide, store.settings]);
 
   const handleEditTitle = (code: string) => {
     if (code === "Enter") {
@@ -178,8 +177,8 @@ function Editor({ snapshot }: EditorProps) {
             />
             <Input
               className="w-52 bg-[#f6f6f6] text-lg border-none hover:bg-gray-300 transition"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={store.title}
+              onChange={(e) => store.setTitle(e.target.value)}
               onKeyDown={(e) => handleEditTitle(e.code)}
             />
           </div>

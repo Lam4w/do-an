@@ -1,4 +1,3 @@
-import axios from "axios";
 import { JSONContent } from "novel";
 import { create } from 'zustand'
 
@@ -19,11 +18,13 @@ type SnapshotContentStore = {
   settings: Settings
   setSettings: (name: string, value: string | number) => void;
   setDefaultSettings: (settings: Settings) => void;
+  title: string;
+  setTitle: (newTitle: string) => void;
 }
 
 const useSnapshotContent = create<SnapshotContentStore>((set) => ({
   contentMain: {},
-  setContentMain(newContent: JSONContent) {
+  setContentMain(newContent) {
     set((state) => ({
       ...state,
       contentMain: newContent
@@ -58,7 +59,14 @@ const useSnapshotContent = create<SnapshotContentStore>((set) => ({
       ...state,
       settings: defaultSettings
     }))
-  }
+  },
+  title: "",
+  setTitle(newTitle) {
+    set((state) => ({
+      ...state,
+      title: newTitle
+    }))
+  },
 }))
 
 export default useSnapshotContent

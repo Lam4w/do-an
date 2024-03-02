@@ -4,28 +4,63 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Separator } from "@/components/ui/Separator";
 import { Slider } from "@/components/ui/Slider";
+import { toast } from "@/hooks/use-toast";
 import { defaultColors, designTemplates, titleAlignment } from "@/lib/const";
 import useSnapshotContent from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { SnapshotUpdateRequest } from "@/lib/validators/snapshot";
 import { Snapshot } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import { Check } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface DesignerProps {
   snapshot: Snapshot;
 }
 
 export default function Designer ({ snapshot }: DesignerProps) {
+  const router = useRouter()
   const store = useSnapshotContent()
-
-  console.log(store.settings)
-
   const scaledContentDesigner = useRef<HTMLIFrameElement | null>(null);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const [source, setSource] = useState<string>(
     `/api/cv/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
+
+  const {
+    mutate: updateContent,
+    isPending,
+    isSuccess,
+  } = useMutation({
+    mutationFn: async () => {
+      const payload: SnapshotUpdateRequest = {
+        cvId: snapshot.cvId,
+        snapshotId: snapshot.id,
+        settings: store.settings,
+      };
+      const { data } = await axios.patch("/api/cv", payload);
+
+      setSource((prev) => prev + " ");
+
+      return data as string;
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 401) {
+          return router.push("/sign-in");
+        }
+      }
+
+      toast({
+        title: "There was an error",
+        description: "Could not update your snapshot, please try again later.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -55,6 +90,10 @@ export default function Designer ({ snapshot }: DesignerProps) {
       resizeObserver.observe(node);
     }
   }, []);
+
+  useEffect(() => {
+    updateContent();
+  }, [store.settings]);
 
   return (
     <div className="grid grid-cols-5 space-x-5">
