@@ -2,7 +2,7 @@ import CVSnapshots from "./_components/CVSnapshots";
 import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-async function SnapshotPage() {
+async function SnapshotPage({ params }: { params: { fileId: string } }) {
   const session = await getAuthSession();
 
   if (!session?.user) {
@@ -11,7 +11,7 @@ async function SnapshotPage() {
 
   return (
     <div className="">
-      <SnapshotPage />
+      <CVSnapshots cvId={params.fileId} />
     </div>
   );
 }

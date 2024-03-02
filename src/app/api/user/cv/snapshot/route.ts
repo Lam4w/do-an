@@ -21,6 +21,8 @@ export async function GET(req: Request) {
         cvId: url.searchParams.get("cv"),
       });
 
+    // return new Response(cvId)
+
     const existingCv = await db.userCV.findFirst({
       where: {
         id: cvId,

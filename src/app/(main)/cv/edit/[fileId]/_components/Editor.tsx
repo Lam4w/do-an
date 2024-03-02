@@ -92,28 +92,13 @@ function Editor({ snapshot }: EditorProps) {
         contentSide: JSON.stringify(store.contentSide),
         settings: store.settings,
       };
-      const { data } = await axios.post("/api/user/cv/snapshot", payload);
+
+      const { data } = await axios.post("/api/cv/snapshot", payload);
 
       return data as string;
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          return toast({
-            title: "CV already exists",
-            description: "Please choose a different snapshot name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 422) {
-          return toast({
-            title: "Invalid CV name",
-            description: "Please choose a different snapshot name.",
-            variant: "destructive",
-          });
-        }
-
         if (err.response?.status === 401) {
           return router.push("/sign-in");
         }
@@ -125,6 +110,13 @@ function Editor({ snapshot }: EditorProps) {
         variant: "destructive",
       });
     },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Successfully created snapshot",
+        variant: "default",
+      });
+    }
   });
 
   const applyScaling = (
@@ -173,7 +165,7 @@ function Editor({ snapshot }: EditorProps) {
           <div className="flex space-x-3 items-center">
             <ArrowLeft
               className="w-6 h-6 cursor-pointer hover:text-gray-500 transition"
-              onClick={() => router.push("/dashboard")}
+              onClick={() => history.back()}
             />
             <Input
               className="w-52 bg-[#f6f6f6] text-lg border-none hover:bg-gray-300 transition"

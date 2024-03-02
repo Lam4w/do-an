@@ -253,7 +253,14 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                     </div>
                   </div>
 
-                  <div className={cn(buttonVariants({variant: "outline"}), "flex items-center space-x-2 cursor-pointer")}>
+                  <div 
+                    className={cn(buttonVariants({variant: "outline"}), "flex items-center space-x-2 cursor-pointer")}
+                    onClick={() => {
+                      if (!isArchived) {
+                        router.push(`/cv/snapshots/${cv.id}`)
+                      }
+                    }}
+                  >
                     <Split className="w-5 h-5" />
                     <Separator orientation="vertical" />
                     <span>Snapshots</span>

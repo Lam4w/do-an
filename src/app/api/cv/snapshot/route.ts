@@ -74,7 +74,7 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const body = await req.body;
+    const body = await req.json();
 
     const { cvId, title, contentMain, contentSide, settings } = SnapshotCreatetValidator.parse(body);
 

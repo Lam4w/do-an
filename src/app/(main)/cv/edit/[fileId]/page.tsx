@@ -19,6 +19,7 @@ export default function CvPage({ params }: { params: { fileId: string } }) {
       store.setContentMain(JSON.parse(data.contentMain))
       store.setContentSide(JSON.parse(data.contentSide))
       store.setDefaultSettings(data.settings)
+      store.setTitle(data.title)
       return data;
     },
   });

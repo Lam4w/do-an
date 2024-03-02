@@ -1,31 +1,25 @@
 "use client";
 
-import CreateNewCVModal from "@/components/main/CVModal";
-import UserCv from "@/components/main/UserCVCatalog";
 import DataTable from "@/components/main/UserCVTable";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/Select";
 import { Separator } from "@/components/ui/Separator";
 import { toast } from "@/hooks/use-toast";
 import { CvCreateRequest } from "@/lib/validators/cv";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { columns } from "./Columns";
 
-function CVSnapshots() {
+interface CVSnapshotsProps {
+  cvId: string;
+}
+
+function CVSnapshots({ cvId } : CVSnapshotsProps) {
   const router = useRouter();
 
   const { data: cvs, isLoading } = useQuery({
     queryKey: ["userCvs"],
     queryFn: async () => {
-      const { data } = await axios.get("/api/user/cv");
+      const { data } = await axios.get(`/api/user/cv/snapshot?cv=${cvId}`);
 
       return data;
     },
@@ -81,14 +75,16 @@ function CVSnapshots() {
 
   return (
     <>
-      <div className="items-center py-2 px-10">
+      <div className="items-center py-3 px-10">
         <h1 className="text-xl font-bold">Snapshots</h1>
       </div>
       <Separator />
 
       <div className="px-10 mt-8">
         {/* display all user CVs */}
-        <DataTable columns={columns} data={cvs} />
+        {!isLoading && (
+          <DataTable columns={columns} data={cvs} />
+        )}
       </div>
     </>
   );

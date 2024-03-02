@@ -9,12 +9,12 @@ export const SnapshotCreatetValidator = z.object({
   contentMain: z.any(),
   contentSide: z.any(),
   settings: z.object({
-    layout: z.string(),
-    template: z.string(),
-    spacing: z.number(),
-    fontSize: z.number(),
-    color: z.string(),
-    titleAlignment: z.string(),
+      layout: z.string(),
+      template: z.string(),
+      spacing: z.number(),
+      fontSize: z.number(),
+      color: z.string(),
+      titleAlignment: z.string(),
     })
 });
 
