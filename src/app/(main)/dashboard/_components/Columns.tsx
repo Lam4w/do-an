@@ -7,6 +7,7 @@ import { UserCV } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { format, parseISO } from "date-fns"
 import { ArrowDownUp, MoreHorizontal } from "lucide-react"
+import Link from "next/link"
 
 export const columns: ColumnDef<UserCV>[] = [
   {
@@ -48,7 +49,12 @@ export const columns: ColumnDef<UserCV>[] = [
         </div>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
+    cell: ({ row }) => {
+      const cv = row.original
+
+      return (
+        <Link href={`/cv/edit?cv=${cv.id}`} className="lowercase">{cv.title}</Link>
+    )},
   },
   {
     accessorKey: "createdAt",

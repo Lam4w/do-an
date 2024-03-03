@@ -25,10 +25,10 @@ export async function GET(req: Request) {
 
     let whereClause = {};
 
-    if (!!snapshotId) {
+    if (snapshotId) {
       whereClause = {
+        id: snapshotId,
         cvId,
-        snapshotId,
       };
     } else {
       whereClause = {
@@ -50,7 +50,7 @@ export async function GET(req: Request) {
 
     const snapshot = await db.snapshot.findFirst({
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
       where: whereClause,
     });

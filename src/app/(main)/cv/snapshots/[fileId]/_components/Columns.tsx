@@ -47,10 +47,10 @@ export const columns: ColumnDef<Snapshot>[] = [
       )
     },
     cell: ({ row }) => {
-      const cv = row.original
+      const snapshot = row.original
 
       return (
-        <Link className="" href={`/cv/edit/${cv.cvId})}`}>{cv.title}</Link>
+        <Link className="" href={`/cv/edit?cv=${snapshot.cvId}&snapshot=${snapshot.id}`}>{snapshot.title}</Link>
       )
     }
   },

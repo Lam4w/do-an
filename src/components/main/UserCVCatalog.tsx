@@ -197,7 +197,7 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                     <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-emerald-400 to-green-600" />
                     <div className="flex-1 truncate">
                       <div className="flex items-center justify-between space-x-3">
-                        <h3 className="truncate text-lg font-medium text-zinc-900 cursor-pointer" onClick={() => router.push(`/cv/edit/${cv.id}`)}>
+                        <h3 className="truncate text-lg font-medium text-zinc-900 cursor-pointer" onClick={() => router.push(`/cv/edit?cv=${cv.id}`)}>
                           {cv.title}
                         </h3>
 

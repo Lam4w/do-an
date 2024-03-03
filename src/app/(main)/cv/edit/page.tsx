@@ -1,20 +1,32 @@
 "use client";
 
-import Designer from "@/app/(main)/cv/edit/[fileId]/_components/Designer";
-import Editor from "@/app/(main)/cv/edit/[fileId]/_components/Editor";
+import Designer from "@/app/(main)/cv/edit/_components/Designer";
+import Editor from "@/app/(main)/cv/edit/_components/Editor";
 import { Separator } from "@/components/ui/Separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useSnapshotContent from "@/lib/store";
+import { useSearchParams } from "next/navigation";
 
-export default function CvPage({ params }: { params: { fileId: string } }) {
+export default function CvPage() {
   const store = useSnapshotContent()
+  const searchParams = useSearchParams()
+
+  const cvId = searchParams.get('cv')
+  const snapshotId = searchParams.get('snapshot')
+
+  console.log(cvId)
+
+  if (!cvId) {
+    return 
+  }
 
   const { data: snapshot, isLoading } = useQuery({
     queryKey: ["getSnapshot"],
     queryFn: async () => {
-      const { data } = await axios.get(`/api/cv/snapshot?cv=${params.fileId}`);
+      const { data } = await axios.get(`/api/cv/snapshot?cv=${cvId}` +
+      (!!snapshotId ? `&snapshot=${snapshotId}` : ""));
 
       store.setContentMain(JSON.parse(data.contentMain))
       store.setContentSide(JSON.parse(data.contentSide))
