@@ -18,6 +18,7 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { columns } from "./Columns";
+import UserCVCatalogSkeleton from "@/components/main/UserCVCatalogSkeleton";
 
 function Dashboard() {
   const router = useRouter();
@@ -112,6 +113,9 @@ function Dashboard() {
 
       <div className="px-10 mt-8">
         {/* display all user CVs */}
+        {isLoading && (
+          <UserCVCatalogSkeleton />
+        )}
         {cvs && displayMode === "catalog" ? (
           <UserCv cvs={cvs} isArchived={false} />
         ) : (
