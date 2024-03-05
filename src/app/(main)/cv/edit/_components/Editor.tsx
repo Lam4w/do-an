@@ -44,7 +44,7 @@ function Editor({ snapshot }: EditorProps) {
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
   const [source, setSource] = useState<string>(
-    `/api/cv/html?cv=${snapshot.cvId}` +
+    `/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
 

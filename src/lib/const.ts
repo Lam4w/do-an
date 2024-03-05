@@ -48,6 +48,9 @@ export const designTemplates = [
   {
     template: "Vega",
   },
+  {
+    template: "Gemma",
+  },
 ];
 
 export const titleAlignment = [

@@ -26,7 +26,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
   const scaledContentDesigner = useRef<HTMLIFrameElement | null>(null);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const [source, setSource] = useState<string>(
-    `/api/cv/html?cv=${snapshot.cvId}` +
+    `/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
 

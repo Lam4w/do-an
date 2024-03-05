@@ -84,7 +84,7 @@ export async function GET(req: Request) {
 
     if (snapshot?.contentMain) {
       // res = md.render(snapshot?.content);
-      res = generateHTML(JSON.parse(snapshot.contentMain), [
+      const content = generateHTML(JSON.parse(snapshot.contentMain), [
         Document,
         Paragraph,
         Text,
@@ -105,6 +105,8 @@ export async function GET(req: Request) {
         Code,
         Link,
       ])
+
+      res = `<div class='${snapshot.settings.template.toLowerCase()}'>${content}</div>`;
     }
 
     const response = new NextResponse(res);
