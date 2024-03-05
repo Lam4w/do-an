@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import DataTable from "@/components/main/UserCVTable";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 import { columns } from "./Columns";
+import UserCVCatalogSkeleton from "@/components/main/UserCVCatalogSkeleton";
 
 const Archive = () => {
   const router = useRouter();
@@ -103,6 +104,9 @@ const Archive = () => {
 
       <div className="px-10 mt-8">
         {/* display all user CVs */}
+        {isLoading && (
+          <UserCVCatalogSkeleton />
+        )}
         {cvs && displayMode === "catalog" ? (  
           <UserCv cvs={cvs} isArchived={true} />
         ) : displayMode === "table" && (
