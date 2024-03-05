@@ -128,109 +128,111 @@ export default function Designer ({ snapshot }: DesignerProps) {
           ></iframe>
         </div>
       </div>
-      <div className="col-span-1 bg-white p-4 rounded-sm">
-        <Button className="w-full mb-5">PDF Downloads</Button>
-        <Separator />
-        <div className="flex flex-col space-y-2 pt-3">
-          <Label className="uppercase font-bold text-muted-foreground">
-            Title alignment
-          </Label>
+      <div className="col-span-1 relative">
+        <div className="rounded-sm sticky bg-white top-0 p-4">
+          <Button className="w-full mb-5">PDF Downloads</Button>
+          <Separator />
+          <div className="flex flex-col space-y-2 pt-3">
+            <Label className="uppercase font-bold text-muted-foreground">
+              Title alignment
+            </Label>
 
-          <div className="flex flex-wrap items-center gap-2 pb-5">
-            {titleAlignment.map((t, i) => (
-              <Button 
-                key={i} 
-                size={"sm"} 
-                variant={store.settings.titleAlignment === t.value ? "default" : "outline"} 
-                onClick={() => {
-                  store.setSettings("titleAlignment", t.value)
-                  console.log(store.settings)
-                }}
-              >
-                {t.value}
-              </Button>
-            ))}
+            <div className="flex flex-wrap items-center gap-2 pb-5">
+              {titleAlignment.map((t, i) => (
+                <Button 
+                  key={i} 
+                  size={"sm"} 
+                  variant={store.settings.titleAlignment === t.value ? "default" : "outline"} 
+                  onClick={() => {
+                    store.setSettings("titleAlignment", t.value)
+                    console.log(store.settings)
+                  }}
+                >
+                  {t.value}
+                </Button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="flex flex-col space-y-2 pt-3">
-          <Label className="uppercase font-bold text-muted-foreground">
-            Colour
-          </Label>
+          <div className="flex flex-col space-y-2 pt-3">
+            <Label className="uppercase font-bold text-muted-foreground">
+              Colour
+            </Label>
 
-          <div className="flex gap-2 flex-wrap">
-            {defaultColors.map((c, i) => (
-              <div
-                onClick={() => store.setSettings("color", c)}
-                key={i}
-                className={cn(
-                  buttonVariants({ size: "sm" }),
-                  "cursor-pointer aspect-square relative"
-                )}
-                style={{ backgroundColor: c }}
-              >
-                <Check
+            <div className="flex gap-2 flex-wrap">
+              {defaultColors.map((c, i) => (
+                <div
+                  onClick={() => store.setSettings("color", c)}
+                  key={i}
                   className={cn(
-                    "w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                    store.settings.color === c ? "block" : "hidden"
+                    buttonVariants({ size: "sm" }),
+                    "cursor-pointer aspect-square relative"
                   )}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col space-y-2 pt-3">
-          <div className="flex items-center justify-between">
-            <Label
-              htmlFor="fontSize"
-              className="uppercase font-bold text-muted-foreground"
-            >
-              Font size
-            </Label>
-            <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-              {store.settings.fontSize}
-            </span>
+                  style={{ backgroundColor: c }}
+                >
+                  <Check
+                    className={cn(
+                      "w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                      store.settings.color === c ? "block" : "hidden"
+                    )}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="py-3">
-            <Slider
-              id="fontSize"
-              max={15}
-              min={10}
-              defaultValue={[store.settings.fontSize]}
-              step={1}
-              onValueChange={(val) => store.setSettings("fontSize", val[0])}
-              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-              aria-label="FontSize"
-            />
-          </div>
-        </div>
+          <div className="flex flex-col space-y-2 pt-3">
+            <div className="flex items-center justify-between">
+              <Label
+                htmlFor="fontSize"
+                className="uppercase font-bold text-muted-foreground"
+              >
+                Font size
+              </Label>
+              <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+                {store.settings.fontSize}
+              </span>
+            </div>
 
-        <div className="flex flex-col space-y-2 pt-3">
-          <div className="flex items-center justify-between">
-            <Label
-              htmlFor="spacing"
-              className="uppercase font-bold text-muted-foreground"
-            >
-              Spacing
-            </Label>
-            <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-              {store.settings.spacing}
-            </span>
+            <div className="py-3">
+              <Slider
+                id="fontSize"
+                max={15}
+                min={10}
+                defaultValue={[store.settings.fontSize]}
+                step={1}
+                onValueChange={(val) => store.setSettings("fontSize", val[0])}
+                className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+                aria-label="FontSize"
+              />
+            </div>
           </div>
 
-          <div className="py-3">
-            <Slider
-              id="spacing"
-              max={5}
-              min={1}
-              defaultValue={[store.settings.spacing]}
-              step={1}
-              onValueChange={(val) => store.setSettings("spacing", val[0])}
-              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-              aria-label="Spacing"
-            />
+          <div className="flex flex-col space-y-2 pt-3">
+            <div className="flex items-center justify-between">
+              <Label
+                htmlFor="spacing"
+                className="uppercase font-bold text-muted-foreground"
+              >
+                Spacing
+              </Label>
+              <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+                {store.settings.spacing}
+              </span>
+            </div>
+
+            <div className="py-3">
+              <Slider
+                id="spacing"
+                max={5}
+                min={1}
+                defaultValue={[store.settings.spacing]}
+                step={1}
+                onValueChange={(val) => store.setSettings("spacing", val[0])}
+                className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+                aria-label="Spacing"
+              />
+            </div>
           </div>
         </div>
       </div>

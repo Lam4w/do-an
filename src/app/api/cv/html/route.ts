@@ -106,7 +106,12 @@ export async function GET(req: Request) {
         Link,
       ])
 
-      res = `<div class='${snapshot.settings.template.toLowerCase()}'>${content}</div>`;
+      res = `
+      <div class='container'>
+        <div class='${snapshot.settings.template.toLowerCase()}'>
+          ${content}
+        </div>
+      </div>`;
     }
 
     const response = new NextResponse(res);

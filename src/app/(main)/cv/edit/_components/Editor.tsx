@@ -270,41 +270,45 @@ function Editor({ snapshot }: EditorProps) {
       </div>
 
       <div className="flex flex-col col-span-1 space-y-2">
-        <div className="text-sm font-bold text-black/70">Preview</div>
+        <div className="sticky top-0">
+          <div className="text-sm font-bold text-black/70 pt-1">Preview</div>
 
-        <div
-          ref={scaledWrapper}
-          className="relative rounded-sm overflow-hidden cursor-pointer"
-          style={{
-            height: `${currHeight}px`,
-          }}
-        >
-          <iframe
-            ref={scaledContent}
-            src={source}
-            title="Preview"
-            className="border-none overflow-hidden h-[1102px] w-[816px] origin-top-left"
-          ></iframe>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-bold text-black/70 pr-2">Design</span>
-          {designTemplates.map((t, i) => (
-            <Button 
-              variant={store.settings.template === t.template ? "default" : "outline"} 
-              size={"sm"} key={i}
-              onClick={() => store.setSettings("template", t.template)}  
+          <div className="py-2">
+            <div
+              ref={scaledWrapper}
+              className="relative rounded-sm overflow-hidden cursor-pointer bg-white"
+              style={{
+                height: `${currHeight}px`,
+              }}
             >
-              {t.template}
-            </Button>
-          ))}
+              <iframe
+                ref={scaledContent}
+                src={source}
+                title="Preview"
+                className="border-none overflow-hidden h-[1102px] w-[816px] origin-top-left"
+              ></iframe>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-bold text-black/70 pr-2">Design</span>
+            {designTemplates.map((t, i) => (
+              <Button 
+                variant={store.settings.template === t.template ? "default" : "outline"} 
+                size={"sm"} key={i}
+                onClick={() => store.setSettings("template", t.template)}  
+              >
+                {t.template}
+              </Button>
+            ))}
+          </div>
+
+          <span className="text-sm font-bold text-black/70">Pro tip</span>
+
+          <p className="text-muted-foreground text-sm">
+            Type &apos;/ &apos; to quickly search and apply styles
+          </p>
         </div>
-
-        <span className="text-sm font-bold text-black/70">Pro tip</span>
-
-        <p className="text-muted-foreground text-sm">
-          Type &apos;/ &apos; to quickly search and apply styles
-        </p>
       </div>
     </div>
   );
