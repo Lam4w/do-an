@@ -4,8 +4,8 @@ import { create } from 'zustand'
 type Settings = {
   layout: string,
   template: string,
-  spacing: number,
-  fontSize: number,
+  spacing: string,
+  fontSize: string,
   color: string, 
   titleAlignment: string,
 };
@@ -40,8 +40,8 @@ const useSnapshotContent = create<SnapshotContentStore>((set) => ({
   settings: {
     layout: "onecol",
     template: "Indius",
-    spacing: 1,
-    fontSize: 12,
+    spacing: "spacingBase",
+    fontSize: "fontBase",
     color: "#00000", 
     titleAlignment: "center",
   },

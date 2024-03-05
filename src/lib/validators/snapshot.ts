@@ -11,8 +11,8 @@ export const SnapshotCreatetValidator = z.object({
   settings: z.object({
       layout: z.string(),
       template: z.string(),
-      spacing: z.number(),
-      fontSize: z.number(),
+      spacing: z.string(),
+      fontSize: z.string(),
       color: z.string(),
       titleAlignment: z.string(),
     })
@@ -31,8 +31,8 @@ export const SnapshotUpdateValidator = z.object({
   settings: z.object({
     layout: z.string(),
     template: z.string(),
-    spacing: z.number(),
-    fontSize: z.number(),
+    spacing: z.string(),
+    fontSize: z.string(),
     color: z.string(),
     titleAlignment: z.string(),
     }).

@@ -69,17 +69,15 @@ export default function CvPage() {
                     <Skeleton className="w-[250px] h-[40px]" />
                     <Skeleton className="w-[170px] h-[40px]" />
                   </div>
-                    <Skeleton className="w-full h-[90vh] rounded-xl" />                  
+                  <Skeleton className="w-full h-[90vh] rounded-xl" />                  
                 </div>
           
                 <div className="flex flex-col col-span-1 space-y-2">
-                    <Skeleton className="w-[50px] h-4" />                  
-          
-                    <div className="py-2">
-                      <Skeleton className="w-full h-[550px]" />
-                    </div>
-          
-                    <Skeleton className="w-[300px] h-[40px]" />
+                  <Skeleton className="w-[100px] h-4" />                  
+                  <div className="py-2">
+                    <Skeleton className="w-full h-[550px]" />
+                  </div>
+                  <Skeleton className="w-[300px] h-[40px]" />
                 </div>
               </div>
             ) : (

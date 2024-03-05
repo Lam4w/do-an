@@ -75,8 +75,8 @@ model Snapshot {
 type Settings {
   layout         String  @default("oneCol")
   template       String  @default("Indius")
-  spacing        Int     @default(1)
-  fontSize       Int     @default(12)
+  spacing        String  @default("spacingBase")
+  fontSize       String  @default("fontBase")
   color          String  @default("#000000")
   titleAlignment String  @default("center")
 }

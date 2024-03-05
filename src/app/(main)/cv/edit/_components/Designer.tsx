@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/Label";
 import { Separator } from "@/components/ui/Separator";
 import { Slider } from "@/components/ui/Slider";
 import { toast } from "@/hooks/use-toast";
-import { defaultColors, designTemplates, titleAlignment } from "@/lib/const";
+import { defaultColors, designTemplates, fontSize, spacingSize, titleAlignment } from "@/lib/const";
 import useSnapshotContent from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { SnapshotUpdateRequest } from "@/lib/validators/snapshot";
@@ -197,11 +197,11 @@ export default function Designer ({ snapshot }: DesignerProps) {
             <div className="py-3">
               <Slider
                 id="fontSize"
-                max={15}
-                min={10}
-                defaultValue={[store.settings.fontSize]}
+                max={fontSize.length}
+                min={0}
+                defaultValue={[fontSize.indexOf(store.settings.fontSize)]}
                 step={1}
-                onValueChange={(val) => store.setSettings("fontSize", val[0])}
+                onValueChange={(val) => store.setSettings("fontSize", fontSize[val[0]])}
                 className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
                 aria-label="FontSize"
               />
@@ -226,9 +226,9 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 id="spacing"
                 max={5}
                 min={1}
-                defaultValue={[store.settings.spacing]}
+                defaultValue={[spacingSize.indexOf(store.settings.spacing)]}
                 step={1}
-                onValueChange={(val) => store.setSettings("spacing", val[0])}
+                onValueChange={(val) => store.setSettings("spacing",spacingSize[val[0]])}
                 className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
                 aria-label="Spacing"
               />

@@ -97,3 +97,19 @@ export const defaultContent = JSON.stringify({
     }
   ]
 })
+
+export const fontSize = [
+  'fontXs',
+  'fontSm',
+  'fontBase',
+  'fontLg',
+  'fontXl',
+]
+
+export const spacingSize = [
+  'spacingXs',
+  'spacingSm',
+  'spacingBase',
+  'spacingLg',
+  'spacingXl',
+]
