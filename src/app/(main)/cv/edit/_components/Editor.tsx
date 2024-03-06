@@ -19,6 +19,7 @@ import {
   HelpCircle,
   PanelLeft,
   PanelTop,
+  RotateCw,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -40,6 +41,7 @@ interface EditorProps {
 function Editor({ snapshot }: EditorProps) {
   const router = useRouter();
   const store = useSnapshotContent();
+  const [isIframeloading, setIsIframeloading] = useState<boolean>(true);
   const [isSplit, SetIsSplit] = useState<boolean>(false);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
@@ -199,6 +201,7 @@ function Editor({ snapshot }: EditorProps) {
                     actionWithoutId={createSnapshot}
                     clasName="text-gray-500 cursor-pointer hover:text-emerald-500"
                     variant="ghost"
+                    isPending={isCreatePending}
                   />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -281,12 +284,19 @@ function Editor({ snapshot }: EditorProps) {
                 height: `${currHeight}px`,
               }}
             >
+              {isIframeloading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <RotateCw className="mr-2 h-5 w-5 animate-spin text-muted-foreground" />
+                </div>
+              )}
               <iframe
                 ref={scaledContent}
                 src={source}
+                onLoad={() => setIsIframeloading(false)}
                 title="Preview"
                 className="border-none overflow-hidden h-[1102px] w-[816px] origin-top-left"
-              ></iframe>
+              >
+              </iframe>
             </div>
           </div>
 

@@ -3,6 +3,7 @@
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Separator } from "@/components/ui/Separator";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { Slider } from "@/components/ui/Slider";
 import { toast } from "@/hooks/use-toast";
 import { defaultColors, designTemplates, fontSize, spacingSize, titleAlignment } from "@/lib/const";
@@ -12,7 +13,7 @@ import { SnapshotUpdateRequest } from "@/lib/validators/snapshot";
 import { Snapshot } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { Check } from "lucide-react";
+import { Check, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -25,6 +26,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
   const store = useSnapshotContent()
   const scaledContentDesigner = useRef<HTMLIFrameElement | null>(null);
   const [currHeight, setCurrHeight] = useState<number>(0);
+  const [isIframeloading, setIsIframeloading] = useState<boolean>(true);
   const [source, setSource] = useState<string>(
     `/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
@@ -44,6 +46,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
       const { data } = await axios.patch("/api/cv", payload);
 
       setSource((prev) => prev + " ");
+      setIsIframeloading(true)
 
       return data as string;
     },
@@ -120,9 +123,15 @@ export default function Designer ({ snapshot }: DesignerProps) {
             height: `${currHeight}px`,
           }}
         >
+          {isIframeloading && (
+            <div className="w-full h-[600px] flex items-center justify-center">
+              <RotateCw className="mr-2 h-8 w-8 animate-spin text-muted-foreground" />
+            </div>
+          )}
           <iframe
             ref={scaledContentDesigner}
             src={source}
+            onLoad={() => setIsIframeloading(false)}
             title="Preview"
             className="border-none overflow-hidden h-[1102px] w-[816px] origin-top-left"
           ></iframe>
@@ -190,7 +199,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 Font size
               </Label>
               <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-                {store.settings.fontSize}
+                {fontSize.indexOf(store.settings.fontSize)}
               </span>
             </div>
 
@@ -217,7 +226,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 Spacing
               </Label>
               <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-                {store.settings.spacing}
+                {spacingSize.indexOf(store.settings.spacing)}
               </span>
             </div>
 

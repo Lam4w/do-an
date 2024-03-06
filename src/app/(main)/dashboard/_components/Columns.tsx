@@ -78,7 +78,7 @@ export const columns: ColumnDef<UserCV>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const cv = row.original
 
       return (
         <DropdownMenu>
@@ -91,14 +91,10 @@ export const columns: ColumnDef<UserCV>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {}}
-            >
+            <DropdownMenuItem asChild>
               Edit CV
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {}}
-            >
+            <DropdownMenuItem asChild>
               Delete CV
             </DropdownMenuItem>
           </DropdownMenuContent>
