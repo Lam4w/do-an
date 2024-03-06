@@ -97,6 +97,7 @@ const Archive = () => {
             label="Create your CV here. Click create when you're done with naming your CV."
             size="sm"
             actionWithoutId={onCreate}
+            isPending={isCreatePending}
           />
         </div>
       </div>

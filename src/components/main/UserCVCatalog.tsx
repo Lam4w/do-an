@@ -213,7 +213,7 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
                             {isArchived ? (
-                                <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete" desc="TThis will restore your selected CV and move it to archive." id={cv.id} action={archiveCv} />
+                                <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete" desc="TThis will restore your selected CV and move it to archive." id={cv.id} action={archiveCv} isPending={isArchivePending} />
                               ) : (
                                 <CVModal
                                   id={cv.id}
@@ -224,14 +224,15 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                                   variant="outline"
                                   clasName="w-full"
                                   actionWithId={onEdit}
+                                  isPending={isEditPending}
                                 />
                               )}
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                             {isArchived ? (
-                              <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete permanently" desc="TThis will delete your selected CV permanently" id={cv.id} action={deleteCv} />
+                              <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete permanently" desc="TThis will delete your selected CV permanently" id={cv.id} action={deleteCv} isPending={isDeletePending} />
                             ) : (
-                              <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete" desc="TThis will delete your selected CV" id={cv.id} action={archiveCv} />
+                              <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete" desc="TThis will delete your selected CV" id={cv.id} action={archiveCv} isPending={isArchivePending} />
                             )}
                             </DropdownMenuItem>
                           </DropdownMenuContent>

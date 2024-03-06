@@ -73,7 +73,7 @@ function Dashboard() {
       });
     },
     onSuccess: (data) => {
-      router.push(`/cv/edit/${data}`);
+      router.push(`/cv/edit?cv=${data}`);
     },
   });
 
@@ -106,6 +106,7 @@ function Dashboard() {
             label="Create your CV here. Click create when you're done with naming your CV."
             size="sm"
             actionWithoutId={onCreate}
+            isPending={isCreatePending}
           />
         </div>
       </div>

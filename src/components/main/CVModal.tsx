@@ -1,6 +1,6 @@
 "use client";
 
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, RotateCw } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/Button";
 import {
@@ -31,6 +31,7 @@ interface CVModalProps {
     | "ghost";
   size?: "default" | "sm" | "lg" | "icon";
   clasName?: string;
+  isPending: boolean
   actionWithId?: (title: string, id: string) => void;
   actionWithoutId?: (title: string) => void;
 }
@@ -45,6 +46,7 @@ export default function CVModal ({
   variant = "default",
   size = "default",
   clasName,
+  isPending,
   actionWithId,
   actionWithoutId,
 }: CVModalProps) {
@@ -82,13 +84,22 @@ export default function CVModal ({
         <DialogFooter>
           <Button
             type="submit"
-            disabled={input.length === 0}
+            disabled={input.length === 0 || isPending}
             onClick={() => {
               if (id && actionWithId) actionWithId(input, id);
               else if (actionWithoutId) actionWithoutId(input);
             }}
           >
-            {buttonLabel}
+            {isPending ? (
+              <>
+                <RotateCw className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              <>
+                {buttonLabel}
+              </>
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

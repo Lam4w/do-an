@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
 
@@ -22,9 +22,10 @@ interface DeleteModalProps {
   buttonLabel: string;
   ButtonIcon?: LucideIcon;
   action: (id: string) => void;
+  isPending: boolean;
 }
 
-export default function ConfirmationModal ({title, desc, id, action, buttonLabel, ButtonIcon }: DeleteModalProps) {
+export default function ConfirmationModal ({title, desc, id, buttonLabel, ButtonIcon, action, isPending }: DeleteModalProps) {
   const router = useRouter();
 
   return (
@@ -48,7 +49,16 @@ export default function ConfirmationModal ({title, desc, id, action, buttonLabel
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={() => action(id)}>
-            Yes
+            {isPending ? (
+              <>
+                <RotateCw className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              <>
+                Yes
+              </>
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
