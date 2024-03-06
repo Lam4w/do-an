@@ -94,6 +94,7 @@ export const columns: ColumnDef<UserCV>[] = [
             <DropdownMenuItem asChild>
               Edit CV
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               Delete CV
             </DropdownMenuItem>

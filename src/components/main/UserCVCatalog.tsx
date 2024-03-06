@@ -228,6 +228,7 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                                 />
                               )}
                             </DropdownMenuItem>
+                            <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
                             {isArchived ? (
                               <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete permanently" desc="TThis will delete your selected CV permanently" id={cv.id} action={deleteCv} isPending={isDeletePending} />

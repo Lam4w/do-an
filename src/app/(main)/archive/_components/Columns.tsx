@@ -90,6 +90,7 @@ export const columns: ColumnDef<UserCV>[] = [
             >
               Edit CV
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {}}
             >
