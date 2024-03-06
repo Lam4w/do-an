@@ -32,10 +32,6 @@ export const columns: ColumnDef<UserCV>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "title",
     header: ({ column }) => {
       return (

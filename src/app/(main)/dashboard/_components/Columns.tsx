@@ -33,10 +33,6 @@ export const columns: ColumnDef<UserCV>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "title",
     header: ({ column }) => {
       return (
@@ -91,11 +87,11 @@ export const columns: ColumnDef<UserCV>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem>
               Edit CV
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem>
               Delete CV
             </DropdownMenuItem>
           </DropdownMenuContent>
