@@ -30,6 +30,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip"
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/Resizable"
 
 import NovelEditor from "@/components/editor/NovelEditor";
 import useSnapshotContent from "@/lib/store";
@@ -254,20 +259,29 @@ function Editor({ snapshot }: EditorProps) {
             </TooltipProvider>
           </div>
         </div>
-        <div className="col-span-2">
-          <div
-            className={cn(
-              "grid",
-              store.settings.layout === 'twoCol' ? "grid-cols-2 space-x-3" : "grid-cols-1"
-            )}
-          >
-            {store.settings.layout === 'twoCol' && (
-              // <SyntaxHelper value={contentRight} onChange={setContentRight} />
-              <NovelEditor content={store.contentSide} onChange={store.setContentSide} />
-            )}
-            {/* <SyntaxHelper value={contentLeft} onChange={setContentLeft} /> */}
-            <NovelEditor content={store.contentMain} onChange={store.setContentMain} />
-          </div>
+        <div className="col-span-2">          
+          {store.settings.layout === 'twoCol' ? (
+            <ResizablePanelGroup
+              direction="horizontal"
+              className="min-h-[90vh] w-full"
+            >
+              <ResizablePanel defaultSize={30} minSize={30}>
+                <div className="pr-2 h-full w-full">
+                  <NovelEditor content={store.contentSide} onChange={store.setContentSide} />
+                </div>
+              </ResizablePanel>  
+              <ResizableHandle />
+              <ResizablePanel defaultSize={70} minSize={30}>
+                <div className={cn("h-full w-full", store.settings.layout === 'twoCol' && "pl-2")}>
+                  <NovelEditor content={store.contentMain} onChange={store.setContentMain} />
+                </div>
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          ) : (
+            <div className="">
+              <NovelEditor content={store.contentMain} onChange={store.setContentMain} />
+            </div>
+          )}
         </div>
       </div>
 

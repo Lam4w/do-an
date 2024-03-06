@@ -13,11 +13,8 @@ import { Skeleton } from "@/components/ui/Skeleton";
 export default function CvPage() {
   const store = useSnapshotContent()
   const searchParams = useSearchParams()
-
   const cvId = searchParams.get('cv')
   const snapshotId = searchParams.get('snapshot')
-
-  console.log(cvId)
 
   if (!cvId) {
     return 

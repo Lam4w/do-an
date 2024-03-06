@@ -58,7 +58,7 @@ function NovelEditor({ content, onChange } : NovelEditorProps) {
   if (!initialContent) return null;
 
   return (
-    <div className="relative w-full min-h-[80vh] overflow-auto2">
+    <div className="relative w-full min-h-[80vh] overflow-auto">
       <div className="absolute right-5 top-5 z-10 mb-5 rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
         {saveStatus}
       </div>

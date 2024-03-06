@@ -138,10 +138,9 @@ export default function Designer ({ snapshot }: DesignerProps) {
         </div>
       </div>
       <div className="col-span-1 relative">
+        <Button className="w-full mb-4" disabled >PDF Downloads</Button>
         <div className="rounded-sm sticky bg-white top-0 p-4">
-          <Button className="w-full mb-5">PDF Downloads</Button>
-          <Separator />
-          <div className="flex flex-col space-y-2 pt-3">
+          <div className="flex flex-col space-y-2">
             <Label className="uppercase font-bold text-muted-foreground">
               Title alignment
             </Label>
@@ -163,12 +162,14 @@ export default function Designer ({ snapshot }: DesignerProps) {
             </div>
           </div>
 
-          <div className="flex flex-col space-y-2 pt-3">
+          <Separator />
+
+          <div className="flex flex-col space-y-2 py-3">
             <Label className="uppercase font-bold text-muted-foreground">
               Colour
             </Label>
 
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 flex-wrap py-1">
               {defaultColors.map((c, i) => (
                 <div
                   onClick={() => store.setSettings("color", c)}
@@ -190,7 +191,9 @@ export default function Designer ({ snapshot }: DesignerProps) {
             </div>
           </div>
 
-          <div className="flex flex-col space-y-2 pt-3">
+          <Separator />
+
+          <div className="flex flex-col space-y-2 py-3">
             <div className="flex items-center justify-between">
               <Label
                 htmlFor="fontSize"
@@ -203,7 +206,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
               </span>
             </div>
 
-            <div className="py-3">
+            <div className="">
               <Slider
                 id="fontSize"
                 max={fontSize.length}
@@ -216,6 +219,8 @@ export default function Designer ({ snapshot }: DesignerProps) {
               />
             </div>
           </div>
+
+          <Separator />
 
           <div className="flex flex-col space-y-2 pt-3">
             <div className="flex items-center justify-between">
@@ -230,7 +235,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
               </span>
             </div>
 
-            <div className="py-3">
+            <div className="">
               <Slider
                 id="spacing"
                 max={5}
