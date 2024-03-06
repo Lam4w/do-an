@@ -42,7 +42,6 @@ function Editor({ snapshot }: EditorProps) {
   const router = useRouter();
   const store = useSnapshotContent();
   const [isIframeloading, setIsIframeloading] = useState<boolean>(true);
-  const [isSplit, SetIsSplit] = useState<boolean>(false);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
   const [source, setSource] = useState<string>(
@@ -216,12 +215,12 @@ function Editor({ snapshot }: EditorProps) {
                     type="button"
                     size={"icon"}
                     variant={"ghost"}
-                    onClick={() => SetIsSplit(false)}
+                    onClick={() => store.setSettings('layout', 'oneCol')}
                   >
                     <PanelTop
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        !isSplit && "text-emerald-500"
+                        store.settings.layout === 'oneCol' && "text-emerald-500"
                       )}
                     />
                   </Button>
@@ -238,12 +237,12 @@ function Editor({ snapshot }: EditorProps) {
                     type="button"
                     size={"icon"}
                     variant={"ghost"}
-                    onClick={() => SetIsSplit(true)}
+                    onClick={() => store.setSettings('layout', 'twoCol')}
                   >
                     <PanelLeft
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        isSplit && "text-emerald-500"
+                        store.settings.layout === 'twoCol' && "text-emerald-500"
                       )}
                     />
                   </Button>
@@ -259,10 +258,10 @@ function Editor({ snapshot }: EditorProps) {
           <div
             className={cn(
               "grid",
-              isSplit ? "grid-cols-2 space-x-3" : "grid-cols-1"
+              store.settings.layout === 'twoCol' ? "grid-cols-2 space-x-3" : "grid-cols-1"
             )}
           >
-            {isSplit && (
+            {store.settings.layout === 'twoCol' && (
               // <SyntaxHelper value={contentRight} onChange={setContentRight} />
               <NovelEditor content={store.contentSide} onChange={store.setContentSide} />
             )}

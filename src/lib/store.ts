@@ -38,7 +38,7 @@ const useSnapshotContent = create<SnapshotContentStore>((set) => ({
     }))
   },
   settings: {
-    layout: "onecol",
+    layout: "oneCol",
     template: "Indius",
     spacing: "spacingBase",
     fontSize: "fontBase",
