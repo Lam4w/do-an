@@ -8,6 +8,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { columns } from "./Columns";
+import { UserCVTableSkeleton } from "@/components/main/UserCVTableSkeleton";
 
 interface CVSnapshotsProps {
   cvId: string;
@@ -82,7 +83,9 @@ function CVSnapshots({ cvId } : CVSnapshotsProps) {
 
       <div className="px-10 mt-8">
         {/* display all user CVs */}
-        {!isLoading && (
+        {isLoading ? (
+          <UserCVTableSkeleton />
+        ) : (
           <DataTable columns={columns} data={cvs} />
         )}
       </div>
