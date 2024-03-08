@@ -16,6 +16,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button, buttonVariants } from "../ui/Button";
 import { cn } from "@/lib/utils";
 import { Separator } from "../ui/Separator";
+import useSnapshotContent from "@/lib/store";
+import { useArchiveCv, useDeleteCv, useEditCv } from "@/lib/client/queries";
 
 interface UserCvProps {
   cvs: UserCV[];
@@ -24,155 +26,44 @@ interface UserCvProps {
 
 export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
   const router = useRouter();
-  const queryClient = useQueryClient();
-
-  const { mutate: editCv, isPending: isEditPending } = useMutation({
-    mutationFn: async ({ title, id }: { title: string; id: string }) => {
-      const payload: CvEditRequest = {
-        title,
-        cvId: id,
-      };
-      const { data } = await axios.patch("/api/user/cv", payload);
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          return toast({
-            title: "CV already exists",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 422) {
-          return toast({
-            title: "Invalid CV name",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not create new CV, please try again later.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: () => {
-      router.refresh();
-
-      queryClient.refetchQueries({
-        queryKey: ["userCvs"],
-        type: "all",
-      });
-    },
-  });
-
-  const { mutate: archiveCv, isPending: isArchivePending } = useMutation({
-    mutationFn: async (id: string) => {
-      const payload: CvDeleteRequest = {
-        cvId: id,
-      };
-      const { data } = await axios.patch("/api/user/cv/archive", payload);
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          return toast({
-            title: "CV already exists",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 422) {
-          return toast({
-            title: "Invalid CV name",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not archive CV, please try again later.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: (data) => {
-      router.refresh();
-
-      queryClient.invalidateQueries({
-        queryKey: ["userCvs"],
-        refetchType: "all",
-      });
-    },
-  });
-
-  const { mutate: deleteCv, isPending: isDeletePending } = useMutation({
-    mutationFn: async (id: string) => {
-      const payload: CvDeleteRequest = {
-        cvId: id,
-      };
-      const { data } = await axios.patch("/api/user/cv/delete", payload);
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          return toast({
-            title: "CV already exists",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 422) {
-          return toast({
-            title: "Invalid CV name",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not delete CV, please try again later.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: (data) => {
-      router.refresh();
-
-      queryClient.invalidateQueries({
-        queryKey: ["userCvs"],
-        refetchType: "all",
-      });
-    },
-  });
+  const { mutate: editCv, isPending: isEditPending, isSuccess: isSuccessEdit } = useEditCv()
+  const { mutate: archiveCv, isPending: isArchivePending, isSuccess: isSuccessArchive } = useArchiveCv()
+  const { mutate: deleteCv, isPending: isDeletePending, isSuccess: isSuccessDelete } = useDeleteCv()
 
   const onEdit = (title: string, id: string) => {
     editCv({ title, id });
+
+    // if (isSuccessEdit) {
+    //   return toast({
+    //     title: "Successfully",
+    //     description: "Successfully edited your CV",
+    //     variant: "default",
+    //   });
+    // }
+  };
+
+  const onArchive = (cvId: string) => {
+    archiveCv(cvId)
+
+    // if (isSuccessArchive) {
+    //   return toast({
+    //     title: "Successfully",
+    //     description: "Successfully edited your CV",
+    //     variant: "default",
+    //   });
+    // }
+  };
+
+  const onDelete = (cvId: string) => {
+    deleteCv(cvId)
+
+    // if (isSuccessDelete) {
+    //   return toast({
+    //     title: "Successfully",
+    //     description: "Successfully deleted your CV",
+    //     variant: "default",
+    //   });
+    // }
   };
 
   return (
@@ -213,7 +104,7 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
                             {isArchived ? (
-                                <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete" desc="TThis will restore your selected CV and move it to archive." id={cv.id} action={archiveCv} isPending={isArchivePending} />
+                                <DeleteModal title="Are you absolutely sure?" buttonLabel="Restore" desc="TThis will restore your selected CV and move it to dashboard." id={cv.id} action={archiveCv} isPending={isArchivePending} />
                               ) : (
                                 <CVModal
                                   id={cv.id}
@@ -231,7 +122,7 @@ export default function UserCvFeed ({ cvs, isArchived }: UserCvProps) {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
                             {isArchived ? (
-                              <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete permanently" desc="TThis will delete your selected CV permanently" id={cv.id} action={deleteCv} isPending={isDeletePending} />
+                              <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete permanently" desc="TThis will delete your selected CV permanently" id={cv.id} action={onDelete} isPending={isDeletePending} />
                             ) : (
                               <DeleteModal title="Are you absolutely sure?" buttonLabel="Delete" desc="TThis will delete your selected CV" id={cv.id} action={archiveCv} isPending={isArchivePending} />
                             )}

@@ -1,5 +1,7 @@
 import { JSONContent } from "novel";
 import { create } from 'zustand'
+import { useGetSnapshot } from "./client/queries";
+import { Snapshot } from "@prisma/client";
 
 type Settings = {
   layout: string,
@@ -20,18 +22,24 @@ type SnapshotContentStore = {
   setDefaultSettings: (settings: Settings) => void;
   title: string;
   setTitle: (newTitle: string) => void;
+  resetSnapshot: () => void;
+  id: string;
+  setId: (newId: string) => void;
+  cvId: string;
+  setCvId: (newId: string) => void;
 }
 
 const useSnapshotContent = create<SnapshotContentStore>((set) => ({
   contentMain: {},
-  setContentMain(newContent) {
+  setContentMain: (newContent) => {
     set((state) => ({
       ...state,
       contentMain: newContent
     }))
+    // set(() => ({ contentMain: newContent }))
   },
   contentSide: {},
-  setContentSide(newContent) {
+  setContentSide: (newContent) => {
     set((state) => ({
       ...state,
       contentSide: newContent
@@ -45,7 +53,7 @@ const useSnapshotContent = create<SnapshotContentStore>((set) => ({
     color: "#00000", 
     titleAlignment: "center",
   },
-  setSettings(name, value) {
+  setSettings: (name, value) => {
     set((state) => ({
       ...state,
       settings: {
@@ -54,17 +62,47 @@ const useSnapshotContent = create<SnapshotContentStore>((set) => ({
       }
     }))
   },
-  setDefaultSettings(defaultSettings) {
+  setDefaultSettings: (defaultSettings) => {
     set((state) => ({
       ...state,
       settings: defaultSettings
     }))
   },
   title: "",
-  setTitle(newTitle) {
+  setTitle: (newTitle) => {
     set((state) => ({
       ...state,
       title: newTitle
+    }))
+  },
+  resetSnapshot: () => {
+    set((state) => ({
+      ...state,
+      title: "",
+      contentMain: {},
+      contentSide: {},
+      settings: {
+        layout: "oneCol",
+        template: "Indius",
+        spacing: "spacingBase",
+        fontSize: "fontBase",
+        color: "#00000", 
+        titleAlignment: "center",
+      }
+    }))
+  },
+  id: "",
+  setId: (newId) => {
+    set((state) => ({
+      ...state,
+      id: newId, 
+    }))
+  },
+  cvId: "",
+  setCvId: (newId) => {
+    set((state) => ({
+      ...state,
+      cvId: newId,
     }))
   },
 }))

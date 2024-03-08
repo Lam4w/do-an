@@ -1,18 +1,23 @@
 "use client";
 
 import SnapshotModal from "@/components/main/CVModal";
+import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { toast } from "@/hooks/use-toast";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/Resizable";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 import { designTemplates } from "@/lib/const";
 import { cn } from "@/lib/utils";
-import {
-  SnapshotCreateRequest,
-  SnapshotUpdateRequest,
-} from "@/lib/validators/snapshot";
 import "@/styles/editor.css";
-import { Snapshot } from "@prisma/client";
-import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { Settings, Snapshot } from "@prisma/client";
 import {
   ArrowLeft,
   BookMarked,
@@ -23,29 +28,35 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/Button"; 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/Tooltip"
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/Resizable"
 
 import NovelEditor from "@/components/editor/NovelEditor";
-import useSnapshotContent from "@/lib/store";
+import { useCreateSnapshot, useUpdateSnapshotContent } from "@/lib/client/queries";
+import { JSONContent } from "novel";
 
 interface EditorProps {
   snapshot: Snapshot;
+  contentMain: JSONContent;
+  onChangeContentMain: (content: JSONContent) => void;
+  contentSide: JSONContent;
+  onChangeContentSide: (content: JSONContent) => void;
+  settings: Settings;
+  onChangeSettings: (field: string, value: string | number) => void;
+  title: string;
+  onChangeTitle: (title: string) => void;
 }
 
-function Editor({ snapshot }: EditorProps) {
+function Editor({ 
+  snapshot, 
+  contentMain, 
+  contentSide, 
+  onChangeContentMain, 
+  onChangeContentSide, 
+  onChangeSettings, 
+  onChangeTitle, 
+  settings, 
+  title 
+} : EditorProps) {
   const router = useRouter();
-  const store = useSnapshotContent();
   const [isIframeloading, setIsIframeloading] = useState<boolean>(true);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const scaledContent = useRef<HTMLIFrameElement | null>(null);
@@ -53,77 +64,18 @@ function Editor({ snapshot }: EditorProps) {
     `/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
+  const { mutate: updateContent, isPending } = useUpdateSnapshotContent()
+  const { mutate: createSnapshot, isPending: isCreatePending } = useCreateSnapshot()
 
-  const {
-    mutate: updateContent,
-    isPending,
-    isSuccess,
-  } = useMutation({
-    mutationFn: async () => {
-      const payload: SnapshotUpdateRequest = {
-        cvId: snapshot.cvId,
-        snapshotId: snapshot.id,
-        title: store.title,
-        contentMain: JSON.stringify(store.contentMain),
-        contentSide: JSON.stringify(store.contentSide),
-        settings: store.settings,
-      };
-      const { data } = await axios.patch("/api/cv", payload);
-
-      setSource((prev) => prev + " ");
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not update your snapshot, please try again later.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const { mutate: createSnapshot, isPending: isCreatePending } = useMutation({
-    mutationFn: async (snapshotTitle: string) => {
-      const payload: SnapshotCreateRequest = {
-        cvId: snapshot.cvId,
-        title: snapshotTitle,
-        contentMain: JSON.stringify(store.contentMain),
-        contentSide: JSON.stringify(store.contentSide),
-        settings: store.settings,
-      };
-
-      const { data } = await axios.post("/api/cv/snapshot", payload);
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not create snapshot, please try again later.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Successfully created snapshot",
-        variant: "default",
-      });
-    }
-  });
+  const handleCreateSnapshot = (snapshotTitle: string) => {
+    createSnapshot({
+      cvId: snapshot.cvId,
+      title: snapshotTitle,
+      contentMain: JSON.stringify(contentMain),
+      contentSide: JSON.stringify(contentSide),
+      settings: settings,
+    })
+  }
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -154,15 +106,35 @@ function Editor({ snapshot }: EditorProps) {
     }
   }, []);
 
-  useEffect(() => {
-    updateContent();
-  }, [store.contentMain, store.contentSide, store.settings]);
-
   const handleEditTitle = (code: string) => {
     if (code === "Enter") {
-      updateContent();
+      updateContent(
+        {
+          cvId: snapshot.cvId,
+          snapshotId: snapshot.id,
+          title: title,
+          contentMain: JSON.stringify(contentMain),
+          contentSide: JSON.stringify(contentSide),
+          settings: settings,
+        }
+      );
     }
   };
+
+  useEffect(() => {
+    updateContent(
+      {
+        cvId: snapshot.cvId,
+        snapshotId: snapshot.id,
+        title: title,
+        contentMain: JSON.stringify(contentMain),
+        contentSide: JSON.stringify(contentSide),
+        settings: settings,
+      }
+    );
+
+    setSource((prev) => prev + " ");
+  }, [contentMain, contentSide, settings]);
 
   return (
     <div className="w-full grid grid-cols-3 space-x-10">
@@ -175,8 +147,8 @@ function Editor({ snapshot }: EditorProps) {
             />
             <Input
               className="w-52 bg-[#f6f6f6] text-lg border-none hover:bg-gray-300 transition"
-              value={store.title}
-              onChange={(e) => store.setTitle(e.target.value)}
+              value={title}
+              onChange={(e) => onChangeTitle(e.target.value)}
               onKeyDown={(e) => handleEditTitle(e.code)}
             />
           </div>
@@ -202,7 +174,7 @@ function Editor({ snapshot }: EditorProps) {
                     buttonLabel="Create new"
                     label="Create your snapshot here. Click create when you're done with naming your snapshot."
                     size="icon"
-                    actionWithoutId={createSnapshot}
+                    actionWithoutId={handleCreateSnapshot}
                     clasName="text-gray-500 cursor-pointer hover:text-emerald-500"
                     variant="ghost"
                     isPending={isCreatePending}
@@ -220,12 +192,12 @@ function Editor({ snapshot }: EditorProps) {
                     type="button"
                     size={"icon"}
                     variant={"ghost"}
-                    onClick={() => store.setSettings('layout', 'oneCol')}
+                    onClick={() => onChangeSettings('layout', 'oneCol')}
                   >
                     <PanelTop
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        store.settings.layout === 'oneCol' && "text-emerald-500"
+                        settings.layout === 'oneCol' && "text-emerald-500"
                       )}
                     />
                   </Button>
@@ -242,12 +214,12 @@ function Editor({ snapshot }: EditorProps) {
                     type="button"
                     size={"icon"}
                     variant={"ghost"}
-                    onClick={() => store.setSettings('layout', 'twoCol')}
+                    onClick={() => onChangeSettings('layout', 'twoCol')}
                   >
                     <PanelLeft
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        store.settings.layout === 'twoCol' && "text-emerald-500"
+                        settings.layout === 'twoCol' && "text-emerald-500"
                       )}
                     />
                   </Button>
@@ -260,27 +232,25 @@ function Editor({ snapshot }: EditorProps) {
           </div>
         </div>
         <div className="col-span-2">          
-          {store.settings.layout === 'twoCol' ? (
+          {settings.layout === 'twoCol' ? (
             <ResizablePanelGroup
               direction="horizontal"
-              className="min-h-[90vh] w-full"
+              className="w-full"
             >
               <ResizablePanel defaultSize={30} minSize={30}>
-                <div className="pr-2 h-full w-full">
-                  <NovelEditor content={store.contentSide} onChange={store.setContentSide} />
+                <div className="pr-2 w-full">
+                  <NovelEditor content={contentSide} onChange={onChangeContentSide} />
                 </div>
               </ResizablePanel>  
               <ResizableHandle />
               <ResizablePanel defaultSize={70} minSize={30}>
-                <div className={cn("h-full w-full", store.settings.layout === 'twoCol' && "pl-2")}>
-                  <NovelEditor content={store.contentMain} onChange={store.setContentMain} />
+                <div className={cn("w-full", settings.layout === 'twoCol' && "pl-2")}>
+                  <NovelEditor content={contentMain} onChange={onChangeContentMain} />
                 </div>
               </ResizablePanel>
             </ResizablePanelGroup>
           ) : (
-            <div className="">
-              <NovelEditor content={store.contentMain} onChange={store.setContentMain} />
-            </div>
+            <NovelEditor content={contentMain} onChange={onChangeContentMain} />
           )}
         </div>
       </div>
@@ -317,9 +287,9 @@ function Editor({ snapshot }: EditorProps) {
             <span className="text-sm font-bold text-black/70 pr-2">Design</span>
             {designTemplates.map((t, i) => (
               <Button 
-                variant={store.settings.template === t.template ? "default" : "outline"} 
+                variant={settings.template === t.template ? "default" : "outline"} 
                 size={"sm"} key={i}
-                onClick={() => store.setSettings("template", t.template)}  
+                onClick={() => onChangeSettings("template", t.template)}  
               >
                 {t.template}
               </Button>

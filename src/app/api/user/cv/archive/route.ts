@@ -58,7 +58,19 @@ export async function PATCH(req: Request) {
       }
     });
 
-    return new Response("OK");
+    const cvs = await db.userCV.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      where: {
+        ownerId: session.user.id,
+        isArchived: false,
+      },
+    });
+
+    return new Response(JSON.stringify(cvs));
+
+    // return new Response("OK");
   } catch (err) {
     if (err instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });

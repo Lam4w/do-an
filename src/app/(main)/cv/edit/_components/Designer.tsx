@@ -3,27 +3,23 @@
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Separator } from "@/components/ui/Separator";
-import { Skeleton } from "@/components/ui/Skeleton";
 import { Slider } from "@/components/ui/Slider";
-import { toast } from "@/hooks/use-toast";
+import { useUpdateSnapshotSettings } from "@/lib/client/queries";
 import { defaultColors, designTemplates, fontSize, spacingSize, titleAlignment } from "@/lib/const";
-import useSnapshotContent from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { SnapshotUpdateRequest } from "@/lib/validators/snapshot";
-import { Snapshot } from "@prisma/client";
-import { useMutation } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { Settings, Snapshot } from "@prisma/client";
 import { Check, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface DesignerProps {
   snapshot: Snapshot;
+  settings: Settings;
+  setSettings: (field: string, value: string | number) => void
 }
 
-export default function Designer ({ snapshot }: DesignerProps) {
+export default function Designer ({ snapshot, settings, setSettings }: DesignerProps) {
   const router = useRouter()
-  const store = useSnapshotContent()
   const scaledContentDesigner = useRef<HTMLIFrameElement | null>(null);
   const [currHeight, setCurrHeight] = useState<number>(0);
   const [isIframeloading, setIsIframeloading] = useState<boolean>(true);
@@ -32,38 +28,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
 
-  const {
-    mutate: updateContent,
-    isPending,
-    isSuccess,
-  } = useMutation({
-    mutationFn: async () => {
-      const payload: SnapshotUpdateRequest = {
-        cvId: snapshot.cvId,
-        snapshotId: snapshot.id,
-        settings: store.settings,
-      };
-      const { data } = await axios.patch("/api/cv", payload);
-
-      setSource((prev) => prev + " ");
-      setIsIframeloading(true)
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not update your snapshot, please try again later.",
-        variant: "destructive",
-      });
-    },
-  });
+  const { mutate: updateContent, isPending, isSuccess } = useUpdateSnapshotSettings()
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -95,8 +60,12 @@ export default function Designer ({ snapshot }: DesignerProps) {
   }, []);
 
   useEffect(() => {
-    updateContent();
-  }, [store.settings]);
+    updateContent({
+      cvId: snapshot.cvId,
+      snapshotId: snapshot.id,
+      settings: settings,
+    });
+  }, [settings]);
 
   return (
     <div className="grid grid-cols-5 space-x-5">
@@ -107,9 +76,9 @@ export default function Designer ({ snapshot }: DesignerProps) {
           </span>
           {designTemplates.map((t, i) => (
             <Button 
-              variant={store.settings.template === t.template ? "default" : "outline"} 
+              variant={settings.template === t.template ? "default" : "outline"} 
               size={"sm"} key={i}
-              onClick={() => store.setSettings("template", t.template)}  
+              onClick={() => setSettings("template", t.template)}  
             >
               {t.template}
             </Button>
@@ -150,10 +119,9 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 <Button 
                   key={i} 
                   size={"sm"} 
-                  variant={store.settings.titleAlignment === t.value ? "default" : "outline"} 
+                  variant={settings.titleAlignment === t.value ? "default" : "outline"} 
                   onClick={() => {
-                    store.setSettings("titleAlignment", t.value)
-                    console.log(store.settings)
+                    setSettings("titleAlignment", t.value)
                   }}
                 >
                   {t.value}
@@ -172,7 +140,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
             <div className="flex gap-2 flex-wrap py-1">
               {defaultColors.map((c, i) => (
                 <div
-                  onClick={() => store.setSettings("color", c)}
+                  onClick={() => setSettings("color", c)}
                   key={i}
                   className={cn(
                     buttonVariants({ size: "sm" }),
@@ -183,7 +151,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
                   <Check
                     className={cn(
                       "w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                      store.settings.color === c ? "block" : "hidden"
+                      settings.color === c ? "block" : "hidden"
                     )}
                   />
                 </div>
@@ -202,7 +170,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 Font size
               </Label>
               <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-                {fontSize.indexOf(store.settings.fontSize)}
+                {fontSize.indexOf(settings.fontSize)}
               </span>
             </div>
 
@@ -211,9 +179,9 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 id="fontSize"
                 max={fontSize.length}
                 min={0}
-                defaultValue={[fontSize.indexOf(store.settings.fontSize)]}
+                defaultValue={[fontSize.indexOf(settings.fontSize)]}
                 step={1}
-                onValueChange={(val) => store.setSettings("fontSize", fontSize[val[0]])}
+                onValueChange={(val) => setSettings("fontSize", fontSize[val[0]])}
                 className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
                 aria-label="FontSize"
               />
@@ -231,7 +199,7 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 Spacing
               </Label>
               <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-                {spacingSize.indexOf(store.settings.spacing)}
+                {spacingSize.indexOf(settings.spacing)}
               </span>
             </div>
 
@@ -240,9 +208,9 @@ export default function Designer ({ snapshot }: DesignerProps) {
                 id="spacing"
                 max={5}
                 min={1}
-                defaultValue={[spacingSize.indexOf(store.settings.spacing)]}
+                defaultValue={[spacingSize.indexOf(settings.spacing)]}
                 step={1}
-                onValueChange={(val) => store.setSettings("spacing",spacingSize[val[0]])}
+                onValueChange={(val) => setSettings("spacing",spacingSize[val[0]])}
                 className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
                 aria-label="Spacing"
               />

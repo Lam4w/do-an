@@ -9,6 +9,7 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { columns } from "./Columns";
 import { UserCVTableSkeleton } from "@/components/main/UserCVTableSkeleton";
+import { useCreateCv, useGetSnapshots } from "@/lib/client/queries";
 
 interface CVSnapshotsProps {
   cvId: string;
@@ -16,61 +17,10 @@ interface CVSnapshotsProps {
 
 function CVSnapshots({ cvId } : CVSnapshotsProps) {
   const router = useRouter();
+  const { mutate: createNewCv, isPending: isCreatePending, isSuccess: isSuccessCreateCv } = useCreateCv()
+  const { data: snapshots, isLoading: isGetSnapshotsLoading } = useGetSnapshots(cvId);
 
-  const { data: cvs, isLoading } = useQuery({
-    queryKey: ["userCvs"],
-    queryFn: async () => {
-      const { data } = await axios.get(`/api/user/cv/snapshot?cv=${cvId}`);
-
-      return data;
-    },
-    refetchOnMount: true,
-  });
-
-  const { mutate: createNewCv, isPending: isCreatePending } = useMutation({
-    mutationFn: async (title: string) => {
-      const payload: CvCreateRequest = {
-        title: title,
-      };
-      const { data } = await axios.post("/api/user/cv", payload);
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          return toast({
-            title: "CV already exists",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 422) {
-          return toast({
-            title: "Invalid CV name",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not create new CV, please try again later.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: (data) => {
-      router.push(`/cv/edit/${data}`);
-    },
-  });
-
-  const onCreate = (title: string) => {
+  const onCreate =  (title: string) => {
     createNewCv(title);
   };
 
@@ -83,10 +33,10 @@ function CVSnapshots({ cvId } : CVSnapshotsProps) {
 
       <div className="px-10 mt-8">
         {/* display all user CVs */}
-        {isLoading ? (
+        {isGetSnapshotsLoading ? (
           <UserCVTableSkeleton />
         ) : (
-          <DataTable columns={columns} data={cvs} />
+          <DataTable columns={columns} data={snapshots} />
         )}
       </div>
     </>
