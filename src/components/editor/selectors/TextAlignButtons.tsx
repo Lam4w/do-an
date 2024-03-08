@@ -2,15 +2,11 @@
 
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import {
-  AlignCenterIcon,
-  AlignJustifyIcon,
-  AlignLeftIcon,
-  AlignRightIcon,
-} from "lucide-react";
+import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from "lucide-react";
 import { EditorBubbleItem, useEditor } from "novel";
 import type { SelectorItem } from "./NodeSelector";
 import TextAlign from "@tiptap/extension-text-align";
+import React from "react";
 
 const items: SelectorItem[] = [
   {
@@ -39,15 +35,8 @@ const items: SelectorItem[] = [
   //   icon: AlignJustifyIcon,
   // },
 ];
-interface TextAlignButtonsProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
 
-export function TextAlignButtons({
-  open,
-  onOpenChange,
-}: TextAlignButtonsProps) {
+export function TextAlignButtons() {
   const { editor } = useEditor();
   if (!editor) return null;
 
