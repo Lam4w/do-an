@@ -58,7 +58,7 @@ const taskItem = TaskItem.configure({
 
 const horizontalRule = HorizontalRule.configure({
   HTMLAttributes: {
-    class: cx("mt-4 mb-6 border-t border-muted-foreground"),
+    class: cx("mt-2 mb-4 border-t border-muted-foreground"),
   },
 });
 
@@ -111,8 +111,8 @@ const table = Table.configure({
 
 const textAlign = TextAlign.configure({
   types: ["heading", "paragraph"],
-  alignments: ["left", "right"],
-  defaultAlignment: "right",
+  alignments: ["left", "center", "right"],
+  // defaultAlignment: "right",
 });
 
 export const defaultExtensions = [
@@ -126,4 +126,5 @@ export const defaultExtensions = [
   TableRow,
   TableHeader,
   TableCell,
+  textAlign,
 ];

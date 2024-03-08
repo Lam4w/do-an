@@ -117,7 +117,7 @@ function NovelEditor({ content, onChange } : NovelEditorProps) {
             <Separator orientation="vertical" />
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
             <Separator orientation="vertical" />
-            <TextAlignButtons open={openColor} onOpenChange={setOpenColor} />
+            <TextAlignButtons />
             <Separator orientation="vertical" />
             <TextButtons />
             <Separator orientation="vertical" />
