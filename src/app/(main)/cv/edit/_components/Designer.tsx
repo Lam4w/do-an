@@ -65,6 +65,8 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
       snapshotId: snapshot.id,
       settings: settings,
     });
+
+    setSource((prev) => prev + " ");
   }, [settings]);
 
   return (
