@@ -58,7 +58,7 @@ const taskItem = TaskItem.configure({
 
 const horizontalRule = HorizontalRule.configure({
   HTMLAttributes: {
-    class: cx("mt-4 mb-6 border-t border-muted-foreground"),
+    class: cx("mt-2 mb-4 border-t border-muted-foreground"),
   },
 });
 

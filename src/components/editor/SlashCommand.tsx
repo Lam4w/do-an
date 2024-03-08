@@ -1,5 +1,4 @@
 import {
-  CheckSquare,
   Code,
   Columns2,
   Columns3,
@@ -8,9 +7,10 @@ import {
   Heading3,
   ImageIcon,
   List,
-  ListOrdered,
+  SplitSquareVerticalIcon,
+  TableIcon,
   Text,
-  TextQuote
+  TextQuote,
 } from "lucide-react";
 import { Command, createSuggestionItems, renderItems } from "novel/extensions";
 import { startImageUpload } from "novel/plugins";
@@ -40,6 +40,25 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
+    title: "Insert Table",
+    description: "Create two blocks.",
+    icon: <TableIcon size={18} />,
+    command: ({ editor, range }) => {
+      // let row =prompt("Insert Row");
+      // let col =prompt("Insert Col");
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertTable({
+          rows: Number() | 1,
+          cols: Number() | 2,
+          withHeaderRow: false,
+        })
+        .run();
+    },
+  },
+  {
     title: "Two block",
     description: "Create two blocks.",
     icon: <Columns2 size={18} />,
@@ -65,15 +84,15 @@ export const suggestionItems = createSuggestionItems([
         .run();
     },
   },
-  {
-    title: "To-do List",
-    description: "Track tasks with a to-do list.",
-    searchTerms: ["todo", "task", "list", "check", "checkbox"],
-    icon: <CheckSquare size={18} />,
-    command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleTaskList().run();
-    },
-  },
+  // {
+  //   title: "To-do List",
+  //   description: "Track tasks with a to-do list.",
+  //   searchTerms: ["todo", "task", "list", "check", "checkbox"],
+  //   icon: <CheckSquare size={18} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).toggleTaskList().run();
+  //   },
+  // },
   {
     title: "Heading 1",
     description: "Big section heading.",
@@ -126,14 +145,23 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Numbered List",
-    description: "Create a list with numbering.",
-    searchTerms: ["ordered"],
-    icon: <ListOrdered size={18} />,
+    title: "Divider",
+    description: "Create a simple horizontal divider.",
+    searchTerms: ["hr", "separator", "line", "divider"],
+    icon: <SplitSquareVerticalIcon size={18} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleOrderedList().run();
+      editor.chain().focus().setHorizontalRule().deleteRange(range).run();
     },
   },
+  // {
+  //   title: "Numbered List",
+  //   description: "Create a list with numbering.",
+  //   searchTerms: ["ordered"],
+  //   icon: <ListOrdered size={18} />,
+  //   command: ({ editor, range }) => {
+  //     editor.chain().focus().deleteRange(range).toggleOrderedList().run();
+  //   },
+  // },
   {
     title: "Quote",
     description: "Capture a quote.",
@@ -149,12 +177,12 @@ export const suggestionItems = createSuggestionItems([
         .run(),
   },
   {
-    title: "Code",
+    title: "Keywork",
     description: "Capture a code snippet.",
-    searchTerms: ["codeblock"],
+    searchTerms: ["codeblock", "code", "keyword", "highlight"],
     icon: <Code size={18} />,
     command: ({ editor, range }) =>
-      editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
+      editor.chain().focus().deleteRange(range).toggleCode().run(),
   },
   {
     title: "Image",
