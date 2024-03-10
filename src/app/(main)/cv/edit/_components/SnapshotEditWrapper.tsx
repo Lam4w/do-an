@@ -19,7 +19,7 @@ const SnapshotEditWrapper = ({ snapshot } : SnapshotEditWrapperProps) => {
   const [settings, setSettings] = useState<Settings>(snapshot.settings)
   const [title, setTitle] = useState<string>(snapshot.title)
 
-  const onChangeSettings = (field: string, value: string | number) => {
+  const onChangeSettings = (field: string, value: string | number | boolean) => {
     setSettings((prev) => ({
       ...prev,
       [field]: value

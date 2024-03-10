@@ -9,6 +9,7 @@ export const SnapshotCreatetValidator = z.object({
   contentMain: z.any(),
   contentSide: z.any(),
   settings: z.object({
+      isSplit: z.boolean(),
       layout: z.string(),
       template: z.string(),
       spacing: z.string(),
@@ -29,12 +30,13 @@ export const SnapshotUpdateValidator = z.object({
   contentMain: z.any().optional(),
   contentSide: z.any().optional(),
   settings: z.object({
-    layout: z.string(),
-    template: z.string(),
-    spacing: z.string(),
-    fontSize: z.string(),
-    color: z.string(),
-    titleAlignment: z.string(),
+      isSplit: z.boolean(),
+      layout: z.string(),
+      template: z.string(),
+      spacing: z.string(),
+      fontSize: z.string(),
+      color: z.string(),
+      titleAlignment: z.string(),
     }).
     optional(),
 });

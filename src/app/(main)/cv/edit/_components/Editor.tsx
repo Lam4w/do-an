@@ -40,7 +40,7 @@ interface EditorProps {
   contentSide: JSONContent;
   onChangeContentSide: (content: JSONContent) => void;
   settings: Settings;
-  onChangeSettings: (field: string, value: string | number) => void;
+  onChangeSettings: (field: string, value: string | number | boolean) => void;
   title: string;
   onChangeTitle: (title: string) => void;
 }
@@ -192,12 +192,12 @@ function Editor({
                     type="button"
                     size={"icon"}
                     variant={"ghost"}
-                    onClick={() => onChangeSettings('layout', 'oneCol')}
+                    onClick={() => onChangeSettings('isSplit', false)}
                   >
                     <PanelTop
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        settings.layout === 'oneCol' && "text-emerald-500"
+                        !settings.isSplit && "text-emerald-500"
                       )}
                     />
                   </Button>
@@ -214,12 +214,12 @@ function Editor({
                     type="button"
                     size={"icon"}
                     variant={"ghost"}
-                    onClick={() => onChangeSettings('layout', 'twoCol')}
+                    onClick={() => onChangeSettings('isSplit', true)}
                   >
                     <PanelLeft
                       className={cn(
                         "text-gray-500 cursor-pointer",
-                        settings.layout === 'twoCol' && "text-emerald-500"
+                        settings.isSplit && "text-emerald-500"
                       )}
                     />
                   </Button>

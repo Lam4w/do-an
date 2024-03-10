@@ -73,6 +73,7 @@ model Snapshot {
 }
 
 type Settings {
+  isSplit        Boolean @default(false)
   layout         String  @default("oneCol")
   template       String  @default("Indius")
   spacing        String  @default("spacingBase")

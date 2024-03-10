@@ -8,7 +8,7 @@ import { useUpdateSnapshotSettings } from "@/lib/client/queries";
 import { defaultColors, designTemplates, fontSize, spacingSize, titleAlignment } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import { Settings, Snapshot } from "@prisma/client";
-import { Check, RotateCw } from "lucide-react";
+import { Check, Columns2, PanelLeft, PanelRight, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -27,6 +27,8 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
     `/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
+
+  console.log(settings)
 
   const { mutate: updateContent, isPending, isSuccess } = useUpdateSnapshotSettings()
 
@@ -217,6 +219,41 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
                 aria-label="Spacing"
               />
             </div>
+
+            {settings.isSplit && (
+              <>
+                <Separator />
+              
+                <div className="flex flex-col space-y-2 pt-3">
+                  <Label className="uppercase font-bold text-muted-foreground">
+                    Columns layout
+                  </Label>
+      
+                  <div className="flex flex-wrap items-center gap-2 pb-5">
+                    <Button 
+                      size={"icon"} 
+                      variant={"outline"} 
+                    >
+                      <PanelLeft />
+                    </Button>
+
+                    <Button 
+                      size={"icon"} 
+                      variant={"outline"} 
+                    >
+                      <Columns2 />
+                    </Button>
+
+                    <Button 
+                      size={"icon"} 
+                      variant={"outline"} 
+                    >
+                      <PanelRight />
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
