@@ -7,104 +7,160 @@ body {
   padding: 48px;
 }
 
-h1 {
-  font-size: 28.8px; 
-}
+/* TEMPLATE 2 */
 
-h2 {
-  font-size: 19.2px;
-}
-
-h3 {
-  font-size: 16px;
-}
-
-p {
-  font-size: 12.8px;
-}
-
-
-/* Template 1 */
-
-/* 
-.indius {
+.vega {
   padding: 48px;
-} */
-
-.indius h1 {
-  width: 100%;
-  border-bottom: 1px solid;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
 }
 
-.indius h2 {
-  width: 100%;
-  border-bottom: 1px solid;
-  padding-bottom: 5px;
-  padding-top: 10px;
-  margin-bottom: 5px;
+/* TITLE ALIGNMENT */
+
+/* left */
+
+.vega.alignLeft h1 {
+  text-align: left;
 }
 
-.indius h3 {
-  margin: 8px 0 0 0;
+/* center */
+
+.vega.alignCenter h1 {
+  text-align: center;
 }
 
-.indius table {
-  width: 100%;
-}
+/* right */
 
-.indius td:nth-last-child(1) {
+.vega.alignRight h1 {
   text-align: right;
 }
 
-.indius ul {
-  list-style-type: "-";
-  list-style-position: outside;
-  padding-left: 12px;
-  margin: 0;
-  display: block;
+/*  FONT  */
+
+/* small */
+
+.vega .fontSm h1 {
+  font-size: 27px; 
 }
 
-.indius li {
-  padding-left: 15px;
+.vega .fontSm h2 {
+  font-size: 18px;
 }
 
-.indius strong {
+.vega .fontSm h3 {
+  font-size: 15px;
+}
+
+.vega .fontSm p {
+  font-size: 12px;
+}
+
+/* base */
+
+.vega .fontBase h1 {
+  font-size: 28.8px; 
+}
+
+.vega .fontBase h2 {
+  font-size: 19.2px;
+}
+
+.vega .fontBase h3 {
+  font-size: 16px;
+}
+
+.vega .fontBase p {
+  font-size: 12.8px;
+}
+
+/* medium */
+
+.vega .fontMd h1 {
+  font-size: 32.4px; 
+}
+
+.vega .fontMd h2 {
+  font-size: 21.6px;
+}
+
+.vega .fontMd h3 {
+  font-size: 18px;
+}
+
+.vega .fontMd p {
+  font-size: 14.4px;
+}
+
+/* large */
+
+.vega.fontLg h1 {
+  font-size: 36px; 
+}
+
+.vega.fontLg h2 {
+  font-size: 24px;
+}
+
+.vega.fontLg h3 {
+  font-size: 20px;
+}
+
+.vega.fontLg p {
+  font-size: 16px;
+}
+
+/* SPACING */
+
+/* small */
+
+.vega.spacingSm {
+  line-height: 1.2;
+}
+
+/* base */
+
+.vega.spacingBase {
+  line-height: 1.5;
+}
+
+/* mdeium */
+
+.vega.spacingMd {
+  line-height: 1.7;
+}
+
+/* large */
+
+.vega.spacingLg {
+  line-height: 2;
+}
+
+/* GLOBAL */
+
+.vega h1 {
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+}
+
+.vega h1 b, .vega h1 strong {
+  font-weight: 700;
+}
+
+b, strong {
   font-weight: 500;
 }
 
-.indius hr {
-  border: 1px solid #ddd9d9;
-}
-
-.indius code {
-  background-color: rgba(46, 204, 113, 0.15);
-  color: #1b7943;
-  padding: 4px 6px;
-  border-radius: 10%;
-}
-
-
-/* Template 2 */
-
-
-/* .t1 {
-  padding: 48px;
-} */
-
-.vega h1 {
-  border-bottom: 1px solid;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-}
-
 .vega h2 {
-  width: 100%;
+  padding-bottom: 4px;
+  margin-top: 19.2px;
   border-bottom: 1px solid;
-  padding-bottom: 5px;
-  padding-top: 10px;
-  margin-bottom: 5px;
+}
+
+.vega h3 {
+  margin-top: 8px;
+}
+
+.vega p {
+  margin-top: 6.4px;
+  margin-bottom: 0;
 }
 
 .vega ul {
@@ -119,10 +175,6 @@ p {
   padding-left: 15px;
 }
 
-.vega h3 {
-  margin: 8px 0 0 0;
-}
-
 .vega table {
   width: 100%;
 }
@@ -131,8 +183,20 @@ p {
   font-weight: 500;
 }
 
+.vega table td {
+  justify-content: center;
+}
+
+.vega table p {
+  margin: 0;
+}
+
+.vega table h3 {
+  margin: 0;
+}
+
 .vega td:nth-child(1) {
-  width: 200px;
+  width: 300px;
 }
 
 .vega hr {
@@ -144,72 +208,4 @@ p {
   color: #1b7943;
   padding: 4px 6px;
   border-radius: 10%;
-}
-
-
-/* Template 3 */
-
-
-/* .t3 {
-  padding: 48px;
-} */
-
-.gemma h2 {
-  height: 50px;
-  margin-block: 30px;
-  border: 1px solid;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-.gemma h3 {
-  margin: 0;
-  font-weight: 600;
-}
-
-.gemma strong {
-  font-weight: 550;
-}
-
-.gemma p {
-  margin-block: 15px;
-}
-
-.gemma td p {
-  margin: 0;
-}
-
-.gemma table {
-  margin-block: 20px;
-}
-
-.gemma td:nth-child(1) {
-  border-right: 1px solid;  
-  padding-right: 10px;
-}
-
-.gemma td:nth-child(2) {
-  padding-left: 10px;;
-}
-
-.gemma ul {
-  list-style-type: "-";
-  list-style-position: outside;
-  padding-left: 12px;
-  margin: 0;
-  display: block;
-}
-
-.gemma li {
-  padding-left: 15px;
-}
-
-.gemma code {
-  background-color: #f6d2b9;
-  color: rgb(240, 148, 102);
-  padding: 4px 6px;
-  margin-block: 10px;
 }
