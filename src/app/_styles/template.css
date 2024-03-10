@@ -7,11 +7,11 @@ body {
   padding: 48px;
 }
 
-/* TEMPLATE 2 */
-
-.vega {
-  padding: 48px;
+.container {
+  padding: 0;
 }
+
+/* TEMPLATE 2 */
 
 /* TITLE ALIGNMENT */
 
@@ -37,55 +37,55 @@ body {
 
 /* small */
 
-.vega .fontSm h1 {
+.vega.fontSm h1 {
   font-size: 27px; 
 }
 
-.vega .fontSm h2 {
+.vega.fontSm h2 {
   font-size: 18px;
 }
 
-.vega .fontSm h3 {
+.vega.fontSm h3 {
   font-size: 15px;
 }
 
-.vega .fontSm p {
+.vega.fontSm p {
   font-size: 12px;
 }
 
 /* base */
 
-.vega .fontBase h1 {
+.vega.fontBase h1 {
   font-size: 28.8px; 
 }
 
-.vega .fontBase h2 {
+.vega.fontBase h2 {
   font-size: 19.2px;
 }
 
-.vega .fontBase h3 {
+.vega.fontBase h3 {
   font-size: 16px;
 }
 
-.vega .fontBase p {
+.vega.fontBase p {
   font-size: 12.8px;
 }
 
 /* medium */
 
-.vega .fontMd h1 {
+.vega.fontMd h1 {
   font-size: 32.4px; 
 }
 
-.vega .fontMd h2 {
+.vega.fontMd h2 {
   font-size: 21.6px;
 }
 
-.vega .fontMd h3 {
+.vega.fontMd h3 {
   font-size: 18px;
 }
 
-.vega .fontMd p {
+.vega.fontMd p {
   font-size: 14.4px;
 }
 

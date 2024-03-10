@@ -55,15 +55,15 @@ export const designTemplates = [
 
 export const titleAlignment = [
   {
-    value: "left",
+    value: "alignLeft",
     alignment: "Left",
   },
   {
-    value: "center",
+    value: "alignCenter",
     alignment: "Center",
   },
   {
-    value: "right",
+    value: "alignRight",
     alignment: "Right",
   },
 ]
@@ -99,17 +99,15 @@ export const defaultContent = JSON.stringify({
 })
 
 export const fontSize = [
-  'fontXs',
   'fontSm',
   'fontBase',
+  'fontMd',
   'fontLg',
-  'fontXl',
 ]
 
 export const spacingSize = [
-  'spacingXs',
   'spacingSm',
   'spacingBase',
+  'spacingMd',
   'spacingLg',
-  'spacingXl',
 ]

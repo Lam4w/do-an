@@ -108,7 +108,7 @@ export async function GET(req: Request) {
 
       res = `
       <div class='container'>
-        <div class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.layout.toLowerCase()} ${snapshot.settings.fontSize} ${snapshot.settings.spacing}'>
+        <div class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.layout.toLowerCase()} ${snapshot.settings.fontSize} ${snapshot.settings.spacing} ${snapshot.settings.titleAlignment}'>
           ${content}
         </div>
       </div>`;

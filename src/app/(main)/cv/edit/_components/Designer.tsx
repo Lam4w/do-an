@@ -126,7 +126,7 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
                     setSettings("titleAlignment", t.value)
                   }}
                 >
-                  {t.value}
+                  {t.alignment}
                 </Button>
               ))}
             </div>
@@ -179,7 +179,7 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
             <div className="">
               <Slider
                 id="fontSize"
-                max={fontSize.length}
+                max={fontSize.length -1}
                 min={0}
                 defaultValue={[fontSize.indexOf(settings.fontSize)]}
                 step={1}
@@ -208,8 +208,8 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
             <div className="">
               <Slider
                 id="spacing"
-                max={5}
-                min={1}
+                max={spacingSize.length -1}
+                min={0}
                 defaultValue={[spacingSize.indexOf(settings.spacing)]}
                 step={1}
                 onValueChange={(val) => setSettings("spacing",spacingSize[val[0]])}
