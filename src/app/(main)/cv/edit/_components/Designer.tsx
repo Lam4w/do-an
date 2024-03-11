@@ -5,10 +5,11 @@ import { Label } from "@/components/ui/Label";
 import { Separator } from "@/components/ui/Separator";
 import { Slider } from "@/components/ui/Slider";
 import { useUpdateSnapshotSettings } from "@/lib/client/queries";
-import { defaultColors, designTemplates, fontSize, spacingSize, titleAlignment } from "@/lib/const";
+import { columnsLayout, defaultColors, designTemplates, fontSize, spacingSize, titleAlignment } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import { Settings, Snapshot } from "@prisma/client";
 import { Check, Columns2, PanelLeft, PanelRight, RotateCw } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -27,10 +28,8 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
     `/html?cv=${snapshot.cvId}` +
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
-
-  console.log(settings)
-
   const { mutate: updateContent, isPending, isSuccess } = useUpdateSnapshotSettings()
+  const pdfLink = `http://localhost:3000/api/cv/pdf?cv=${snapshot.cvId}` + (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -111,7 +110,15 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
         </div>
       </div>
       <div className="col-span-1 relative">
-        <Button className="w-full mb-4" disabled >PDF Downloads</Button>
+        <a 
+          href={pdfLink} 
+          // target="_blank"
+          download="generated_pdf.pdf" 
+          className={cn("w-full mb-4", buttonVariants())}
+        >
+          PDF Downloads
+        </a>
+        {/* <Button className="w-full mb-4" disabled >PDF Downloads</Button> */}
         <div className="rounded-sm sticky bg-white top-0 p-4">
           <div className="flex flex-col space-y-2">
             <Label className="uppercase font-bold text-muted-foreground">
@@ -230,26 +237,15 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
                   </Label>
       
                   <div className="flex flex-wrap items-center gap-2 pb-5">
-                    <Button 
-                      size={"icon"} 
-                      variant={"outline"} 
-                    >
-                      <PanelLeft />
-                    </Button>
-
-                    <Button 
-                      size={"icon"} 
-                      variant={"outline"} 
-                    >
-                      <Columns2 />
-                    </Button>
-
-                    <Button 
-                      size={"icon"} 
-                      variant={"outline"} 
-                    >
-                      <PanelRight />
-                    </Button>
+                    {columnsLayout.map((c, i) => (
+                      <Button 
+                        size={"icon"} 
+                        variant={settings.layout === c.value ? "default" : "outline"} 
+                        onClick={() => setSettings("layout", c.value)}
+                      >
+                        <c.icon />
+                      </Button>
+                    ))}
                   </div>
                 </div>
               </>

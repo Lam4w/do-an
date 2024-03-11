@@ -1,13 +1,13 @@
+import { generatePdf } from "@/lib/pdf/pdfGenerate";
+import { pdfTemplate } from "@/lib/pdf/pdfTemplate";
+import { NextResponse } from "next/server";
+// import { utapi } from "uploadthing/server";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import markdownit from "markdown-it";
-import { NextResponse } from "next/server";
 import { z } from "zod";
 import { generateHTML } from '@tiptap/html'
 import Bold from '@tiptap/extension-bold'
 import Italic from "@tiptap/extension-italic";
-// Option 2: Browser-only (lightweight)
-// import { generateHTML } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
@@ -78,10 +78,9 @@ export async function GET(req: Request) {
       where: whereClause,
     });
 
-    let res;
+    let result = "";
 
     if (snapshot?.contentMain) {
-      // res = md.render(snapshot?.content);
       const contentMain = generateHTML(JSON.parse(snapshot.contentMain), [
         Document,
         Paragraph,
@@ -127,7 +126,7 @@ export async function GET(req: Request) {
           Link,
         ])
 
-        res = `
+        result = `
           <div class='container'>
             <div 
               class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.layout} ${snapshot.settings.fontSize} ${snapshot.settings.spacing} ${snapshot.settings.titleAlignment} ${snapshot.settings.titleAlignment}'
@@ -138,7 +137,7 @@ export async function GET(req: Request) {
           </div>
         `;
       } else {
-        res = `
+        result = `
             <div class='container'>
               <div 
                 class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.fontSize} ${snapshot.settings.spacing} ${snapshot.settings.titleAlignment} ${snapshot.settings.titleAlignment}'
@@ -150,16 +149,28 @@ export async function GET(req: Request) {
       }
     }
 
-    const response = new NextResponse(res);
+    const cvPdf = await generatePdf(
+      pdfTemplate(result)
+    );
 
-    response.headers.set("Content-Type", "text/html; charset=utf-8");
+    return new Response(cvPdf);
 
-    return response;
+    // Create a Blob from the ArrayBuffer
+    // const blob = new Blob([myPdf], { type: "application/pdf" });
+
+    // Create a File from the Blob (you can specify the desired filename here)
+    // const file = new File([blob], firstName + "_" + lastName + ".pdf", {
+    //   type: "application/pdf",
+    // });
+
+    // const response = await utapi.uploadFiles(file);
+
+    // Update in DB
   } catch (err) {
     if (err instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });
     }
 
     return new Response("Could not fetch cv", { status: 500 });
-  }
+  } 
 }

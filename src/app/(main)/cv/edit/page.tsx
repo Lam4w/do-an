@@ -55,7 +55,7 @@ export default function CvPage() {
               <div className="flex flex-col col-span-1 space-y-2">
                 <Skeleton className="w-[100px] h-4" />                  
                 <div className="py-2">
-                  <Skeleton className="w-full h-[550px]" />
+                  <Skeleton className="w-full h-[500px]" />
                 </div>
                 <Skeleton className="w-[300px] h-[40px]" />
               </div>

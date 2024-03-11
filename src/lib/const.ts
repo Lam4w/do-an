@@ -1,3 +1,5 @@
+import { Columns2, PanelLeft, PanelRight } from "lucide-react";
+
 export const markdownSyntax = [
   {
     ele: "Heading 1",
@@ -110,4 +112,19 @@ export const spacingSize = [
   'spacingBase',
   'spacingMd',
   'spacingLg',
+]
+
+export const columnsLayout = [
+  {
+    value: "column-1-2",
+    icon: PanelLeft,
+  },
+  {
+    value: "column-1-1",
+    icon: Columns2,
+  },
+  {
+    value: "column-2-1",
+    icon: PanelRight,
+  }
 ]

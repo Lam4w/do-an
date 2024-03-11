@@ -133,11 +133,79 @@ body {
   line-height: 2;
 }
 
+/* COLLUMN LAYOUT */
+
+/* 1-2 */
+
+.vega.column-1-2 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-row: 1;
+  gap: 20px
+}
+
+.vega.column-1-2 div:nth-child(1) {
+  grid-column: span 1 / span 1;
+}
+
+.vega.column-1-2 div:nth-child(2) {
+  grid-column: span 2 / span 2;
+}
+
+/* 1-1 */
+
+.vega.column-1-1 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-row: 1;
+  gap: 20px
+}
+
+.vega.column-1-1 div:nth-child(1) {
+  grid-column: span 1 / span 1;
+}
+
+.vega.column-1-1 div:nth-child(2) {
+  grid-column: span 1 / span 1;
+}
+
+/* 2 - 1 */
+
+.vega.column-2-1 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-row: 1;
+  gap: 20px
+}
+
+.vega.column-2-1 div:nth-child(1) {
+  grid-column: span 2 / span 2;
+}
+
+.vega.column-2-1 div:nth-child(2) {
+  grid-column: span 1 / span 1;
+}
+
 /* GLOBAL */
+
+.vega hr {
+  width: 50%;
+  margin: 0;
+}
 
 .vega h1 {
   padding-bottom: 5px;
-  border-bottom: 1px solid;
+  position: relative;
+}
+
+.vega h1:after {
+  content: "";
+  background: black;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 50%;
 }
 
 .vega h1 b, .vega h1 strong {
@@ -151,7 +219,17 @@ b, strong {
 .vega h2 {
   padding-bottom: 4px;
   margin-top: 19.2px;
-  border-bottom: 1px solid;
+  position: relative;
+}
+
+.vega h2:after {
+  content: "";
+  background: black;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 50%;
 }
 
 .vega h3 {
@@ -195,8 +273,8 @@ b, strong {
   margin: 0;
 }
 
-.vega td:nth-child(1) {
-  width: 300px;
+.vega td:nth-last-child(1) {
+  text-align: right;
 }
 
 .vega hr {

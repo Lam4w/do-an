@@ -232,7 +232,7 @@ function Editor({
           </div>
         </div>
         <div className="col-span-2">          
-          {settings.layout === 'twoCol' ? (
+          {settings.isSplit ? (
             <ResizablePanelGroup
               direction="horizontal"
               className="w-full"
