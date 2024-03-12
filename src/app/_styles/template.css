@@ -11,6 +11,236 @@ body {
   padding: 0;
 }
 
+/* TEMPLATE 1 */
+
+.indius {
+  padding: 48px;
+}
+
+/* TITLE ALIGNMENT */
+
+/* left */
+
+.indius.alignLeft h1 {
+  text-align: left;
+}
+
+/* center */
+
+.indius.alignCenter h1 {
+  text-align: center;
+}
+
+/* right */
+
+.indius.alignRight h1 {
+  text-align: right;
+}
+
+/*  FONT  */
+
+/* small */
+
+.indius.fontSm h1 {
+  font-size: 48px; 
+}
+
+.indius.fontSm h2 {
+  font-size: 18px;
+}
+
+.indius.fontSm h3 {
+  font-size: 15px;
+}
+
+.indius.fontSm p {
+  font-size: 12px;
+}
+
+/* base */
+
+.indius.fontBase h1 {
+  font-size: 52px; 
+}
+
+.indius.fontBase h2 {
+  font-size: 19.2px;
+}
+
+.indius.fontBase h3 {
+  font-size: 16px;
+}
+
+.indius.fontBase p {
+  font-size: 12.8px;
+}
+
+/* medium */
+
+.indius.fontMd h1 {
+  font-size: 54px; 
+}
+
+.indius.fontMd h2 {
+  font-size: 21.6px;
+}
+
+.indius.fontMd h3 {
+  font-size: 18px;
+}
+
+.indius.fontMd p {
+  font-size: 14.4px;
+}
+
+/* large */
+
+.indius.fontLg h1 {
+  font-size: 55.5px; 
+}
+
+.indius.fontLg h2 {
+  font-size: 24px;
+}
+
+.indius.fontLg h3 {
+  font-size: 20px;
+}
+
+.indius.fontLg p {
+  font-size: 16px;
+}
+
+/* SPACING */
+
+/* small */
+
+.indius.spacingSm {
+  line-height: 1.2;
+}
+
+/* base */
+
+.indius.spacingBase {
+  line-height: 1.5;
+}
+
+/* mdeium */
+
+.indius.spacingMd {
+  line-height: 1.7;
+}
+
+/* large */
+
+.indius.spacingLg {
+  line-height: 2;
+}
+
+/* COLLUMN LAYOUT */
+
+.indius.column-1-2 {
+  padding: 24px;
+}
+
+.indius.column-1-2 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-row: 1;
+}
+
+.indius.column-1-2 div:nth-child(1) {
+  grid-column: span 1 / span 1;
+  margin-block: 24px;
+  padding-inline: 24px 30px;
+  height: 100%;
+  border-right: 2px solid #cea52c;
+}
+
+.indius.column-1-2 div:nth-child(2) {
+  grid-column: span 2 / span 2;
+  margin-block: 24px;
+  padding-inline: 30px 24px;
+}
+
+/* GLOBAL */
+
+.indius hr {
+  border: 1.2px solid #cea52c;
+  margin-block: 24px;
+}
+
+.indius h1 {
+  padding-bottom: 5px;
+  position: relative;
+}
+
+.indius h1 b, .indius h1 strong {
+  font-weight: 700;
+}
+
+b, strong {
+  font-weight: 500;
+}
+
+.indius h2 {
+  padding-bottom: 4px;
+  margin-top: 19.2px;
+  position: relative;
+}
+
+.indius h3 {
+  margin-top: 8px;
+}
+
+.indius p {
+  margin-top: 6.4px;
+  margin-bottom: 0;
+}
+
+.indius ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  padding-left: 20px;
+  margin: 0;
+  display: block;
+}
+
+.indius li {
+  padding-left: 15px;
+}
+
+.indius table {
+  width: 100%;
+}
+
+.indius strong {
+  font-weight: 500;
+}
+
+.indius table td {
+  justify-content: center;
+}
+
+.indius table p {
+  margin: 0;
+}
+
+.indius table h3 {
+  margin: 0;
+}
+
+.indius td:nth-child(1) {
+  width: 40%;
+}
+
+.indius code {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #1b7943;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
 /* TEMPLATE 2 */
 
 /* TITLE ALIGNMENT */

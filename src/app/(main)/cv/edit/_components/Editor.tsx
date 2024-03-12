@@ -238,13 +238,13 @@ function Editor({
               className="w-full"
             >
               <ResizablePanel defaultSize={30} minSize={30}>
-                <div className="pr-2 w-full">
+                <div className="w-full pr-1">
                   <NovelEditor content={contentSide} onChange={onChangeContentSide} />
                 </div>
               </ResizablePanel>  
               <ResizableHandle />
               <ResizablePanel defaultSize={70} minSize={30}>
-                <div className={cn("w-full", settings.layout === 'twoCol' && "pl-2")}>
+                <div className="w-full pl-1">
                   <NovelEditor content={contentMain} onChange={onChangeContentMain} />
                 </div>
               </ResizablePanel>
