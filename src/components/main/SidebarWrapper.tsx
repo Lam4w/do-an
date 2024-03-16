@@ -153,7 +153,7 @@ export default function SidebarWrapper({
                     title: "My page",
                     icon: SquareUser,
                     variant: getPathname(pathName) === "page" ? "default" : "ghost",
-                    action: () => router.push('/')
+                    action: () => router.push('/pages')
                   },
                   {
                     title: "Archive",
