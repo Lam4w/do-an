@@ -1,5 +1,5 @@
 'use client'
-import { useModal } from '@/providers/ModalProvider'
+import { useModal } from '../../providers/ModalProvider'
 import React from 'react'
 import {
   Dialog,

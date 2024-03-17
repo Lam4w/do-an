@@ -8,9 +8,9 @@ import { ScrollArea } from '@/components/ui/ScrollArea'
 import { toast } from '@/hooks/use-toast'
 import { upsertSubPage } from '@/lib/server/queries'
 import { PagesForUserAccount } from '@/lib/types'
-import { useModal } from '@/providers/ModalProvider'
+import { useModal } from '../../../../../providers/ModalProvider'
 import { SubPage } from '@prisma/client'
-import { Check, ExternalLink, LucideEdit } from 'lucide-react'
+import { Check, ExternalLink, LayoutTemplate, LucideEdit } from 'lucide-react'
 import React, { useState } from 'react'
 
 import {
@@ -103,8 +103,8 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
         <aside className="flex-[0.3] bg-background p-6  flex flex-col justify-between ">
           <ScrollArea className="h-full ">
             <div className="flex gap-4 items-center">
-              <Check />
-              Page Steps
+              <LayoutTemplate />
+              Pages
             </div>
             {pagesState.length ? (
               <DragDropContext
@@ -174,7 +174,7 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
                 <CardDescription className="flex flex-col gap-4">
                   <div className="border-2 rounded-lg sm:w-80 w-full  overflow-clip">
                     <Link
-                      href={`pages/${pageId}/editor/${clickedPage?.id}`}
+                      href={`/pages/${pageId}/editor/${clickedPage?.id}`}
                       className="relative group"
                     >
                       <div className="cursor-pointer group-hover:opacity-30 w-full">

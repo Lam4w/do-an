@@ -1,4 +1,4 @@
-import Providers from "@/components/providers/Provider";
+import Providers from "../providers/GlobalProvider";
 import { Toaster } from "@/components/ui/Toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

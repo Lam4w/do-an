@@ -3,7 +3,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import ModalProvider from "@/providers/ModalProvider";
+import ModalProvider from "./ModalProvider";
+import { Toaster } from "sonner";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient();
@@ -11,6 +12,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
+        <Toaster />
         <ModalProvider>
           {children}
         </ModalProvider>
