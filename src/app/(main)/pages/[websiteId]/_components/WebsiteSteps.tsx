@@ -162,7 +162,7 @@ const WebsiteSteps = ({ website, websiteId, pages, ownderId }: WebsiteStepsProps
               )
             }}
           >
-            Create New Steps
+            Create New Pages
           </Button>
         </aside>
         <aside className="flex-[0.7] bg-muted p-4 ">

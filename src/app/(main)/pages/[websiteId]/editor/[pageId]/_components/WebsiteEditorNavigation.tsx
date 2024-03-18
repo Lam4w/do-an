@@ -11,12 +11,11 @@ import {
   TooltipTrigger,
 } from '@/components/ui/Tooltip'
 import { upsertPage } from '@/lib/server/queries'
+import { cn } from '@/lib/utils'
 import { DeviceTypes, useEditor } from '@/providers/pageEditor/PageEditorProvider'
 import { Page } from '@prisma/client'
-import clsx from 'clsx'
 import {
   ArrowLeft,
-  ArrowLeftCircle,
   EyeIcon,
   Laptop,
   Redo2,
@@ -114,9 +113,9 @@ const WebsiteEditorNavigation = ({
   return (
     <TooltipProvider>
       <nav
-        className={clsx(
+        className={cn(
           'border-b-[1px] flex items-center justify-between px-4 py-2 gap-2 transition-all',
-          { '!h-0 !p-0 !overflow-hidden': state.editor.previewMode }
+          state.editor.previewMode && '!h-0 !p-0 !overflow-hidden'
         )}
       >
         <aside className="flex items-center gap-4 max-w-[260px] w-[300px]">

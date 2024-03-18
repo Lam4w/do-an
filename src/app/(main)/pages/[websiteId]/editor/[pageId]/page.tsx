@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation'
 import EditorProvider from '@/providers/pageEditor/PageEditorProvider'
 import React from 'react'
 import { getAuthSession } from '@/lib/auth'
-import PageEditorNavigation from './_components/PageEditorNavigation'
-// import FunnelEditorSidebar from './_components/funnel-editor-sidebar'
+import PageEditorNavigation from './_components/WebsiteEditorNavigation'
+import WebsiteEditorSidebar from './_components/sidebar/WebsiteEditorSidebar'
 // import FunnelEditor from './_components/funnel-editor'
 
 type Props = {
@@ -41,9 +41,9 @@ const pageEditerPage = async ({ params }: Props) => {
         />
         {/* <div className="h-full flex justify-center">
           <FunnelEditor funnelPageId={params.funnelPageId} />
-        </div>
+        </div> */}
 
-        <FunnelEditorSidebar subaccountId={params.subaccountId} /> */}
+        <WebsiteEditorSidebar ownerId={session.user.id} />
       </EditorProvider>
     </div>
   )
