@@ -47,7 +47,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
-  pages         Page[]
+  websites      Website[]
 }
 
 model UserCV {
@@ -83,7 +83,7 @@ type Settings {
   titleAlignment String  @default("center")
 }
 
-model Page {
+model Website {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   createdAt     DateTime    @default(now())
@@ -94,7 +94,7 @@ model Page {
   favicon       String?     @db.String
   ownerId       String      @db.ObjectId
   user          User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  subPages      SubPage[]
+  pages         Page[]
   className     ClassName[]
 
   @@index([ownerId])
@@ -106,14 +106,14 @@ model ClassName {
   color      String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  pageId     String   @db.ObjectId
+  websiteId  String   @db.ObjectId
   customData String?  @db.String
-  page       Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  website    Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
 
-  @@index([pageId])
+  @@index([websiteId])
 }
 
-model SubPage {
+model Page {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   pathName     String   @default("")
@@ -123,8 +123,8 @@ model SubPage {
   content      String?  @db.String
   order        Int
   previewImage String?  @db.String
-  pageId       String   @db.ObjectId
-  page         Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  websiteId    String   @db.ObjectId
+  website      Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
 
-  @@index([pageId])
+  @@index([websiteId])
 }
