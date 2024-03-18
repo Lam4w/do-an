@@ -10,9 +10,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/Tooltip'
-import { upsertSubPage } from '@/lib/server/queries'
+import { upsertPage } from '@/lib/server/queries'
 import { DeviceTypes, useEditor } from '@/providers/pageEditor/PageEditorProvider'
-import { SubPage } from '@prisma/client'
+import { Page } from '@prisma/client'
 import clsx from 'clsx'
 import {
   ArrowLeft,
@@ -29,40 +29,40 @@ import { useRouter } from 'next/navigation'
 import React, { FocusEventHandler, useEffect } from 'react'
 import { toast } from 'sonner'
 
-type Props = {
-  pageId: string
-  subPageDetails: SubPage
+type WebsiteEditorNavigationProps = {
+  websiteId: string
+  pageDetails: Page
   ownerId: string
 }
 
-const FunnelEditorNavigation = ({
-  pageId,
-  subPageDetails,
+const WebsiteEditorNavigation = ({
+  websiteId,
+  pageDetails,
   ownerId,
-}: Props) => {
+}: WebsiteEditorNavigationProps) => {
   const router = useRouter()
   const { state, dispatch } = useEditor()
 
   useEffect(() => {
     dispatch({
-      type: 'SET_SUBPAGE_ID',
-      payload: { subPageId: subPageDetails.id },
+      type: 'SET_PAGE_ID',
+      payload: { pageId: pageDetails.id },
     })
-  }, [subPageDetails])
+  }, [pageDetails])
 
   const handleOnBlurTitleChange: FocusEventHandler<HTMLInputElement> = async (
     event
   ) => {
-    if (event.target.value === subPageDetails.name) return
+    if (event.target.value === pageDetails.name) return
     if (event.target.value) {
-      await upsertSubPage(
+      await upsertPage(
         ownerId,
         {
-          id: subPageDetails.id,
+          id: pageDetails.id,
           name: event.target.value,
-          order: subPageDetails.order,
+          order: pageDetails.order,
         },
-        pageId
+        websiteId
       )
 
       toast('Success', {
@@ -73,7 +73,7 @@ const FunnelEditorNavigation = ({
       toast('Oppse!', {
         description: 'You need to have a title!',
       })
-      event.target.value = subPageDetails.name
+      event.target.value = pageDetails.name
     }
   }
 
@@ -93,13 +93,13 @@ const FunnelEditorNavigation = ({
   const handleOnSave = async () => {
     const content = JSON.stringify(state.editor.elements)
     try {
-      const response = await upsertSubPage(
+      const response = await upsertPage(
         ownerId,
         {
-          ...subPageDetails,
+          ...pageDetails,
           content,
         },
-        pageId
+        websiteId
       )
       toast('Success', {
         description: 'Saved Editor',
@@ -120,17 +120,17 @@ const FunnelEditorNavigation = ({
         )}
       >
         <aside className="flex items-center gap-4 max-w-[260px] w-[300px]">
-          <Link href={`/pages/${pageId}`} className={buttonVariants({ variant: "ghost" })}>
+          <Link href={`/pages/${websiteId}`} className={buttonVariants({ variant: "ghost" })}>
             <ArrowLeft />
           </Link>
           <div className="flex flex-col w-full ">
             <Input
-              defaultValue={subPageDetails.name}
+              defaultValue={pageDetails.name}
               className="border-none h-5 m-0 p-0 text-lg"
               onBlur={handleOnBlurTitleChange}
             />
             <span className="text-sm text-muted-foreground">
-              Path: /{subPageDetails.pathName}
+              Path: /{pageDetails.pathName}
             </span>
           </div>
         </aside>
@@ -226,7 +226,7 @@ const FunnelEditorNavigation = ({
               Publish
             </div>
             <span className="text-muted-foreground text-sm">
-              Last updated {subPageDetails.updatedAt.toLocaleDateString()}
+              Last updated {pageDetails.updatedAt.toLocaleDateString()}
             </span>
           </div>
           <Button onClick={handleOnSave}>Save</Button>
@@ -236,4 +236,4 @@ const FunnelEditorNavigation = ({
   )
 }
 
-export default FunnelEditorNavigation
+export default WebsiteEditorNavigation

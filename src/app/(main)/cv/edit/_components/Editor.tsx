@@ -29,7 +29,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import NovelEditor from "@/components/editor/NovelEditor";
+import NovelEditor from "@/components/textEditor/NovelEditor";
 import { useCreateSnapshot, useUpdateSnapshotContent } from "@/lib/client/queries";
 import { JSONContent } from "novel";
 

@@ -1,23 +1,23 @@
 import { Card, CardContent } from '@/components/ui/Card'
 import { cn } from '@/lib/utils'
-import { SubPage } from '@prisma/client'
+import { Page } from '@prisma/client'
 import { ArrowDown, Mail } from 'lucide-react'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { createPortal } from 'react-dom'
 
 type PageStepCardProps = {
-  subPage: SubPage
+  page: Page
   index: number
   activePage: boolean
 }
 
-const PageStepCard = ({ activePage, subPage, index }: PageStepCardProps) => {
+const WebsiteStepCard = ({ activePage, page, index }: PageStepCardProps) => {
   let portal = document.getElementById('user-page')
 
   return (
     <Draggable
-      draggableId={subPage.id.toString()}
+      draggableId={page.id.toString()}
       index={index}
     >
       {(provided, snapshot) => {
@@ -43,7 +43,7 @@ const PageStepCard = ({ activePage, subPage, index }: PageStepCardProps) => {
               <div className="h-14 w-14 bg-muted flex items-center justify-center rounded-sm">
                 <Mail />
               </div>
-              {subPage.name}
+              {page.name}
             </CardContent>
           </Card>
         )
@@ -57,4 +57,4 @@ const PageStepCard = ({ activePage, subPage, index }: PageStepCardProps) => {
   )
 }
 
-export default PageStepCard
+export default WebsiteStepCard

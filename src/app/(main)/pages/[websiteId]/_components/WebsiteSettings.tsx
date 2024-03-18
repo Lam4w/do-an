@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Page, User } from '@prisma/client'
+import { Website, User } from '@prisma/client'
 import { db } from '@/lib/db'
 
-import PageForm from '@/components/forms/PageForm'
+import WebsiteForm from '@/components/forms/WebsiteForm'
 import {
   Card,
   CardContent,
@@ -12,17 +12,15 @@ import {
   CardTitle,
 } from '@/components/ui/Card'
 
-interface PageSettingsProps {
+interface WebsiteSettingsProps {
   ownerId: string
-  defaultData: Page
+  defaultData: Website
 }
 
-const PageSettings: React.FC<PageSettingsProps> = async ({
+const PageSettings: React.FC<WebsiteSettingsProps> = async ({
   ownerId,
   defaultData,
 }) => {
-  //CHALLENGE: go connect your stripe to sell products
-
   const ownerDetails = await db.user.findUnique({
     where: {
       id: ownerId,
@@ -33,7 +31,7 @@ const PageSettings: React.FC<PageSettingsProps> = async ({
 
   return (
     <div className="flex gap-4 flex-col xl:!flex-row">
-      <PageForm
+      <WebsiteForm
         ownerId={ownerId}
         defaultData={defaultData}
       />

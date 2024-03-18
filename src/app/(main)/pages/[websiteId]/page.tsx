@@ -1,29 +1,28 @@
 import BlurPage from '@/components/global/BlurPage'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { getPage } from '@/lib/server/queries'
+import { getWebsite } from '@/lib/server/queries'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
-import PageSettings from './_components/PageSettings'
-import PageSteps from './_components/PageSteps'
+import WebsiteSettings from './_components/WebsiteSettings'
+import WebsiteSteps from './_components/WebsiteSteps'
 import { Separator } from '@/components/ui/Separator'
 import { getAuthSession } from '@/lib/auth'
 
 type UserPageProps = {
-  params: { pageId: string; ownerId: string }
+  params: { websiteId: string }
 }
 
 const UserPage = async ({ params }: UserPageProps) => {
   const session = await getAuthSession()
-  const pages = await getPage(params.pageId)
+  const website = await getWebsite(params.websiteId)
 
-  if (!pages || !session) return redirect(`/pages`)
+  if (!website || !session) return redirect(`/pages`)
 
   return (
     <div className="overflow-y-scroll h-[100vh]" id="user-page">
-    {/* // <BlurPage> */}
       <div className="flex justify-between items-center py-3 px-10">
-        <h1 className="text-xl font-bold">{pages.name}</h1>
+        <h1 className="text-xl font-bold">{website.name}</h1>
         <Link
           href={`/pages`}
           className="flex justify-between gap-4 text-muted-foreground"
@@ -43,22 +42,21 @@ const UserPage = async ({ params }: UserPageProps) => {
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
           <TabsContent value="steps">
-            <PageSteps
-              page={pages}
+            <WebsiteSteps
+              website={website}
               ownderId={session.user.id}
-              pages={pages.subPages}
-              pageId={params.pageId}
+              pages={website.pages}
+              websiteId={params.websiteId}
             />
           </TabsContent>
           <TabsContent value="settings">
-            <PageSettings
+            <WebsiteSettings
               ownerId={session.user.id}
-              defaultData={pages}
+              defaultData={website}
             />
           </TabsContent>
         </Tabs>
       </div>
-    {/* </BlurPage> */}
     </div>
   )
 }

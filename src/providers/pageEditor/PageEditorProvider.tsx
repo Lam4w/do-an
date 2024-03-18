@@ -1,7 +1,7 @@
 'use client'
 
 import { EditorBtns } from "@/lib/const"
-import { SubPage } from "@prisma/client"
+import { Page } from "@prisma/client"
 import { Dispatch, createContext, useContext, useReducer } from "react"
 import { EditorAction } from "./pageEditorActions"
 
@@ -21,7 +21,7 @@ export type Editor = {
   selectedElement: EditorElement
   device: DeviceTypes
   previewMode: boolean
-  subPageId: string
+  pageId: string
 }
 
 export type HistoryState = {
@@ -54,7 +54,7 @@ const initialEditorState: EditorState['editor'] = {
   device: 'Desktop',
   previewMode: false,
   liveMode: false,
-  subPageId: '',
+  pageId: '',
 }
 
 const initialHistoryState: HistoryState = {
@@ -316,11 +316,11 @@ const editorReducer = (
         },
       }
 
-    case 'SET_SUBPAGE_ID':
-      const { subPageId } = action.payload
+    case 'SET_PAGE_ID':
+      const { pageId } = action.payload
       const updatedEditorStateWithFunnelPageId = {
         ...state.editor,
-        subPageId,
+        pageId,
       }
 
       const updatedHistoryWithFunnelPageId = [
@@ -355,21 +355,21 @@ export const EditorContext = createContext<{
   state: EditorState
   dispatch: Dispatch<EditorAction>
   ownerId: string
-  pageId: string
-  pageDetails: SubPage | null
+  websiteId: string
+  pageDetails: Page | null
 }>({
   state: initialState,
   dispatch: () => undefined,
   ownerId: '',
-  pageId: '',
+  websiteId: '',
   pageDetails: null,
 })
 
 type EditorProps = {
   children: React.ReactNode
   ownerId: string
-  pageId: string
-  pageDetails: SubPage
+  websiteId: string
+  pageDetails: Page
 }
 
 const EditorProvider = (props: EditorProps) => {
@@ -381,7 +381,7 @@ const EditorProvider = (props: EditorProps) => {
         state,
         dispatch,
         ownerId: props.ownerId,
-        pageId: props.pageId,
+        websiteId: props.websiteId,
         pageDetails: props.pageDetails,
       }}
     >

@@ -1,23 +1,23 @@
 import { Prisma } from '@prisma/client'
 import {
-  getPages,
+  getWebsites,
 } from './server/queries'
 import { z } from 'zod'
 
-export const CreatePageFormSchema = z.object({
+export const CreateWebsiteFormSchema = z.object({
   name: z.string().min(1),
   description: z.string(),
   subDomainName: z.string().optional(),
   favicon: z.string().optional(),
 })
 
-export type PagesForUserAccount = Prisma.PromiseReturnType<
-  typeof getPages
+export type WebsitesForUserAccount = Prisma.PromiseReturnType<
+  typeof getWebsites
 >[0]
 
-export type UpsertSubPage = Prisma.SubPageCreateWithoutPageInput
+export type UpsertPage = Prisma.PageCreateWithoutWebsiteInput
 
-export const SubPageSchema = z.object({
+export const PageSchema = z.object({
   name: z.string().min(1),
   pathName: z.string().optional(),
 })

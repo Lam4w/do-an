@@ -1,9 +1,9 @@
-import { getPages } from '@/lib/server/queries'
+import { getWebsites } from '@/lib/server/queries'
 import React from 'react'
-import PagesDataTable from './_components/DataTable'
+import DataTable from './_components/DataTable'
 import { Plus } from 'lucide-react'
 import { Columns } from './_components/Columns'
-import PageForm from '@/components/forms/PageForm'
+import WebsiteForm from '@/components/forms/WebsiteForm'
 import BlurPage from '@/components/global/BlurPage'
 import { getAuthSession } from '@/lib/auth'
 import { Separator } from '@/components/ui/Separator'
@@ -13,7 +13,7 @@ const UserPages = async () => {
 
   if (!session) return null
 
-  const pages = await getPages(session.user.id)
+  const pages = await getWebsites(session.user.id)
 
   console.log(pages)
   if (!pages) return null
@@ -21,22 +21,21 @@ const UserPages = async () => {
   return (
     <>
       <div className="flex justify-between items-center py-3 px-10">
-        <h1 className="text-xl font-bold">My CVs</h1>
-      
+        <h1 className="text-xl font-bold">My Websites</h1>
       </div>
 
       <Separator />
 
       <div className="px-10 mt-8">
-        <PagesDataTable
+        <DataTable
           actionButtonText={
             <>
               <Plus size={15} />
-              Create Funnel
+              Create Website
             </>
           }
           modalChildren={
-            <PageForm ownerId={session.user.id}></PageForm>
+            <WebsiteForm ownerId={session.user.id}></WebsiteForm>
           }
           filterValue="name"
           columns={Columns}

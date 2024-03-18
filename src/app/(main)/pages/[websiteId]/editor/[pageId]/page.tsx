@@ -9,21 +9,21 @@ import PageEditorNavigation from './_components/PageEditorNavigation'
 
 type Props = {
   params: {
+    websiteId: string
     pageId: string
-    subPageId: string
   }
 }
 
 const pageEditerPage = async ({ params }: Props) => {
   const session = await getAuthSession()
-  const subPageDetails = await db.subPage.findFirst({
+  const subPageDetails = await db.page.findFirst({
     where: {
-      id: params.subPageId,
+      id: params.pageId,
     },
   })
   if (!subPageDetails || !session) {
     return redirect(
-      `pages/${params.pageId}`
+      `pages/${params.websiteId}`
     )
   }
 
@@ -31,12 +31,12 @@ const pageEditerPage = async ({ params }: Props) => {
     <div className="fixed inset-0 z-[20] bg-background overflow-hidden">
       <EditorProvider
         ownerId={session.user.id}
-        pageId={params.pageId}
+        websiteId={params.websiteId}
         pageDetails={subPageDetails}
       >
         <PageEditorNavigation
-          pageId={params.pageId}
-          subPageDetails={subPageDetails}
+          websiteId={params.websiteId}
+          pageDetails={subPageDetails}
           ownerId={session.user.id}
         />
         {/* <div className="h-full flex justify-center">

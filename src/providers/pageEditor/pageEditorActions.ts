@@ -59,8 +59,8 @@ export type EditorAction =
       }
     }
   | {
-      type: 'SET_SUBPAGE_ID'
+      type: 'SET_PAGE_ID'
       payload: {
-        subPageId: string
+        pageId: string
       }
     }

@@ -2,171 +2,225 @@
 import React, { useEffect } from 'react'
 import { z } from 'zod'
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../ui/Card'
+import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/Form'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
+} from '../ui/Form'
 import { useForm } from 'react-hook-form'
-import { Page } from '@prisma/client'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '../ui/Input'
-import { Textarea } from '../ui/Textarea'
+
 import { Button } from '../ui/Button'
 import Loading from '../global/Loading'
-import { CreatePageFormSchema } from '@/lib/types'
-import { upsertPage } from '@/lib/server/queries'
-import { toast } from '../../hooks/use-toast'
-import { useModal } from '../../providers/ModalProvider'
+import { useToast } from '../../hooks/use-toast'
+import { Page } from '@prisma/client'
+import { PageSchema } from '@/lib/types'
+import {
+  deletePage,
+  getWebsites,
+  upsertPage,
+} from '@/lib/server/queries'
 import { useRouter } from 'next/navigation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import FileUpload from '../global/FIleUpload'
+import { CopyPlusIcon, Trash } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/Tooltip'
 
-interface CreateFunnelProps {
+interface PageFormProps {
   defaultData?: Page
+  websiteId: string
+  order: number
   ownerId: string
 }
 
-//todo: Use favicons
-
-const FunnelForm: React.FC<CreateFunnelProps> = ({
+const CreateFunnelPage: React.FC<PageFormProps> = ({
   defaultData,
+  websiteId,
+  order,
   ownerId,
 }) => {
-  const { setClose } = useModal()
+  const { toast } = useToast()
   const router = useRouter()
-  const form = useForm<z.infer<typeof CreatePageFormSchema>>({
+  //ch
+  const form = useForm<z.infer<typeof PageSchema>>({
+    resolver: zodResolver(PageSchema),
     mode: 'onChange',
-    resolver: zodResolver(CreatePageFormSchema),
     defaultValues: {
-      name: defaultData?.name || '',
-      description: defaultData?.description || '',
-      favicon: defaultData?.favicon || '',
-      subDomainName: defaultData?.subDomainName || '',
+      name: '',
+      pathName: '',
     },
   })
 
   useEffect(() => {
     if (defaultData) {
-      form.reset({
-        description: defaultData.description || '',
-        favicon: defaultData.favicon || '',
-        name: defaultData.name || '',
-        subDomainName: defaultData.subDomainName || '',
-      })
+      form.reset({ name: defaultData.name, pathName: defaultData.pathName })
     }
   }, [defaultData])
 
-  const isLoading = form.formState.isLoading
+  const onSubmit = async (values: z.infer<typeof PageSchema>) => {
+    if (order !== 0 && !values.pathName)
+      return form.setError('pathName', {
+        message:
+          "Pages other than the first page in the page require a path name example 'secondstep'.",
+      })
+    try {
+      const response = await upsertPage(
+        ownerId,
+        {
+          ...values,
+          id: defaultData?.id || undefined,
+          order: defaultData?.order || order,
+          pathName: values.pathName || '',
+        },
+        websiteId
+      )
 
-  const onSubmit = async (values: z.infer<typeof CreatePageFormSchema>) => {
-    if (!ownerId) return
-    const response = await upsertPage(
-      ownerId,
-      values,
-      defaultData?.id || undefined
-    )
-    if (response)
       toast({
         title: 'Success',
-        description: 'Saved page details',
+        description: 'Saves Funnel Page Details',
       })
-    else
+      router.refresh()
+    } catch (error) {
+      console.log(error)
       toast({
         variant: 'destructive',
         title: 'Oppse!',
-        description: 'Could not save page details',
+        description: 'Could Save Funnel Page Details',
       })
-    setClose()
-    router.refresh()
+    }
   }
+
   return (
-    <Card className="flex-1">
+    <Card>
       <CardHeader>
-        <CardTitle>Page Details</CardTitle>
+        <CardTitle>Page details</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-6"
           >
             <FormField
-              disabled={isLoading}
+              disabled={form.formState.isSubmitting}
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Page Name</FormLabel>
+                <FormItem className="flex-1">
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Name"
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
             <FormField
-              disabled={isLoading}
+              disabled={form.formState.isSubmitting || order === 0}
               control={form.control}
-              name="description"
+              name="pathName"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Page Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us a little bit more about this funnel."
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              disabled={isLoading}
-              control={form.control}
-              name="subDomainName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sub domain</FormLabel>
+                <FormItem className="flex-1">
+                  <FormLabel>Path Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Sub domain for funnel"
+                      placeholder="Path for the page"
                       {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            {/* <FormField
-              disabled={isLoading}
-              control={form.control}
-              name="favicon"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Favicon</FormLabel>
-                  <FormControl>
-                    <FileUpload
-                      apiEndpoint="userLogo"
-                      value={field.value}
-                      onChange={field.onChange}
+                      value={field.value?.toLowerCase()}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
-            <Button
-              className="w-20 mt-4"
-              disabled={isLoading}
-              type="submit"
-            >
-              {form.formState.isSubmitting ? <Loading /> : 'Save'}
-            </Button>
+            />
+            <div className="flex items-center gap-2">
+              <Button
+                className="w-22 self-end"
+                disabled={form.formState.isSubmitting}
+                type="submit"
+              >
+                {form.formState.isSubmitting ? <Loading /> : 'Save Page'}
+              </Button>
+
+              {defaultData?.id && (
+                <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant={'outline'}
+                      className="w-22 self-end border-destructive text-destructive hover:bg-destructive"
+                      disabled={form.formState.isSubmitting}
+                      type="button"
+                      onClick={async () => {
+                        const response = await deletePage(defaultData.id)
+                        router.refresh()
+                      }}
+                    >
+                      {form.formState.isSubmitting ? <Loading /> : <Trash />}
+                    </Button>
+                  </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Delete page</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+              {defaultData?.id && (
+                <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant={'outline'}
+                      size={'icon'}
+                      disabled={form.formState.isSubmitting}
+                      type="button"
+                      onClick={async () => {
+                        const response = await getWebsites(ownerId)
+                        const lastPage = response.find(
+                          (website) => website.id === websiteId
+                        )?.pages.length
+
+                        await upsertPage(
+                          ownerId,
+                          {
+                            ...defaultData,
+                            id: undefined,
+                            order: lastPage ? lastPage : 0,
+                            visits: 0,
+                            name: `${defaultData.name} Copy`,
+                            pathName: `${defaultData.pathName}copy`,
+                            content: defaultData.content,
+                          },
+                          websiteId
+                        )
+                        toast({
+                          title: 'Success',
+                          description: 'Saves Funnel Page Details',
+                        })
+                        router.refresh()
+                      }}
+                    >
+                      {form.formState.isSubmitting ? <Loading /> : <CopyPlusIcon />}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Duplicate page</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              )}
+            </div>
           </form>
         </Form>
       </CardContent>
@@ -174,4 +228,4 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
   )
 }
 
-export default FunnelForm
+export default CreateFunnelPage

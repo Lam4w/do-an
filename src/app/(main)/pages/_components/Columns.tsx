@@ -1,11 +1,11 @@
 'use client'
 import { Badge } from '@/components/ui/Badge'
-import { PagesForUserAccount } from '@/lib/types'
+import { WebsitesForUserAccount } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 
-export const Columns: ColumnDef<PagesForUserAccount>[] = [
+export const Columns: ColumnDef<WebsitesForUserAccount>[] = [
   {
     accessorKey: 'name',
     header: 'Name',

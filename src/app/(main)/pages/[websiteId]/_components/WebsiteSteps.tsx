@@ -1,15 +1,15 @@
 'use client'
 
-import CreateSubPage from '@/components/forms/SubPage'
+import CreatePage from '@/components/forms/PageForm'
 import CustomModal from '@/components/global/CustomModal'
 import { AlertDialog } from '@/components/ui/AlertDialog'
 import { Button } from '@/components/ui/Button'
 import { ScrollArea } from '@/components/ui/ScrollArea'
 import { toast } from '@/hooks/use-toast'
-import { upsertSubPage } from '@/lib/server/queries'
-import { PagesForUserAccount } from '@/lib/types'
+import { upsertPage } from '@/lib/server/queries'
+import { WebsitesForUserAccount } from '@/lib/types'
 import { useModal } from '../../../../../providers/ModalProvider'
-import { SubPage } from '@prisma/client'
+import { Page } from '@prisma/client'
 import { Check, ExternalLink, LayoutTemplate, LucideEdit } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -20,7 +20,7 @@ import {
   Droppable,
 } from 'react-beautiful-dnd'
 import Link from 'next/link'
-import SubPagePlaceholder from '@/components/icons/SubPagePlaceholder'
+import SubPagePlaceholder from '@/components/icons/PagePlaceholder'
 
 import {
   Card,
@@ -28,17 +28,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/Card'
-import FunnelStepCard from './PageStepCard'
+import FunnelStepCard from './WebsiteStepCard'
 
-type PageStepsProps = {
-  page: PagesForUserAccount
+type WebsiteStepsProps = {
+  website: WebsitesForUserAccount
   ownderId: string
-  pages: SubPage[]
-  pageId: string
+  pages: Page[]
+  websiteId: string
 }
 
-const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
-  const [clickedPage, setClickedPage] = useState<SubPage | undefined>(
+const WebsiteSteps = ({ website, websiteId, pages, ownderId }: WebsiteStepsProps) => {
+  const [clickedPage, setClickedPage] = useState<Page | undefined>(
     pages[0]
   )
   const { setOpen } = useModal()
@@ -71,14 +71,14 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
     setPagesState(newPageOrder)
     newPageOrder.forEach(async (page, index) => {
       try {
-        await upsertSubPage(
+        await upsertPage(
           ownderId,
           {
             id: page.id,
             order: index,
             name: page.name,
           },
-          pageId
+          websiteId
         )
       } catch (error) {
         console.log(error)
@@ -128,7 +128,7 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
                           onClick={() => setClickedPage(page)}
                         >
                           <FunnelStepCard
-                            subPage={page}
+                            page={page}
                             index={idx}
                             key={page.id}
                             activePage={page.id === clickedPage?.id}
@@ -153,9 +153,9 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
                   title=" Create or Update a Sub Page"
                   subheading="Funnel Pages allow you to create step by step processes for customers to follow"
                 >
-                  <CreateSubPage
+                  <CreatePage
                     ownerId={ownderId}
-                    pageId={pageId}
+                    websiteId={websiteId}
                     order={pagesState.length}
                   />
                 </CustomModal>
@@ -174,7 +174,7 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
                 <CardDescription className="flex flex-col gap-4">
                   <div className="border-2 rounded-lg sm:w-80 w-full  overflow-clip">
                     <Link
-                      href={`/pages/${pageId}/editor/${clickedPage?.id}`}
+                      href={`/pages/${websiteId}/editor/${clickedPage?.id}`}
                       className="relative group"
                     >
                       <div className="cursor-pointer group-hover:opacity-30 w-full">
@@ -188,22 +188,22 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
 
                     <Link
                       target="_blank"
-                      href={`${process.env.NEXT_PUBLIC_SCHEME}${page.subDomainName}.${process.env.NEXT_PUBLIC_DOMAIN}/${clickedPage?.pathName}`}
+                      href={`${process.env.NEXT_PUBLIC_SCHEME}${website.subDomainName}.${process.env.NEXT_PUBLIC_DOMAIN}/${clickedPage?.pathName}`}
                       className="group flex items-center justify-start p-2 gap-2 hover:text-primary transition-colors duration-200"
                     >
                       <ExternalLink size={15} />
                       <div className="w-64 overflow-hidden overflow-ellipsis ">
                         {process.env.NEXT_PUBLIC_SCHEME}
-                        {page.subDomainName}.{process.env.NEXT_PUBLIC_DOMAIN}/
+                        {website.subDomainName}.{process.env.NEXT_PUBLIC_DOMAIN}/
                         {clickedPage?.pathName}
                       </div>
                     </Link>
                   </div>
 
-                  <CreateSubPage
+                  <CreatePage
                     ownerId={ownderId}
                     defaultData={clickedPage}
-                    pageId={pageId}
+                    websiteId={websiteId}
                     order={clickedPage?.order || 0}
                   />
                 </CardDescription>
@@ -220,4 +220,4 @@ const PageSteps = ({ page, pageId, pages, ownderId }: PageStepsProps) => {
   )
 }
 
-export default PageSteps
+export default WebsiteSteps

@@ -2,25 +2,25 @@
 
 import { z } from "zod"
 import { db } from "../db"
-import { CreatePageFormSchema, UpsertSubPage } from "../types"
+import { CreateWebsiteFormSchema, UpsertPage } from "../types"
 import { revalidatePath } from "next/cache"
 
-export const getPages = async (subacountId: string) => {
-  const pages = await db.page.findMany({
-    where: { ownerId: subacountId },
-    include: { subPages: true },
+export const getWebsites = async (ownerId: string) => {
+  const websites = await db.website.findMany({
+    where: { ownerId: ownerId },
+    include: { pages: true },
   })
 
-  return pages
+  return websites
 }
 
-export const getPage = async (pageId: string) => {
-  const page = await db.page.findUnique({
+export const getWebsite = async (websiteId: string) => {
+  const website = await db.website.findUnique({
     where: { 
-      id: pageId,
+      id: websiteId,
     },
     include: {
-      subPages: {
+      pages: {
         orderBy: {
           order: 'asc',
         },
@@ -28,18 +28,18 @@ export const getPage = async (pageId: string) => {
     },
   })
 
-  return page
+  return website
 }
 
-export const upsertPage = async (
+export const upsertWebsite = async (
   ownerId: string,
-  page:  z.infer<typeof CreatePageFormSchema>,
-  pageId: string | undefined
+  website:  z.infer<typeof CreateWebsiteFormSchema>,
+  websiteId: string | undefined
 ) => {
-  if (pageId === undefined) {
-    const response = await db.page.create({
+  if (websiteId === undefined) {
+    const response = await db.website.create({
       data: {
-        ...page,
+        ...website,
         ownerId: ownerId,
       }
     })
@@ -47,26 +47,26 @@ export const upsertPage = async (
     return response
   }
 
-  const response = await db.page.update({
-    where: { id: pageId },
-    data: page,
+  const response = await db.website.update({
+    where: { id: websiteId },
+    data: website,
   })
 
   return response
 }
 
-export const upsertSubPage = async (
+export const upsertPage = async (
   ownerId: string,
-  subPage: UpsertSubPage,
-  pageId: string
+  page: UpsertPage,
+  websiteId: string
 ) => {
-  if (!ownerId || !pageId) return
-  if (subPage.id === undefined) {
-    const response = await db.subPage.create({
+  if (!ownerId || !websiteId) return
+  if (page.id === undefined) {
+    const response = await db.page.create({
       data: {
-        ...subPage,
-        content: subPage.content
-          ? subPage.content
+        ...page,
+        content: page.content
+          ? page.content
           : JSON.stringify([
               {
                 content: [],
@@ -76,28 +76,28 @@ export const upsertSubPage = async (
                 type: '__body',
               },
             ]),
-        pageId,
+        websiteId,
       }
     })
 
-    revalidatePath(`/pages/${pageId}`, 'page')
+    revalidatePath(`/pages/${websiteId}`, 'page')
     return response 
   }
 
-  let subPageWithoutId = {...subPage}; 
-  delete subPageWithoutId.id;
+  let pageWithoutId = {...page}; 
+  delete pageWithoutId.id;
 
-  const response = await db.subPage.update({
-    where: { id: subPage.id || '' },
-    data: { ...subPageWithoutId },
+  const response = await db.page.update({
+    where: { id: page.id || '' },
+    data: { ...pageWithoutId },
   })
 
-  revalidatePath(`/pages/${pageId}`, 'page')
+  revalidatePath(`/pages/${websiteId}`, 'page')
   return response
 }
 
-export const deleteSubPage = async (subPageId: string) => {
-  const response = await db.subPage.delete({ where: { id: subPageId } })
+export const deletePage = async (pageId: string) => {
+  const response = await db.page.delete({ where: { id: pageId } })
 
   return response
 }
