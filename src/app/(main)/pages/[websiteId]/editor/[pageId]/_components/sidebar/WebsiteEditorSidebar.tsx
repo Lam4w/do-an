@@ -14,9 +14,7 @@ import { useEditor } from '@/providers/pageEditor/PageEditorProvider'
 import React from 'react'
 import TabList from './tabs/Tablist'
 import SettingsTab from './tabs/SettingsTab'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip'
-// import SettingsTab from './tabs/settings-tab'
-// import MediaBucketTab from './tabs/media-bucket-tab'
+import MediaBucketTab from './tabs/MediaBucketTab'
 // import ComponentsTab from './tabs/components-tab'
 
 type WebsiteEditorSidebarProps = {
@@ -65,7 +63,7 @@ const WebsiteEditorSidebar = ({ ownerId }: WebsiteEditorSidebarProps) => {
               <SettingsTab />
             </TabsContent>
             <TabsContent value="Media">
-              {/* <MediaBucketTab subaccountId={subaccountId} /> */}
+              <MediaBucketTab ownerId={ownerId} />/
             </TabsContent>
             <TabsContent value="Components">
               <SheetHeader className="text-left p-6 ">

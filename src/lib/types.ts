@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client'
 import {
+  getMedia,
   getWebsites,
 } from './server/queries'
 import { z } from 'zod'
@@ -21,3 +22,7 @@ export const PageSchema = z.object({
   name: z.string().min(1),
   pathName: z.string().optional(),
 })
+
+export type GetMediaFiles = Prisma.PromiseReturnType<typeof getMedia>
+
+export type CreateMediaType = Prisma.MediaCreateWithoutOwnerInput

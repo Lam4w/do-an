@@ -2,7 +2,7 @@
 
 import { z } from "zod"
 import { db } from "../db"
-import { CreateWebsiteFormSchema, UpsertPage } from "../types"
+import { CreateMediaType, CreateWebsiteFormSchema, UpsertPage } from "../types"
 import { revalidatePath } from "next/cache"
 
 export const getWebsites = async (ownerId: string) => {
@@ -93,11 +93,58 @@ export const upsertPage = async (
   })
 
   revalidatePath(`/pages/${websiteId}`, 'page')
+
   return response
 }
 
 export const deletePage = async (pageId: string) => {
   const response = await db.page.delete({ where: { id: pageId } })
+
+  return response
+}
+
+export const getMedia = async (ownerId: string) => {
+  const mediafiles = await db.user.findUnique({
+    where: {
+      id: ownerId,
+    },
+    include: { media: true },
+  })
+
+  return mediafiles
+}
+
+export const createMedia = async (
+  ownerId: string,
+  mediaFile: CreateMediaType
+) => {
+  const response = await db.media.create({
+    data: {
+      link: mediaFile.link,
+      name: mediaFile.name,
+      ownerId: ownerId,
+    },
+  })
+
+  return response
+}
+
+export const deleteMedia = async (mediaId: string) => {
+  const response = await db.media.delete({
+    where: {
+      id: mediaId,
+    },
+  })
+
+  return response
+}
+
+export const getPageDetails = async (pageId: string) => {
+  const response = await db.page.findUnique({
+    where: {
+      id: pageId,
+    },
+  })
 
   return response
 }

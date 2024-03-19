@@ -15,6 +15,7 @@ import {
   AlignEndVertical,
   AlignHorizontalDistributeStart,
   AlignHorizontalJustifyCenterIcon,
+  AlignHorizontalJustifyEnd,
   AlignHorizontalJustifyEndIcon,
   AlignHorizontalJustifyStart,
   AlignHorizontalSpaceAround,
@@ -24,6 +25,7 @@ import {
   AlignRight,
   AlignStartVertical,
   AlignVerticalJustifyCenter,
+  AlignVerticalJustifyEnd,
   AlignVerticalJustifyStart,
   ChevronsLeftRightIcon,
   LucideImageDown,
@@ -764,13 +766,81 @@ const SettingsTab = () => {
             </Tabs>
           </div>
           <div className='flex flex-col space-y-2 pt-3'>
-            <Label className="text-muted-foreground"> Direction</Label>
-            <Input
-              placeholder="px"
-              id="flexDirection"
-              onChange={handleOnChanges}
-              value={state.editor.selectedElement.styles.flexDirection}
-            />
+            <Label className="text-muted-foreground">Direction</Label>
+            <Tabs
+              onValueChange={(e) =>
+                handleOnChanges({
+                  target: {
+                    id: 'flexDirection',
+                    value: e,
+                  },
+                })
+              }
+              value={state.editor.selectedElement.styles.alignItems}
+            >
+              <TabsList className="flex items-center justify-start flex-row border-[1px] rounded-md bg-transparent h-fit gap-4">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <TabsTrigger
+                        value="row"
+                        className="w-10 h-10 p-0 data-[state=active]:bg-muted "
+                      >
+                        <AlignHorizontalJustifyStart size={18} />
+                      </TabsTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Row</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <TabsTrigger
+                        value="row-reverse"
+                        className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                      >
+                        <AlignHorizontalJustifyEnd size={18} />
+                      </TabsTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Row reverse</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <TabsTrigger
+                        value="column"
+                        className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                      >
+                        <AlignVerticalJustifyStart size={18} />
+                      </TabsTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Column</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <TabsTrigger
+                        value="column-reverse"
+                        className="w-10 h-10 p-0 data-[state=active]:bg-muted "
+                      >
+                        <AlignVerticalJustifyEnd size={18} />
+                      </TabsTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Column reverse</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TabsList>
+            </Tabs>
           </div>
         </AccordionContent>
       </AccordionItem>

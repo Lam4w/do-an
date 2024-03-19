@@ -52,7 +52,7 @@ export default function FileUpload ({ apiEndpoint, onChange, value }: Props) {
   return (
     <div className="w-full bg-muted/30">
       <UploadDropzone
-        endpoint={apiEndpoint}
+        endpoint={"imageUploader"}
         onClientUploadComplete={(res) => {
           onChange(res?.[0].url)
         }}

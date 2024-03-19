@@ -23,7 +23,7 @@ import { toast } from '../../hooks/use-toast'
 import { useModal } from '../../providers/ModalProvider'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import FileUpload from '../global/FIleUpload'
+import FileUpload from '../global/FileUpload'
 
 interface WebsiteFormProps {
   defaultData?: Website

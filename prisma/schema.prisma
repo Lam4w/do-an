@@ -48,6 +48,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   websites      Website[]
+  media         Media[]
 }
 
 model UserCV {
@@ -127,4 +128,17 @@ model Page {
   website      Website  @relation(fields: [websiteId], references: [id], onDelete: Cascade)
 
   @@index([websiteId])
+}
+
+model Media {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String?
+  name      String
+  link      String   @unique
+  ownerId   String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
 }
