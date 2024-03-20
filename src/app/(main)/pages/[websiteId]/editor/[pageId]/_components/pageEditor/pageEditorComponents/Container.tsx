@@ -65,7 +65,7 @@ const Container = ({ element }: ContainerProps) => {
             containerId: id,
             elementDetails: {
               content: {
-                src: 'https://www.youtube.com/embed/A3l6YYkXzzg?si=zbcCeWcpq7Cwf8W1',
+                src: 'https://www.youtube.com/embed/rwIOCoDtHyI?si=ivoY11HweuMFzTek',
               },
               id: v4(),
               name: 'Video',
@@ -175,11 +175,11 @@ const Container = ({ element }: ContainerProps) => {
         'h-full': type === '__body',
         'overflow-scroll ': type === '__body',
         'flex flex-col md:!flex-row': type === '2Col',
-        '!border-blue-500':
+        '!border-emerald-500':
           state.editor.selectedElement.id === id &&
           !state.editor.liveMode &&
           state.editor.selectedElement.type !== '__body',
-        '!border-yellow-400 !border-4':
+        '!border-emerald-600 !border-2':
           state.editor.selectedElement.id === id &&
           !state.editor.liveMode &&
           state.editor.selectedElement.type === '__body',
@@ -217,7 +217,7 @@ const Container = ({ element }: ContainerProps) => {
       {state.editor.selectedElement.id === element.id &&
         !state.editor.liveMode &&
         state.editor.selectedElement.type !== '__body' && (
-          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold  -top-[25px] -right-[1px] rounded-none rounded-t-lg ">
+          <div className="absolute bg-primary text-white px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg">
             <Trash
               size={16}
               onClick={handleDeleteElement}

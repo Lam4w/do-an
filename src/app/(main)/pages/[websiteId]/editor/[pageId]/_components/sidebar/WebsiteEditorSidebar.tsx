@@ -63,9 +63,11 @@ const WebsiteEditorSidebar = ({ ownerId }: WebsiteEditorSidebarProps) => {
               </SheetHeader>
               <SettingsTab />
             </TabsContent>
+
             <TabsContent value="Media">
               <MediaBucketTab ownerId={ownerId} />/
             </TabsContent>
+
             <TabsContent value="Components">
               <SheetHeader className="text-left p-6 ">
                 <SheetTitle>Components</SheetTitle>

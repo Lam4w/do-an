@@ -1,4 +1,5 @@
 import { EditorBtns } from '@/lib/const'
+import { BoxSelect, Columns2 } from 'lucide-react'
 import React from 'react'
 
 type Props = {}
@@ -12,10 +13,12 @@ const TwoColumnsPlaceholder = (props: Props) => {
     <div
       draggable
       onDragStart={(e) => handleDragStart(e, '2Col')}
-      className=" h-14 w-14 bg-muted/70 rounded-lg p-2 flex flex-row gap-[4px]"
+      className="h-14 w-14 bg-muted rounded-lg flex items-center justify-center cursor-grab"
     >
-      <div className="border-dashed border-[1px] h-full rounded-sm bg-muted border-muted-foreground/50 w-full"></div>
-      <div className="border-dashed border-[1px] h-full rounded-sm bg-muted border-muted-foreground/50 w-full"></div>
+      <Columns2 
+        size={40}
+        className="text-muted-foreground"
+      />
     </div>
   )
 }

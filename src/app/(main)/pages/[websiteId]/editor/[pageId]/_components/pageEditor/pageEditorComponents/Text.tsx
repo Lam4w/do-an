@@ -36,7 +36,7 @@ const TextComponent = ({ element }: TextComponentProps) => {
       style={styles}
       className={cn(
         'p-[2px] w-full m-[5px] relative text-[16px] transition-all',
-        state.editor.selectedElement.id === element.id && '!border-blue-500',
+        state.editor.selectedElement.id === element.id && '!border-emerald-500',
         state.editor.selectedElement.id === element.id && '!border-solid',
         !state.editor.liveMode && 'border-dashed border-[1px] border-slate-300',
       )}

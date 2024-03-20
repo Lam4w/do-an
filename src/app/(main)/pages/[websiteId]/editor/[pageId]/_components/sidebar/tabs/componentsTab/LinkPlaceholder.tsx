@@ -13,7 +13,7 @@ const LinkPlaceholder = (props: Props) => {
     <div
       draggable
       onDragStart={(e) => handleDragStart(e, 'link')}
-      className=" h-14 w-14 bg-muted rounded-lg flex items-center justify-center"
+      className="h-14 w-14 bg-muted rounded-lg flex items-center justify-center cursor-grab"
     >
       <Link2Icon
         size={40}

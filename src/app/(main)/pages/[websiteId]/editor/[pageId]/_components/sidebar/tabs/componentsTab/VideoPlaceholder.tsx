@@ -13,7 +13,7 @@ const VideoPlaceholder = (props: Props) => {
     <div
       draggable
       onDragStart={(e) => handleDragStart(e, 'video')}
-      className="h-14 w-14 bg-muted rounded-lg flex items-center justify-center"
+      className="h-14 w-14 bg-muted rounded-lg flex items-center justify-center cursor-grab"
     >
       <Clapperboard
         size={40}

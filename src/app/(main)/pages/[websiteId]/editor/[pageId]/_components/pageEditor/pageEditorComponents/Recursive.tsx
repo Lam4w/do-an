@@ -1,10 +1,9 @@
 import { EditorElement } from '@/providers/pageEditor/PageEditorProvider'
 import React from 'react'
-import TextComponent from './TextComponent'
+import TextComponent from './Text'
 import ContainerComponent from './Container'
-// import VideoComponent from './video'
-// import LinkComponent from './link-component'
-// import ContactFormComponent from './contact-form-component'
+import VideoComponent from './Video'
+import LinkComponent from './Link'
 
 type Props = {
   element: EditorElement
@@ -18,14 +17,12 @@ const Recursive = ({ element }: Props) => {
       return <ContainerComponent element={element} />
     case 'text':
       return <TextComponent element={element} />
-    // case 'video':
-    //   return <VideoComponent element={element} />
-    // case 'contactForm':
-    //   return <ContactFormComponent element={element} />
-    // case '2Col':
-    //   return <Container element={element} />
-    // case 'link':
-    //   return <LinkComponent element={element} />
+    case 'video':
+      return <VideoComponent element={element} />
+    case '2Col':
+      return <ContainerComponent element={element} />
+    case 'link':
+      return <LinkComponent element={element} />
     default:
       return null
   }
