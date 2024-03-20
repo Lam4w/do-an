@@ -148,3 +148,13 @@ export const getPageDetails = async (pageId: string) => {
 
   return response
 }
+
+export const getDomainContent = async (subDomainName: string) => {
+  const response = await db.website.findUnique({
+    where: {
+      subDomainName,
+    },
+    include: { pages: true },
+  })
+  return response
+}
