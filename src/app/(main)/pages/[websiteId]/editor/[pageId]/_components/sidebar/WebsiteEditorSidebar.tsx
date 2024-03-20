@@ -15,6 +15,7 @@ import React from 'react'
 import TabList from './tabs/Tablist'
 import SettingsTab from './tabs/SettingsTab'
 import MediaBucketTab from './tabs/MediaBucketTab'
+import ComponentsTab from './tabs/componentsTab/ComponentsTab'
 // import ComponentsTab from './tabs/components-tab'
 
 type WebsiteEditorSidebarProps = {
@@ -72,7 +73,7 @@ const WebsiteEditorSidebar = ({ ownerId }: WebsiteEditorSidebarProps) => {
                   You can drag and drop components on the canvas
                 </SheetDescription>
               </SheetHeader>
-              {/* <ComponentsTab /> */}
+              <ComponentsTab />
             </TabsContent>
           </div>
         </SheetContent>

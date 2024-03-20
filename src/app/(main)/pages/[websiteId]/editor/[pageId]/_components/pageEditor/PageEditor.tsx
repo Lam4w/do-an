@@ -5,6 +5,7 @@ import { useEditor } from '@/providers/pageEditor/PageEditorProvider'
 import clsx from 'clsx'
 import { EyeOff } from 'lucide-react'
 import React, { useEffect } from 'react'
+import Recursive from './pageEditorComponents/Recursive'
 // import Recursive from './funnel-editor-components/recursive'
 
 type PageEditorProps = { pageId: string; liveMode?: boolean }
@@ -75,11 +76,10 @@ const PageEditor = ({ pageId, liveMode }: PageEditorProps) => {
       )}
       {Array.isArray(state.editor.elements) &&
         state.editor.elements.map((childElement) => (
-          <div className=""></div>
-          // <Recursive
-          //   key={childElement.id}
-          //   element={childElement}
-          // />
+          <Recursive
+            key={childElement.id}
+            element={childElement}
+          />
         ))}
     </div>
   )
