@@ -151,7 +151,7 @@ const WebsiteForm: React.FC<WebsiteFormProps> = ({
                   <FormLabel>Favicon</FormLabel>
                   <FormControl>
                     <FileUpload
-                      apiEndpoint="userLogo"
+                      apiEndpoint="media"
                       value={field.value}
                       onChange={field.onChange}
                     />

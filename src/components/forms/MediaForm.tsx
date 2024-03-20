@@ -97,7 +97,7 @@ const MediaForm = ({ subaccountId }: MediaFormProps) => {
                   <FormLabel>Media File</FormLabel>
                   <FormControl>
                     <FileUpload
-                      apiEndpoint="userLogo"
+                      apiEndpoint="media"
                       value={field.value}
                       onChange={field.onChange}
                     />
