@@ -103,7 +103,7 @@ const Archive = () => {
       </div>
       <Separator />
 
-      <div className="px-10 mt-8">
+      <div className="px-10 mt-8 mb-10">
         {/* display all user CVs */}
         {isLoading && (
           <UserCVCatalogSkeleton />

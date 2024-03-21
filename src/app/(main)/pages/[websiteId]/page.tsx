@@ -8,6 +8,7 @@ import WebsiteSettings from './_components/WebsiteSettings'
 import WebsiteSteps from './_components/WebsiteSteps'
 import { Separator } from '@/components/ui/Separator'
 import { getAuthSession } from '@/lib/auth'
+import { buttonVariants } from '@/components/ui/Button'
 
 type UserPageProps = {
   params: { websiteId: string }
@@ -21,11 +22,11 @@ const UserPage = async ({ params }: UserPageProps) => {
 
   return (
     <div className="overflow-y-scroll h-[100vh]" id="user-page">
-      <div className="flex justify-between items-center py-3 px-10">
+      <div className="flex justify-between items-center pt-2 pb-1 px-10">
         <h1 className="text-xl font-bold">{website.name}</h1>
         <Link
           href={`/pages`}
-          className="flex justify-between gap-4 text-muted-foreground"
+          className={buttonVariants()}
         >
           Back
         </Link>

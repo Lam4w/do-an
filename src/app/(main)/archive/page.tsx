@@ -10,7 +10,7 @@ async function ArchivePage() {
   }
 
   return (
-    <div className="">
+    <div className="h-[102vh] overflow-scroll">
       <Archive />
     </div>
   );

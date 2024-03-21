@@ -3,12 +3,12 @@
 import {
   slashCommand,
   suggestionItems,
-} from "@/components/editor/SlashCommand";
-import { ColorSelector } from "@/components/editor/selectors/ColorSelector";
-import { LinkSelector } from "@/components/editor/selectors/LinkSelector";
-import { NodeSelector } from "@/components/editor/selectors/NodeSelector";
-import { TextAlignButtons } from "@/components/editor/selectors/TextAlignButtons";
-import { TextButtons } from "@/components/editor/selectors/TextButtons";
+} from "@/components/textEditor/SlashCommand";
+import { ColorSelector } from "@/components/textEditor/selectors/ColorSelector";
+import { LinkSelector } from "@/components/textEditor/selectors/LinkSelector";
+import { NodeSelector } from "@/components/textEditor/selectors/NodeSelector";
+import { TextAlignButtons } from "@/components/textEditor/selectors/TextAlignButtons";
+import { TextButtons } from "@/components/textEditor/selectors/TextButtons";
 import { Separator } from "@/components/ui/Separator";
 import { defaultEditorContent } from "@/lib/editor/content";
 import { defaultExtensions } from "@/lib/editor/extensions";
