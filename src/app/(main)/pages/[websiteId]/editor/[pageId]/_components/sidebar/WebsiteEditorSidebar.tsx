@@ -53,7 +53,7 @@ const WebsiteEditorSidebar = ({ ownerId }: WebsiteEditorSidebarProps) => {
             state.editor.previewMode && 'hidden'
           )}
         >
-          <div className="grid gap-4 h-full pb-36 overflow-scroll">
+          <div className="grid gap-4 h-full pb-16 overflow-scroll">
             <TabsContent value="Settings">
               <SheetHeader className="text-left p-6">
                 <SheetTitle>Styles</SheetTitle>
@@ -65,7 +65,7 @@ const WebsiteEditorSidebar = ({ ownerId }: WebsiteEditorSidebarProps) => {
             </TabsContent>
 
             <TabsContent value="Media">
-              <MediaBucketTab ownerId={ownerId} />/
+              <MediaBucketTab ownerId={ownerId} />
             </TabsContent>
 
             <TabsContent value="Components">

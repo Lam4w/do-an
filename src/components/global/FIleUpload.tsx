@@ -44,7 +44,7 @@ export default function FileUpload ({ apiEndpoint, onChange, value }: Props) {
           type="button"
         >
           <X className="h-4 w-4" />
-          Remove Logo
+          Remove file
         </Button>
       </div>
     )

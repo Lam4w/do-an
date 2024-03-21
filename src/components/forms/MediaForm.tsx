@@ -80,7 +80,7 @@ const MediaForm = ({ subaccountId }: MediaFormProps) => {
                   <FormLabel>File Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Your agency name"
+                      placeholder="Your file name"
                       {...field}
                     />
                   </FormControl>

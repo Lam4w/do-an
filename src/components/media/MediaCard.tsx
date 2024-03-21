@@ -83,8 +83,7 @@ const MediaCard = ({ file }: Props) => {
             Are you absolutely sure?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-left">
-            Are you sure you want to delete this file? All subaccount using this
-            file will no longer have access to it!
+            Are you sure you want to delete this file? This will permanently delete your file and remove your file from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex items-center">

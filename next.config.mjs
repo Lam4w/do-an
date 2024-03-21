@@ -8,6 +8,12 @@ const nextConfig = {
       {
         hostname: "*.utfs.io",
       },
+      {
+        hostname: "utfs.io",
+      },
+      {
+        hostname: "uploadthing.com",
+      }
     ],
   },
   reactStrictMode: false,
