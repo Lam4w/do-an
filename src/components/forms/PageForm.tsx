@@ -85,7 +85,7 @@ const CreateFunnelPage: React.FC<PageFormProps> = ({
 
       toast({
         title: 'Success',
-        description: 'Saves Funnel Page Details',
+        description: 'Page Details saved',
       })
       router.refresh()
     } catch (error) {
@@ -93,7 +93,7 @@ const CreateFunnelPage: React.FC<PageFormProps> = ({
       toast({
         variant: 'destructive',
         title: 'Oppse!',
-        description: 'Could Save Funnel Page Details',
+        description: 'Could not save page Details',
       })
     }
   }

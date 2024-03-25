@@ -39,9 +39,9 @@ export default async function middleware(req: NextRequest) {
     )
   }
 
-  if (url.pathname === '/sign-in' || url.pathname === '/sign-up') {
-    return NextResponse.redirect(new URL(`/sign-in`, req.url))
-  }
+  // if (url.pathname === '/sign-in' || url.pathname === '/sign-up') {
+  //   return NextResponse.redirect(new URL(`/sign-in`, req.url))
+  // }
 
   if (
     url.pathname === '/' ||

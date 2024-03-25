@@ -45,10 +45,16 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  websites      Website[]
-  media         Media[]
+
+  stripeCustomerId       String?   @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @map(name: "stripe_subscription_id")
+  stripePriceId          String?   @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+
+  accounts     Account[]
+  sessions     Session[]
+  websites     Website[]
+  media        Media[]
 }
 
 model UserCV {

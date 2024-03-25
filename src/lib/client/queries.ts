@@ -378,3 +378,28 @@ export const useDeleteCv = () => {
     },
   });
 }
+
+export const useCreateStripeSession = () => {
+  const router = useRouter()
+
+  return useMutation({
+    mutationFn: async () => {
+      const { data } = await axios.post("/api/stripe");
+
+      return data as { url: string };
+    },
+    onError: (err) => {
+      console.log(err)
+      toast({
+        title: "There was an error",
+        description: "please try again later.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: (data : { url: string }) => {
+      const { url } = data;
+
+      window.location.href = url ?? "/billing"
+    }
+  });
+}

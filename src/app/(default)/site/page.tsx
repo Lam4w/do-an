@@ -106,10 +106,14 @@ export default async function HomePage() {
         <div className="mb-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
             <h2 className="mt-2 font-bold text-4xl text-gray-900 sm:text-5xl">
-              Start creatting in minutes
+              Start creating in minutes
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Making your CV has never been easier nad faster than with CVdown.
+              Making CV has never been {" "}
+              <span className="font-bold">easier</span>
+              {" "} and  {" "}
+              <span className="font-bold">faster</span>
+              {" "} than with CVdown.
             </p>
           </div>
         </div>
@@ -151,7 +155,7 @@ export default async function HomePage() {
                 Start making your CV
               </span>
               <span className="mt-2 text-zinc-700">
-                It&apos;s taht simple. Try out CVdown today - it really takes
+                It&apos;s that simple. Try out CVdown today - it really takes
                 less than a minute.
               </span>
             </div>
@@ -162,7 +166,7 @@ export default async function HomePage() {
           <div className="mt-16 flow-root sm:mt-24">
             <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
               <Image
-                src="/file-upload-preview.jpg"
+                src="/mockup-design.jpg"
                 alt="product-preview"
                 width={1419}
                 height={732}

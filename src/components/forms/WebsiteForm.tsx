@@ -72,13 +72,13 @@ const WebsiteForm: React.FC<WebsiteFormProps> = ({
     if (response)
       toast({
         title: 'Success',
-        description: 'Saved page details',
+        description: 'Saved website details',
       })
     else
       toast({
         variant: 'destructive',
         title: 'Oppse!',
-        description: 'Could not save page details',
+        description: 'Could not save website details',
       })
     setClose()
     router.refresh()
@@ -86,7 +86,7 @@ const WebsiteForm: React.FC<WebsiteFormProps> = ({
   return (
     <Card className="flex-1">
       <CardHeader>
-        <CardTitle>Page Details</CardTitle>
+        <CardTitle>Website Details</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -100,7 +100,7 @@ const WebsiteForm: React.FC<WebsiteFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Page Name</FormLabel>
+                  <FormLabel>Website Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Name"
@@ -116,10 +116,10 @@ const WebsiteForm: React.FC<WebsiteFormProps> = ({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Page Description</FormLabel>
+                  <FormLabel>Website Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Tell us a little bit more about this funnel."
+                      placeholder="What is this website about?"
                       {...field}
                     />
                   </FormControl>

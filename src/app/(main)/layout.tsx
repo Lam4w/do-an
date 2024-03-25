@@ -1,6 +1,5 @@
 import SidebarWrapper from "@/components/main/SidebarWrapper";
 import { getAuthSession } from "@/lib/auth";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
