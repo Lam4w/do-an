@@ -26,7 +26,7 @@ import TableHeader from "@tiptap/extension-table-header";
 import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
 
-export async function GET(req: Request) {
+export async function POST(req: Request) {
   try {
     const url = new URL(req.url);
 
@@ -153,7 +153,13 @@ export async function GET(req: Request) {
       pdfTemplate(result)
     );
 
-    return new Response(cvPdf);
+    const response = new NextResponse(cvPdf);
+
+    response.headers.set("Content-Type", "application/pdf");
+
+    return response;
+
+    // return new Response(cvPdf);
 
     // Create a Blob from the ArrayBuffer
     // const blob = new Blob([myPdf], { type: "application/pdf" });

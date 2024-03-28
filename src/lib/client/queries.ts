@@ -403,3 +403,33 @@ export const useCreateStripeSession = () => {
     }
   });
 }
+
+export const useCreatePDF = () => {
+  return useMutation({
+    mutationFn: async (pdfLink: string) => {
+      const { data } = await axios.post(pdfLink, {
+        responseType: 'arraybuffer',
+        headers: {
+          'Accept': 'application/pdf'
+        }
+      })
+
+      return data;
+    },
+    onError: (err) => {
+      console.log(err)
+      toast({
+        title: "There was an error",
+        description: "please try again later.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: (response) => {
+      const blob = new Blob([response.data], {type: 'application/pdf'})
+      const link = document.createElement('a')
+      link.href = window.URL.createObjectURL(blob)
+      link.download = `generated_cv.pdf`
+      link.click()
+    }
+  });
+}

@@ -1,14 +1,16 @@
 "use client"
 
+import Loading from "@/components/global/Loading";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Label } from "@/components/ui/Label";
 import { Separator } from "@/components/ui/Separator";
 import { Slider } from "@/components/ui/Slider";
-import { useUpdateSnapshotSettings } from "@/lib/client/queries";
+import { useCreatePDF, useUpdateSnapshotSettings } from "@/lib/client/queries";
 import { columnsLayout, defaultColors, designTemplates, fontSize, spacingSize, titleAlignment } from "@/lib/const";
 import { cn } from "@/lib/utils";
 import { Settings, Snapshot } from "@prisma/client";
-import { Check, Columns2, PanelLeft, PanelRight, RotateCw } from "lucide-react";
+import axios from "axios";
+import { Check, Columns2, Loader, PanelLeft, PanelRight, RotateCw } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -29,7 +31,25 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
       (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
   );
   const { mutate: updateContent, isPending, isSuccess } = useUpdateSnapshotSettings()
+  const { mutate: createPDF, isPending : isCreatePDFPending } = useCreatePDF()
   const pdfLink = `http://localhost:3000/api/cv/pdf?cv=${snapshot.cvId}` + (!!snapshot.id ? `&snapshot=${snapshot.id}` : "")
+
+  const savePDF = () => {
+    axios.get(pdfLink, {
+      responseType: 'arraybuffer',
+      headers: {
+        'Accept': 'application/pdf'
+      }
+    })
+      .then((response) => {
+        const blob = new Blob([response.data], {type: 'application/pdf'})
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = `your-file-name.pdf`
+        link.click()
+      })
+      .catch(err => console.log(err))
+  }
 
   const applyScaling = (
     scaledWrapper: HTMLDivElement,
@@ -110,15 +130,15 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
         </div>
       </div>
       <div className="col-span-1 relative">
-        <a 
-          href={pdfLink} 
-          // target="_blank"
-          download="generated_pdf.pdf" 
-          className={cn("w-full mb-4", buttonVariants())}
+        <Button 
+          className="w-full mb-4" 
+          onClick={() => createPDF(pdfLink)} 
+          disabled={isCreatePDFPending}
         >
-          PDF Downloads
-        </a>
-        {/* <Button className="w-full mb-4" disabled >PDF Downloads</Button> */}
+          {isCreatePDFPending ? (
+            <Loader className="h-6 w-6 animate-spin" />
+          ) : 'PDF Downloads'}
+        </Button>
         <div className="rounded-sm sticky bg-white top-0 p-4">
           <div className="flex flex-col space-y-2">
             <Label className="uppercase font-bold text-muted-foreground">

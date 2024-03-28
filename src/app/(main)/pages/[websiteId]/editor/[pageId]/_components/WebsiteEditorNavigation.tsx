@@ -189,33 +189,40 @@ const WebsiteEditorNavigation = ({
           </Tabs>
         </aside>
         <aside className="flex items-center gap-2">
-          <Button
-            variant={'ghost'}
-            size={'icon'}
-            onClick={handlePreviewClick}
-          >
-            <EyeIcon />
-          </Button>
-          <Button
-            disabled={!(state.history.currentIndex > 0)}
-            onClick={handleUndo}
-            variant={'ghost'}
-            size={'icon'}
-          >
-            <Undo2 />
-          </Button>
-          <Button
-            disabled={
-              !(state.history.currentIndex < state.history.history.length - 1)
-            }
-            onClick={handleRedo}
-            variant={'ghost'}
-            size={'icon'}
-            className="mr-4"
-          >
-            <Redo2 />
-          </Button>
-          <div className="flex flex-col item-center mr-4">
+          <div className="flex flex-col w-full pr-5">
+            <div className="w-full flex items-center space-x-2">
+              <Button
+                variant={'ghost'}
+                size={'icon'}
+                onClick={handlePreviewClick}
+              >
+                <EyeIcon />
+              </Button>
+              <Button
+                disabled={!(state.history.currentIndex > 0)}
+                onClick={handleUndo}
+                variant={'ghost'}
+                size={'icon'}
+              >
+                <Undo2 />
+              </Button>
+              <Button
+                disabled={
+                  !(state.history.currentIndex < state.history.history.length - 1)
+                }
+                onClick={handleRedo}
+                variant={'ghost'}
+                size={'icon'}
+                className="mr-4"
+              >
+                <Redo2 />
+              </Button>
+            </div>
+            <span className="text-muted-foreground text-xs">
+              Last updated {pageDetails.updatedAt.toLocaleDateString()}
+            </span>
+          </div>
+          {/* <div className="flex flex-col item-center mr-4">
             <div className="flex flex-row items-center gap-4">
               Draft
               <Switch
@@ -227,7 +234,7 @@ const WebsiteEditorNavigation = ({
             <span className="text-muted-foreground text-sm">
               Last updated {pageDetails.updatedAt.toLocaleDateString()}
             </span>
-          </div>
+          </div> */}
           <Button onClick={handleOnSave}>Save</Button>
         </aside>
       </nav>

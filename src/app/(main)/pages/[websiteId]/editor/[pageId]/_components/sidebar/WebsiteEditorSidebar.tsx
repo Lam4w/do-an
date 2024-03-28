@@ -38,7 +38,7 @@ const WebsiteEditorSidebar = ({ ownerId }: WebsiteEditorSidebarProps) => {
           // showX={false}
           side="right"
           className={cn(
-            'mt-[65px] w-16 z-[80] shadow-none px-0 pb-0 pt-1 focus:border-none transition-all overflow-hidden',
+            'mt-[70px] w-16 z-[80] shadow-none px-0 pb-0 pt-1 focus:border-none transition-all overflow-hidden',
             state.editor.previewMode && 'hidden'
           )}
         >
@@ -49,7 +49,7 @@ const WebsiteEditorSidebar = ({ ownerId }: WebsiteEditorSidebarProps) => {
           // showX={false}
           side="right"
           className={cn(
-            'mt-[65px] w-80 z-[40] shadow-none px-0 pb-0 pt-1 mr-16 bg-background h-full transition-all overflow-hidden ',
+            'mt-[70px] w-80 z-[40] shadow-none px-0 pb-0 pt-1 mr-16 bg-background h-full transition-all overflow-hidden ',
             state.editor.previewMode && 'hidden'
           )}
         >
