@@ -104,10 +104,6 @@ export const defaultColors = [
     value: "pink"
   },
   {
-    color: "#E362E3",
-    value: "pink"
-  },
-  {
     color: "#8DA3A6",
     value: "gray"
   },

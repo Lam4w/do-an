@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import "../_styles/template.css";
 import Head from "next/head";
 
 export default function HtmlPage() {
