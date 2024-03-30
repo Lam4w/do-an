@@ -30,15 +30,15 @@ const tiptapLink = TiptapLink.configure({
 const tiptapImage = TiptapImage.extend({
   addProseMirrorPlugins() {
     return [
-        UploadImagesPlugin({
-            imageClass: cx("opacity-40 rounded-lg border border-stone-200"),
-        }),
+      UploadImagesPlugin({
+          imageClass: cx("opacity-40 rounded-lg border border-stone-200"),
+      }),
     ];
   },
   }).configure({
   allowBase64: true,
   HTMLAttributes: {
-      class: cx("rounded-lg border border-muted"),
+      class: cx("rounded-lg border border-muted object-cover w-[200px] h-[200px]"),
   },
 });
 
