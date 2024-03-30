@@ -71,18 +71,50 @@ export const titleAlignment = [
 ]
 
 export const defaultColors = [
-  "#E8384F",
-  "#E74C3C",
-  "#E67E22",
-  "#F1C40F",
-  "#A4CF30",
-  "#2ECC71", 
-  "#1ABC9C",
-  "#016EF1",
-  "#7A6FF0",
-  "#E362E3",
-  "#8DA3A6",
-  "#222222",
+  {
+    color: "#E8384F",
+    value: "red"
+  },
+  {
+    color: "#E67E22",
+    value: "orange"
+  },
+  {
+    color: "#F1C40F",
+    value: "yellow"
+  },
+  {
+    color: "#A4CF30",
+    value: "green"
+  },
+  {
+    color: "#1ABC9C",
+    value: "cyan"
+  },
+  {
+    color: "#016EF1",
+    value: "blue"
+  },
+  {
+    color: "#7A6FF0",
+    value: "purple"
+  },
+  {
+    color: "#E362E3",
+    value: "pink"
+  },
+  {
+    color: "#E362E3",
+    value: "pink"
+  },
+  {
+    color: "#8DA3A6",
+    value: "gray"
+  },
+  {
+    color: "#222222",
+    value: "black"
+  },
 ]
 
 export const defaultContent = JSON.stringify({

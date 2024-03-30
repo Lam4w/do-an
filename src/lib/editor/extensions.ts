@@ -29,12 +29,16 @@ const tiptapLink = TiptapLink.configure({
 
 const tiptapImage = TiptapImage.extend({
   addProseMirrorPlugins() {
-    return [UploadImagesPlugin()];
+    return [
+        UploadImagesPlugin({
+            imageClass: cx("opacity-40 rounded-lg border border-stone-200"),
+        }),
+    ];
   },
-}).configure({
+  }).configure({
   allowBase64: true,
   HTMLAttributes: {
-    class: cx("rounded-lg border border-muted"),
+      class: cx("rounded-lg border border-muted"),
   },
 });
 
@@ -116,6 +120,7 @@ const textAlign = TextAlign.configure({
 });
 
 export const defaultExtensions = [
+  tiptapImage,
   starterKit,
   placeholder,
   tiptapLink,

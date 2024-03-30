@@ -25,6 +25,7 @@ import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image"
 
 export async function GET(req: Request) {
   try {
@@ -102,6 +103,7 @@ export async function GET(req: Request) {
         TableHeader,
         Code,
         Link,
+        Image,
       ])
 
       if (snapshot?.contentSide && snapshot.settings.isSplit) {
@@ -125,12 +127,13 @@ export async function GET(req: Request) {
           TableHeader,
           Code,
           Link,
+          Image,
         ])
 
         res = `
           <div class='container'>
             <div 
-              class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.layout} ${snapshot.settings.fontSize} ${snapshot.settings.spacing} ${snapshot.settings.titleAlignment} ${snapshot.settings.titleAlignment}'
+              class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.layout} ${snapshot.settings.fontSize} ${snapshot.settings.spacing} ${snapshot.settings.titleAlignment} ${snapshot.settings.titleAlignment} ${snapshot.settings.color}'
             >
               <div>${contentSide}</div>
               <div>${contentMain}</div>
@@ -141,7 +144,7 @@ export async function GET(req: Request) {
         res = `
             <div class='container'>
               <div 
-                class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.fontSize} ${snapshot.settings.spacing} ${snapshot.settings.titleAlignment} ${snapshot.settings.titleAlignment}'
+                class='${snapshot.settings.template.toLowerCase()} ${snapshot.settings.fontSize} ${snapshot.settings.spacing} ${snapshot.settings.titleAlignment} ${snapshot.settings.titleAlignment} ${snapshot.settings.color}'
               >
                 ${contentMain}
               </div>

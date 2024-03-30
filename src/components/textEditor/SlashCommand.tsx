@@ -13,7 +13,10 @@ import {
   TextQuote,
 } from "lucide-react";
 import { Command, createSuggestionItems, renderItems } from "novel/extensions";
-import { startImageUpload } from "novel/plugins";
+import { uploadFn } from "./imageUpload";
+import { uploadFiles } from "@/lib/uploadthing";
+import { createImageUpload } from "novel/plugins";
+import { toast } from "sonner";
 
 export const suggestionItems = createSuggestionItems([
   // {
@@ -199,7 +202,8 @@ export const suggestionItems = createSuggestionItems([
         if (input.files?.length) {
           const file = input.files[0];
           const pos = editor.view.state.selection.from;
-          startImageUpload(file, editor.view, pos);
+
+          uploadFn(file, editor.view, pos)
         }
       };
       input.click();

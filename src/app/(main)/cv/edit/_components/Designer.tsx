@@ -171,18 +171,18 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
             <div className="flex gap-2 flex-wrap py-1">
               {defaultColors.map((c, i) => (
                 <div
-                  onClick={() => setSettings("color", c)}
+                  onClick={() => setSettings("color", c.value)}
                   key={i}
                   className={cn(
                     buttonVariants({ size: "sm" }),
                     "cursor-pointer aspect-square relative"
                   )}
-                  style={{ backgroundColor: c }}
+                  style={{ backgroundColor: c.color }}
                 >
                   <Check
                     className={cn(
                       "w-6 h-6 text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                      settings.color === c ? "block" : "hidden"
+                      settings.color === c.value ? "block" : "hidden"
                     )}
                   />
                 </div>

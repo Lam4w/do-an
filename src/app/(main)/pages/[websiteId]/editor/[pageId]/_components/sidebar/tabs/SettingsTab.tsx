@@ -436,6 +436,61 @@ const SettingsTab = () => {
               className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
             />
           </div>
+          <div className="flex flex-col gap-2">
+            <Label className="text-muted-foreground">Border Color</Label>
+            <div className="flex border-[1px] rounded-md overflow-clip">
+              <div
+                className="w-12 "
+                style={{
+                  backgroundColor:
+                    state.editor.selectedElement.styles.borderColor,
+                }}
+              />
+              <Input
+                placeholder="#HFI245"
+                className="!border-y-0 rounded-none !border-r-0 mr-2"
+                id="borderColor"
+                onChange={handleOnChanges}
+                value={state.editor.selectedElement.styles.borderColor}
+              />
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <div className='flex flex-col space-y-2'>
+              <Label className="text-muted-foreground">Border Styles</Label>
+              <Select
+                onValueChange={(e) =>
+                  handleOnChanges({
+                    target: {
+                      id: 'border-style',
+                      value: e,
+                    },
+                  })
+                }
+              >
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder="Select a style" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Styles</SelectLabel>
+                    <SelectItem value="dotted">Dotted</SelectItem>
+                    <SelectItem value="dashed">Dashed</SelectItem>
+                    <SelectItem value="solid">Solid</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className='flex flex-col space-y-2'>
+              <Label className="text-muted-foreground">Border width</Label>
+              <Input
+                placeholder="px"
+                id="borderWidth"
+                onChange={handleOnChanges}
+                value={state.editor.selectedElement.styles.borderWidth}
+              />
+            </div>
+          </div>
           <div>
             <Label className="text-muted-foreground">Border Radius</Label>
             <div className="flex items-center justify-end">

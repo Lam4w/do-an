@@ -13,19 +13,20 @@ import { Separator } from "@/components/ui/Separator";
 import { defaultEditorContent } from "@/lib/editor/content";
 import { defaultExtensions } from "@/lib/editor/extensions";
 import {
-  Editor,
+  EditorInstance,
   EditorBubble,
   EditorCommand,
   EditorCommandEmpty,
   EditorCommandItem,
   EditorContent,
   EditorRoot,
-  defaultEditorProps,
   type JSONContent,
 } from "novel";
 import { ImageResizer } from "novel/extensions";
+import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { uploadFn } from "./imageUpload";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -42,7 +43,7 @@ function NovelEditor({ content, onChange } : NovelEditorProps) {
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
 
-  const debouncedUpdates = useDebouncedCallback(async (editor: Editor) => {
+  const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     // window.localStorage.setItem("novel-content", JSON.stringify(json));
     onChange(json)
@@ -70,9 +71,12 @@ function NovelEditor({ content, onChange } : NovelEditorProps) {
           extensions={extensions}
           className="relative min-h-full w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg p-5"
           editorProps={{
-            ...defaultEditorProps,
+            handlePaste: (view, event) =>
+              handleImagePaste(view, event, uploadFn),
+            handleDrop: (view, event, _slice, moved) =>
+              handleImageDrop(view, event, moved, uploadFn),
             attributes: {
-              class: `prose-lg prose-stone dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
+              class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
             },
           }}
           onUpdate={({ editor }) => {

@@ -86,7 +86,7 @@ type Settings {
   template       String  @default("Indius")
   spacing        String  @default("spacingBase")
   fontSize       String  @default("fontBase")
-  color          String  @default("#000000")
+  color          String  @default("#222222")
   titleAlignment String  @default("center")
 }
 
