@@ -1,23 +1,16 @@
 "use client";
 
-import { toast } from "@/hooks/use-toast";
-import { CvDeleteRequest, CvEditRequest } from "@/lib/validators/cv";
+import { useArchiveCv, useDeleteCv, useEditCv } from "@/lib/client/queries";
+import { cn } from "@/lib/utils";
 import { UserCV } from "@prisma/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
 import { format } from "date-fns";
-import { Archive, ArchiveRestore, Ghost, MoreVertical, Pencil, Split, Trash } from "lucide-react";
-import Link from "next/link";
+import { Ghost, MoreVertical, Split } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Button, buttonVariants } from "../ui/Button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/DropdownMenu";
+import { Separator } from "../ui/Separator";
 import CVModal from "./CVModal";
 import DeleteModal from "./ComfirmationModal";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/Tooltip";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/DropdownMenu";
-import { Button, buttonVariants } from "../ui/Button";
-import { cn } from "@/lib/utils";
-import { Separator } from "../ui/Separator";
-import useSnapshotContent from "@/lib/store";
-import { useArchiveCv, useDeleteCv, useEditCv } from "@/lib/client/queries";
 
 interface UserCvProps {
   cvs: UserCV[];

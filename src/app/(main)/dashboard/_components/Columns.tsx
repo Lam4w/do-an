@@ -1,13 +1,16 @@
 "use client"
 
+import CVModal from "@/components/main/CVModal"
 import { Button } from "@/components/ui/Button"
 import { Checkbox } from "@/components/ui/Checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/DropdownMenu"
+import { useArchiveCv, useEditCv } from "@/lib/client/queries"
 import { UserCV } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { format, parseISO } from "date-fns"
 import { ArrowDownUp, MoreHorizontal } from "lucide-react"
 import Link from "next/link"
+import DeleteModal from "@/components/main/ComfirmationModal";
 
 export const columns: ColumnDef<UserCV>[] = [
   {
@@ -75,6 +78,16 @@ export const columns: ColumnDef<UserCV>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const cv = row.original
+      const { mutate: editCv, isPending: isEditPending, isSuccess: isSuccessEdit } = useEditCv()
+      const { mutate: archiveCv, isPending: isArchivePending, isSuccess: isSuccessArchive } = useArchiveCv()
+
+      const onEdit = (title: string, id: string) => {
+        editCv({ title, id })
+      };
+    
+      const onArchive = (cvId: string) => {
+        archiveCv(cvId)
+      };
 
       return (
         <DropdownMenu>
@@ -87,12 +100,29 @@ export const columns: ColumnDef<UserCV>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              Edit CV
+            <DropdownMenuItem asChild>
+              <CVModal
+                id={cv.id}
+                title="Edit"
+                initialValue={cv.title}
+                buttonLabel="Save change"
+                label="Edit your CV here. Click save when you're done with naming your CV."
+                variant="outline"
+                clasName="w-full"
+                actionWithId={onEdit}
+                isPending={isEditPending}
+              />
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              Delete CV
+            <DropdownMenuItem asChild>
+              <DeleteModal 
+                title="Are you absolutely sure?" 
+                buttonLabel="Delete" 
+                desc="TThis will delete your selected CV" 
+                id={cv.id} 
+                action={onArchive} 
+                isPending={isArchivePending} 
+              />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

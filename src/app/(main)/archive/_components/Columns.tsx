@@ -7,6 +7,8 @@ import { UserCV } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { format, parseISO } from "date-fns"
 import { ArrowDownUp, MoreHorizontal } from "lucide-react"
+import DeleteModal from "@/components/main/ComfirmationModal";
+import { useArchiveCv, useDeleteCv } from "@/lib/client/queries"
 
 export const columns: ColumnDef<UserCV>[] = [
   {
@@ -68,7 +70,17 @@ export const columns: ColumnDef<UserCV>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const cv = row.original
+      const { mutate: deleteCv, isPending: isDeletePending, isSuccess: isSuccessDelete } = useDeleteCv()
+      const { mutate: archiveCv, isPending: isArchivePending, isSuccess: isSuccessArchive } = useArchiveCv()
+
+      const onArchive = (cvId: string) => {
+        archiveCv(cvId)
+      };
+
+      const onDelete = (cvId: string) => {
+        deleteCv(cvId)
+      };
 
       return (
         <DropdownMenu>
@@ -82,15 +94,29 @@ export const columns: ColumnDef<UserCV>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => {}}
+              asChild
             >
-              Edit CV
+              <DeleteModal 
+                title="Are you absolutely sure?" 
+                buttonLabel="Restore" 
+                desc="TThis will restore your selected CV and move it to dashboard." 
+                id={cv.id} 
+                action={archiveCv} 
+                isPending={isArchivePending} 
+              />
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => {}}
+              asChild
             >
-              Delete CV
+              <DeleteModal 
+                title="Are you absolutely sure?" 
+                buttonLabel="Delete" 
+                desc="TThis will delete your selected CV" 
+                id={cv.id} 
+                action={onDelete} 
+                isPending={isDeletePending} 
+              />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

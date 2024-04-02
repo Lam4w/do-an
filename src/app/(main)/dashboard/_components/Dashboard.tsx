@@ -2,6 +2,7 @@
 
 import CreateNewCVModal from "@/components/main/CVModal";
 import UserCv from "@/components/main/UserCVCatalog";
+import UserCVCatalogSkeleton from "@/components/main/UserCVCatalogSkeleton";
 import DataTable from "@/components/main/UserCVTable";
 import {
   Select,
@@ -11,21 +12,13 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { Separator } from "@/components/ui/Separator";
-import { toast } from "@/hooks/use-toast";
-import { CvCreateRequest } from "@/lib/validators/cv";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { columns } from "./Columns";
-import UserCVCatalogSkeleton from "@/components/main/UserCVCatalogSkeleton";
-import useSnapshotContent from "@/lib/store";
 import { useCreateCv, useGetCvs } from "@/lib/client/queries";
-import clearCachesByServerAction from "@/lib/revalidate";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { columns } from "./Columns";
 
 function Dashboard() {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const [displayMode, setDisplayMode] = useState<String>("catalog");
   const { data: cvs, isLoading, isSuccess, refetch: refetchCv } = useGetCvs()
   const { mutate: createNewCv, isPending: isCreatePending } = useCreateCv()

@@ -26,8 +26,9 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { getUserSubscriptionPlan } from "@/lib/stripe";
 
 interface SidebarWrapperProps {
   userEmail: string | null | undefined;
@@ -35,6 +36,7 @@ interface SidebarWrapperProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
+  subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>,
   children: ReactNode;
 }
 
@@ -44,8 +46,10 @@ export default function SidebarWrapper({
   defaultLayout = [250, 1100],
   defaultCollapsed = false,
   navCollapsedSize,
+  subscriptionPlan,
   children,
 }: SidebarWrapperProps) {
+  console.log(subscriptionPlan)
   const pathName = usePathname()
   const router = useRouter()
   const [isCollapsed, setIsCollapsed] = useState<boolean>(defaultCollapsed);
@@ -147,18 +151,21 @@ export default function SidebarWrapper({
                     title: "My CVs",
                     icon: FileStack,
                     variant: getPathname(pathName) === "dashboard" ? "default" : "ghost",
+                    proplan: false,
                     action: () => router.push('/dashboard')
                   },
                   {
                     title: "My page",
                     icon: SquareUser,
                     variant: getPathname(pathName) === "pages" ? "default" : "ghost",
+                    proplan: subscriptionPlan.isSubscribed ? false : true,
                     action: () => router.push('/pages')
                   },
                   {
                     title: "Archive",
                     icon: Trash2,
                     variant: getPathname(pathName) === "archive" ? "default" : "ghost",
+                    proplan: false,
                     action: () => router.push('/archive')
                   },
                 ]}
@@ -171,18 +178,21 @@ export default function SidebarWrapper({
                     title: "Settings",
                     icon: Settings,
                     variant: getPathname(pathName) === "settings" ? "default" : "ghost",
+                    proplan: false,
                     action: () => router.push('/settings')
                   },
                   {
                     title: "Billing",
                     icon: Receipt,
                     variant: getPathname(pathName) === "billing" ? "default" : "ghost",
+                    proplan: false,
                     action: () => router.push('/billing')
                   },
                   {
                     title: "Go back",
                     icon: Home,
                     variant: "ghost",
+                    proplan: false,
                     action: () => router.push('/')
                   },
                 ]}
@@ -199,6 +209,7 @@ export default function SidebarWrapper({
                     title: "Logout",
                     icon: LogOut,
                     variant: "ghost",
+                    proplan: false,
                     action: () => {
                       signOut({
                         callbackUrl: `/`,

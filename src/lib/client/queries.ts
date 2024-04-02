@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import clearCachesByServerAction from "../revalidate";
 import { CvCreateRequest, CvDeleteRequest, CvEditRequest } from "../validators/cv";
-import { SnapshotCreateRequest, SnapshotUpdateRequest } from "../validators/snapshot";
+import { SnapshotCreateRequest, SnapshotDeleteRequest, SnapshotUpdateRequest } from "../validators/snapshot";
 
 export const useGetCvs = () => {
   return useQuery({
@@ -13,7 +13,6 @@ export const useGetCvs = () => {
     queryFn: async () => {
       const { data } = await axios.get("/api/user/cv");
 
-      // revalidatePath('/dashboard')
       return data as UserCV[];
     },
   });
@@ -25,7 +24,7 @@ export const useGetArchives = () => {
     queryFn: async () => {
       const { data } = await axios.get("/api/user/cv/archive");
 
-      return data as UserCV;
+      return data as UserCV[];
     },
     refetchOnMount: true,
   });
@@ -340,7 +339,7 @@ export const useDeleteCv = () => {
       const payload: CvDeleteRequest = {
         cvId: id,
       };
-      const { data } = await axios.patch("/api/user/cv/delete", payload);
+      const { data } = await axios.post("/api/user/cv/delete", payload);
 
       return data as string;
     },
@@ -374,7 +373,63 @@ export const useDeleteCv = () => {
       });
     },
     onSuccess: (data) => {
-      return queryClient.invalidateQueries({ queryKey: ['userTrash'] }) 
+      return queryClient.invalidateQueries({ queryKey: ['userArchives'] }) 
+    },
+  });
+}
+
+export const useDeleteSnapshot = () => {
+  const queryClient = useQueryClient()
+  const router = useRouter()
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const payload: SnapshotDeleteRequest = {
+        snapshotId: id,
+      };
+      const { data } = await axios.post("/api/user/cv/snapshot", payload);
+
+      return data as string;
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 409) {
+          return toast({
+            title: "CV already exists",
+            description: "Please choose a different CV name.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 405) {
+          return toast({
+            title: "Not enough snapshot exists",
+            description: "You can not delete all of your snapshots.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 422) {
+          return toast({
+            title: "Invalid CV name",
+            description: "Please choose a different CV name.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 401) {
+          return router.push("/sign-in");
+        }
+      }
+
+      return toast({
+        title: "There was an error",
+        description: "Could not delete CV, please try again later.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: (data) => {
+      return queryClient.invalidateQueries({ queryKey: ['userSnapshots'] }) 
     },
   });
 }

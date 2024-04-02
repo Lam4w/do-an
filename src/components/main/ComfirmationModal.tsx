@@ -31,7 +31,7 @@ export default function ConfirmationModal ({title, desc, id, buttonLabel, Button
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm" className="w-full">
+        <Button variant="ghost" size="sm" className="w-full">
           {ButtonIcon ? (
             <ButtonIcon />
           ) : (

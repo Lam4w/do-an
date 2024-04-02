@@ -41,5 +41,10 @@ export const SnapshotUpdateValidator = z.object({
     optional(),
 });
 
+export const SnapshotDeleteValidator = z.object({
+  snapshotId: z.string(),
+});
+
 export type SnapshotCreateRequest = z.infer<typeof SnapshotCreatetValidator>;
 export type SnapshotUpdateRequest = z.infer<typeof SnapshotUpdateValidator>;
+export type SnapshotDeleteRequest = z.infer<typeof SnapshotDeleteValidator>;

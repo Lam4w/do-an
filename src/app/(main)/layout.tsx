@@ -1,6 +1,6 @@
 import SidebarWrapper from "@/components/main/SidebarWrapper";
 import { getAuthSession } from "@/lib/auth";
-import { Inter } from "next/font/google";
+import { getUserSubscriptionPlan } from "@/lib/stripe";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -10,6 +10,7 @@ export default async function MainLayout({
   children: React.ReactNode;
 }>) {
   const session = await getAuthSession()
+  const subscriptionPlan = await getUserSubscriptionPlan()
   const layout = cookies().get("react-resizable-panels:layout")
   const collapsed = cookies().get("react-resizable-panels:collapsed")
 
@@ -28,6 +29,7 @@ export default async function MainLayout({
           userImg={session?.user.image}
           defaultLayout={defaultLayout}
           defaultCollapsed={defaultCollapsed}
+          subscriptionPlan={subscriptionPlan}
           navCollapsedSize={4}
         >
           {children}

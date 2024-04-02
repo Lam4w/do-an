@@ -15,6 +15,7 @@ interface NavProps {
     label?: string;
     icon: LucideIcon;
     variant: "default" | "ghost";
+    proplan: boolean
     action: () => void
   }[];
 }
@@ -36,10 +37,11 @@ export function Sidebar({ links, isCollapsed }: NavProps) {
                     "h-9 w-9 cursor-pointer",
                     link.variant === "default" &&
                       "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white",
+                    link.proplan ? "cursor-none pointer-events-none" : ""
                   )}
                   onClick={link.action}
                 >
-                  <link.icon className="h-4 w-4" />
+                  <link.icon className={cn("mr-2 h-4 w-4", link.proplan ? "text-muted-foreground" : "")} />
                   <span className="sr-only">{link.title}</span>
                 </div>
               </TooltipTrigger>
@@ -61,17 +63,19 @@ export function Sidebar({ links, isCollapsed }: NavProps) {
                 link.variant === "default" &&
                   "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                 "justify-start",
+                link.proplan ? "cursor-none pointer-events-none" : "",
+                link.proplan && "text-muted-foreground"
               )}
               onClick={link.action}
             >
-              <link.icon className="mr-2 h-4 w-4" />
+              <link.icon className={cn("mr-2 h-4 w-4", link.proplan ? "text-muted-foreground" : "")} />
               {link.title}
               {link.label && (
                 <span
                   className={cn(
                     "ml-auto",
                     link.variant === "default" &&
-                      "text-background dark:text-white",
+                    "text-background dark:text-white",
                   )}
                 >
                   {link.label}

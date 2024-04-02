@@ -3,12 +3,14 @@
 import { Button } from "@/components/ui/Button"
 import { Checkbox } from "@/components/ui/Checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/DropdownMenu"
+import { useDeleteCv, useDeleteSnapshot } from "@/lib/client/queries"
 import { Snapshot } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { format, parseISO } from "date-fns"
 import { ArrowDownUp, MoreHorizontal } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import DeleteModal from "@/components/main/ComfirmationModal";
 
 export const columns: ColumnDef<Snapshot>[] = [
   {
@@ -82,6 +84,13 @@ export const columns: ColumnDef<Snapshot>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
+      const { mutate: deleteSnapshot, isPending: isDeletePending, isSuccess: isSuccessDelete } = useDeleteSnapshot()
+      const snapshot = row.original
+
+      const onDelete = (snapshotId: string) => {
+        deleteSnapshot(snapshotId)
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -93,16 +102,20 @@ export const columns: ColumnDef<Snapshot>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {}}
-            >
-              Edit CV
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => {}}
+              // onClick={() => deleteSnapshot(snapshot.id)}
+              asChild
             >
-              Delete CV
+              {/* Delete CV */}
+              <DeleteModal 
+                title="Are you absolutely sure?" 
+                buttonLabel="Delete" 
+                desc="TThis will delete your selected snapshot permanently" 
+                id={snapshot.id} 
+                action={onDelete} 
+                isPending={isDeletePending} 
+              />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

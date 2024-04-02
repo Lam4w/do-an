@@ -13,65 +13,16 @@ import DataTable from "@/components/main/UserCVTable";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 import { columns } from "./Columns";
 import UserCVCatalogSkeleton from "@/components/main/UserCVCatalogSkeleton";
+import { useCreateCv, useGetArchives } from "@/lib/client/queries";
 
 const Archive = () => {
   const router = useRouter();
   const [displayMode, setDisplayMode] = useState<String>("catalog")
 
-  const { data: cvs, isLoading } = useQuery({
-    queryKey: ["userTrash"],
-    queryFn: async () => {
-      const { data } = await axios.get("/api/user/cv/archive");
+  const { data: cvs, isLoading, isSuccess, refetch: refetchCv } = useGetArchives()
+  const { mutate: createNewCv, isPending: isCreatePending } = useCreateCv()
 
-      return data;
-    },
-    refetchOnMount: true,
-  });
-
-  const { mutate: createNewCv, isPending: isCreatePending } = useMutation({
-    mutationFn: async (title: string) => {
-      const payload: CvCreateRequest = {
-        title: title,
-      };
-      const { data } = await axios.post("/api/user/cv", payload);
-
-      return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          return toast({
-            title: "CV already exists",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 422) {
-          return toast({
-            title: "Invalid CV name",
-            description: "Please choose a different CV name.",
-            variant: "destructive",
-          });
-        }
-
-        if (err.response?.status === 401) {
-          return router.push("/sign-in");
-        }
-      }
-
-      toast({
-        title: "There was an error",
-        description: "Could not create new CV, please try again later.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: (data) => {
-      router.push(`/cv/edit/${data}`);
-    },
-  });
-
-  const onCreate = (title: string) => {
+  const onCreate =  (title: string) => {
     createNewCv(title);
   };
 
@@ -108,9 +59,9 @@ const Archive = () => {
         {isLoading && (
           <UserCVCatalogSkeleton />
         )}
-        {cvs && displayMode === "catalog" ? (  
+        {cvs && displayMode === "catalog" ? (
           <UserCv cvs={cvs} isArchived={true} />
-        ) : displayMode === "table" && (
+        ): cvs && displayMode === "table" && (
           <DataTable columns={columns} data={cvs} />
         )}
       </div>
