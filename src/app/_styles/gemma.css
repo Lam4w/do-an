@@ -1,0 +1,504 @@
+/* TEMPLATE gemma */
+
+.gemma {
+  padding: 48px;
+}
+
+/* TITLE ALIGNMENT */
+
+/* left */
+
+.gemma.alignLeft h1 {
+  text-align: left;
+}
+
+/* center */
+
+.gemma.alignCenter h1 {
+  text-align: center;
+}
+
+/* right */
+
+.gemma.alignRight h1 {
+  text-align: right;
+}
+
+/*  FONT  */
+
+/* small */
+
+.gemma .fontSm h1 {
+  font-size: 27px; 
+}
+
+.gemma .fontSm h2 {
+  font-size: 18px;
+}
+
+.gemma .fontSm h3 {
+  font-size: 15px;
+}
+
+.gemma .fontSm p {
+  font-size: 12px;
+}
+
+/* base */
+
+.gemma .fontBase h1 {
+  font-size: 28.8px; 
+}
+
+.gemma .fontBase h2 {
+  font-size: 19.2px;
+}
+
+.gemma .fontBase h3 {
+  font-size: 16px;
+}
+
+.gemma .fontBase p {
+  font-size: 12.8px;
+}
+
+/* medium */
+
+.gemma .fontMd h1 {
+  font-size: 32.4px; 
+}
+
+.gemma .fontMd h2 {
+  font-size: 21.6px;
+}
+
+.gemma .fontMd h3 {
+  font-size: 18px;
+}
+
+.gemma .fontMd p {
+  font-size: 14.4px;
+}
+
+/* large */
+
+.gemma.fontLg h1 {
+  font-size: 36px; 
+}
+
+.gemma.fontLg h2 {
+  font-size: 24px;
+}
+
+.gemma.fontLg h3 {
+  font-size: 20px;
+}
+
+.gemma.fontLg p {
+  font-size: 16px;
+}
+
+/* SPACING */
+
+/* small */
+
+.gemma.spacingSm {
+  line-height: 1.2;
+}
+
+/* base */
+
+.gemma.spacingBase {
+  line-height: 1.5;
+}
+
+/* mdeium */
+
+.gemma.spacingMd {
+  line-height: 1.7;
+}
+
+/* large */
+
+.gemma.spacingLg {
+  line-height: 2;
+}
+
+/* COLLUMN LAYOUT */
+
+/* 1-2 */
+
+.gemma.column-1-2 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-row: 1;
+  gap: 20px
+}
+
+.gemma.column-1-2 div:nth-child(1) {
+  grid-column: span 1 / span 1;
+}
+
+.gemma.column-1-2 div:nth-child(2) {
+  grid-column: span 2 / span 2;
+}
+
+/* 1-1 */
+
+.gemma.column-1-1 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-row: 1;
+  gap: 20px
+}
+
+.gemma.column-1-1 div:nth-child(1) {
+  grid-column: span 1 / span 1;
+}
+
+.gemma.column-1-1 div:nth-child(2) {
+  grid-column: span 1 / span 1;
+}
+
+/* 2 - 1 */
+
+.gemma.column-2-1 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-row: 1;
+  gap: 20px
+}
+
+.gemma.column-2-1 div:nth-child(1) {
+  grid-column: span 2 / span 2;
+}
+
+.gemma.column-2-1 div:nth-child(2) {
+  grid-column: span 1 / span 1;
+}
+
+/* COLOR */
+
+/* black */
+
+.gemma h2:before {
+  background: #222222;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.black li::marker {
+  color: #222222;
+}
+
+.vega.black code {
+  background-color: rgba(34, 34, 34, 0.15);
+  color: #222222;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+/* red */
+
+.gemma.red h2::before {
+  background: #E8384F;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.red code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #E8384F;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.red li::marker {
+  color: #E8384F;
+}
+
+/* orange */
+
+.gemma.orange h2::before {
+  background: #E67E22;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.orange code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #E67E22;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.orange li::marker {
+  color: #E67E22;
+}
+
+/* yellow */
+
+.gemma.yellow h2::before {
+  background: #F1C40F;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.yellow code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #F1C40F;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.yellow li::marker {
+  color: #F1C40F;
+}
+
+/* green */
+
+.gemma.green h2::before {
+  background: #A4CF30;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.green code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #A4CF30;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.green li::marker {
+  color: #A4CF30;
+}
+
+/* cyan */
+
+.gemma.cyan h2::before {
+  background: #1ABC9C;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.cyan code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #1ABC9C;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.cyan li::marker {
+  color: #1ABC9C;
+}
+
+/* blue */
+
+.gemma.blue h2::before {
+  background: #016EF1;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.blue code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #016EF1;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.blue li::marker {
+  color: #016EF1;
+}
+
+/* purple */
+
+.gemma.purple h2::before {
+  background: #7A6FF0;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.purple code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #7A6FF0;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.purple li::marker {
+  color: #7A6FF0;
+}
+
+/* pink */
+
+.gemma.pink h2::before {
+  background: #E362E3;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.pink code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #E362E3;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.pink li::marker {
+  color: #E362E3;
+}
+
+/* gray */
+
+.gemma.gray h2::before {
+  background: #8DA3A6;
+  content: "";
+  height: 2px;
+  left: 0;
+  position: absolute;
+  width: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gemma.gray code {
+  background-color: rgba(232, 56, 79, 0.15);
+  color: #8DA3A6;
+  padding: 4px 6px;
+  border-radius: 10%;
+}
+
+.gemma.gray li::marker {
+  color: #8DA3A6;
+}
+
+/* GLOBAL */
+
+.gemma hr {
+  width: 50%;
+  margin: 0;
+}
+
+.gemma h1 {
+  padding-bottom: 5px;
+  position: relative;
+}
+
+.gemma h1 b, .gemma h1 strong {
+  font-weight: 700;
+}
+
+b, strong {
+  font-weight: 500;
+}
+
+.gemma h2 {
+  padding-bottom: 4px;
+  margin-top: 19.2px;
+  position: relative;
+  padding-left: 40px;
+}
+
+.gemma h3 {
+  margin-top: 8px;
+}
+
+.gemma p {
+  margin-top: 6.4px;
+  margin-bottom: 0;
+}
+
+.gemma ul {
+  list-style-type: square;
+  list-style-position: outside;
+  padding-left: 20px;
+  margin: 0;
+  display: block;
+}
+
+.gemma li {
+  padding-left: 15px;
+}
+
+.gemma table {
+  width: 100%;
+}
+
+.gemma strong {
+  font-weight: 500;
+}
+
+.gemma table td {
+  justify-content: center;
+}
+
+.gemma table p {
+  margin: 0;
+}
+
+.gemma table h3 {
+  margin: 0;
+}
+
+.gemma td:nth-last-child(1) {
+  text-align: right;
+}
+
+.gemma hr {
+  border: 1px solid #ddd9d9;
+  margin-block: 15px;
+}
+
+.gemma p img {
+  border-radius: 4px;
+  float: left;
+  height: 14rem;
+  margin-right: 2rem;
+}
