@@ -37,11 +37,11 @@ export function Sidebar({ links, isCollapsed }: NavProps) {
                     "h-9 w-9 cursor-pointer",
                     link.variant === "default" &&
                       "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white",
-                    link.proplan ? "cursor-none pointer-events-none" : ""
+                    link.proplan ? "cursor-none pointer-events-none" : "",
                   )}
                   onClick={link.action}
                 >
-                  <link.icon className={cn("mr-2 h-4 w-4", link.proplan ? "text-muted-foreground" : "")} />
+                  <link.icon className={cn("h-4 w-4", link.proplan ? "text-muted-foreground" : "")} />
                   <span className="sr-only">{link.title}</span>
                 </div>
               </TooltipTrigger>
