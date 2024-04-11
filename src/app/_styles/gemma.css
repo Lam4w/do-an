@@ -28,55 +28,55 @@
 
 /* small */
 
-.gemma .fontSm h1 {
+.gemma.fontSm h1 {
   font-size: 27px; 
 }
 
-.gemma .fontSm h2 {
+.gemma.fontSm h2 {
   font-size: 18px;
 }
 
-.gemma .fontSm h3 {
+.gemma.fontSm h3 {
   font-size: 15px;
 }
 
-.gemma .fontSm p {
+.gemma.fontSm p {
   font-size: 12px;
 }
 
 /* base */
 
-.gemma .fontBase h1 {
+.gemma.fontBase h1 {
   font-size: 28.8px; 
 }
 
-.gemma .fontBase h2 {
+.gemma.fontBase h2 {
   font-size: 19.2px;
 }
 
-.gemma .fontBase h3 {
+.gemma.fontBase h3 {
   font-size: 16px;
 }
 
-.gemma .fontBase p {
+.gemma.fontBase p {
   font-size: 12.8px;
 }
 
 /* medium */
 
-.gemma .fontMd h1 {
+.gemma.fontMd h1 {
   font-size: 32.4px; 
 }
 
-.gemma .fontMd h2 {
+.gemma.fontMd h2 {
   font-size: 21.6px;
 }
 
-.gemma .fontMd h3 {
+.gemma.fontMd h3 {
   font-size: 18px;
 }
 
-.gemma .fontMd p {
+.gemma.fontMd p {
   font-size: 14.4px;
 }
 
@@ -199,7 +199,7 @@
 .vega.black code {
   background-color: rgba(34, 34, 34, 0.15);
   color: #222222;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -219,7 +219,7 @@
 .gemma.red code {
   background-color: rgba(232, 56, 79, 0.15);
   color: #E8384F;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -241,9 +241,9 @@
 }
 
 .gemma.orange code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(230, 126, 34, 0.15);
   color: #E67E22;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -265,9 +265,9 @@
 }
 
 .gemma.yellow code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(241, 196, 15, 0.15);
   color: #F1C40F;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -289,9 +289,9 @@
 }
 
 .gemma.green code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(164, 207, 48, 0.15);
   color: #A4CF30;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -313,9 +313,9 @@
 }
 
 .gemma.cyan code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(26, 188, 156, 0.15);
   color: #1ABC9C;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -337,9 +337,9 @@
 }
 
 .gemma.blue code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(1, 110, 241, 0.15);
   color: #016EF1;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -361,9 +361,9 @@
 }
 
 .gemma.purple code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(122, 111, 240, 0.15);
   color: #7A6FF0;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -385,9 +385,9 @@
 }
 
 .gemma.pink code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(227, 98, 227, 0.15);
   color: #E362E3;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -409,9 +409,9 @@
 }
 
 .gemma.gray code {
-  background-color: rgba(232, 56, 79, 0.15);
+  background-color: rgba(141, 163, 166, 0.15);
   color: #8DA3A6;
-  padding: 4px 6px;
+  padding: 1px 6px;
   border-radius: 10%;
 }
 
@@ -427,7 +427,7 @@
 }
 
 .gemma h1 {
-  padding-bottom: 5px;
+  padding-bottom: 0px;
   position: relative;
 }
 
@@ -444,6 +444,8 @@ b, strong {
   margin-top: 19.2px;
   position: relative;
   padding-left: 40px;
+  text-transform: uppercase;
+  font-weight: 550;
 }
 
 .gemma h3 {
@@ -451,7 +453,7 @@ b, strong {
 }
 
 .gemma p {
-  margin-top: 6.4px;
+  margin-top: 0px;
   margin-bottom: 0;
 }
 
@@ -497,8 +499,8 @@ b, strong {
 }
 
 .gemma p img {
+  height: 140px;
   border-radius: 4px;
   float: left;
-  height: 14rem;
   margin-right: 2rem;
 }

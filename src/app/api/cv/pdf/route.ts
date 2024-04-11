@@ -26,6 +26,10 @@ import TableHeader from "@tiptap/extension-table-header";
 import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image"
+import TextStyle from "@tiptap/extension-text-style";
+import {
+  mergeAttributes,
+} from '@tiptap/core'
 
 export async function POST(req: Request) {
   try {
@@ -81,6 +85,14 @@ export async function POST(req: Request) {
 
     let result = "";
 
+    const CustomImage = Image.extend({
+      renderHTML({ HTMLAttributes }) {
+        // Original:
+        // return ['img', HTMLAttributes, 0]
+        return ['p', ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]]
+      },
+    })
+
     if (snapshot?.contentMain) {
       const contentMain = generateHTML(JSON.parse(snapshot.contentMain), [
         Document,
@@ -101,8 +113,9 @@ export async function POST(req: Request) {
         TableRow,
         TableHeader,
         Code,
+        TextStyle,
         Link,
-        Image,
+        CustomImage,
       ])
 
       if (snapshot?.contentSide && snapshot.settings.isSplit) {
@@ -125,8 +138,9 @@ export async function POST(req: Request) {
           TableRow,
           TableHeader,
           Code,
+          TextStyle,
           Link,
-          Image,
+          CustomImage,
         ])
 
         result = `

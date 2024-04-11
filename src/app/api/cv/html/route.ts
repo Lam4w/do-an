@@ -26,6 +26,11 @@ import TableHeader from "@tiptap/extension-table-header";
 import Code from "@tiptap/extension-code";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image"
+import TextStyle from '@tiptap/extension-text-style'
+import {
+  mergeAttributes,
+} from '@tiptap/core'
+
 
 export async function GET(req: Request) {
   try {
@@ -81,6 +86,14 @@ export async function GET(req: Request) {
 
     let res;
 
+    const CustomImage = Image.extend({
+      renderHTML({ HTMLAttributes }) {
+        // Original:
+        // return ['img', HTMLAttributes, 0]
+        return ['p', ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]]
+      },
+    })
+
     if (snapshot?.contentMain) {
       // res = md.render(snapshot?.content);
       const contentMain = generateHTML(JSON.parse(snapshot.contentMain), [
@@ -102,8 +115,9 @@ export async function GET(req: Request) {
         TableRow,
         TableHeader,
         Code,
+        TextStyle,
         Link,
-        Image,
+        CustomImage,
       ])
 
       if (snapshot?.contentSide && snapshot.settings.isSplit) {
@@ -126,8 +140,9 @@ export async function GET(req: Request) {
           TableRow,
           TableHeader,
           Code,
+          TextStyle,
           Link,
-          Image,
+          CustomImage,
         ])
 
         res = `
@@ -159,6 +174,7 @@ export async function GET(req: Request) {
 
     return response;
   } catch (err) {
+    console.log(err);
     if (err instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });
     }
