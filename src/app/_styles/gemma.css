@@ -421,10 +421,6 @@
 
 /* GLOBAL */
 
-.gemma hr {
-  width: 50%;
-  margin: 0;
-}
 
 .gemma h1 {
   padding-bottom: 0px;
@@ -495,7 +491,7 @@ b, strong {
 
 .gemma hr {
   border: 1px solid #ddd9d9;
-  margin-block: 15px;
+  margin-block: 12px;
 }
 
 .gemma p img {
