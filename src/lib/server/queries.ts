@@ -55,6 +55,20 @@ export const upsertWebsite = async (
   return response
 }
 
+export const updatePublishWebsite = async (
+  published:  boolean,
+  websiteId: string
+) => {
+  const response = await db.website.update({
+    where: { id: websiteId },
+    data: {
+      published
+    },
+  })
+
+  return response
+}
+
 export const upsertPage = async (
   ownerId: string,
   page: UpsertPage,
@@ -153,6 +167,7 @@ export const getDomainContent = async (subDomainName: string) => {
   const response = await db.website.findUnique({
     where: {
       subDomainName,
+      published: true,
     },
     include: { pages: true },
   })

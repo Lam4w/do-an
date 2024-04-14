@@ -50,7 +50,7 @@ export default function FunnelsDataTable<TData, TValue>({
       <div className="flex items-center justify-between">
         <div className="flex items-center py-4 gap-2">
           <Input
-            placeholder="Search page name..."
+            placeholder="Search website name..."
             value={
               (table.getColumn(filterValue)?.getFilterValue() as string) ?? ''
             }
