@@ -76,11 +76,11 @@ export const Columns: ColumnDef<WebsitesForUserAccount>[] = [
       )
     },
   },
-  {
-    accessorKey: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      return <Link href={'/'} className={cn(buttonVariants({ variant: "outline" }))} >Analytics</Link>
-    },
-  },
+  // {
+  //   accessorKey: 'actions',
+  //   enableHiding: false,
+  //   cell: ({ row }) => {
+  //     return <Link href={'/'} className={cn(buttonVariants({ variant: "outline" }))} >Analytics</Link>
+  //   },
+  // },
 ]

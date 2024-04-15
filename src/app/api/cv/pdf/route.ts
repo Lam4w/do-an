@@ -1,35 +1,34 @@
 import { generatePdf } from "@/lib/pdf/pdfGenerate";
 import { pdfTemplate } from "@/lib/pdf/pdfTemplate";
 import { NextResponse } from "next/server";
-// import { utapi } from "uploadthing/server";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { z } from "zod";
-import { generateHTML } from '@tiptap/html'
-import Bold from '@tiptap/extension-bold'
-import Italic from "@tiptap/extension-italic";
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import Heading from '@tiptap/extension-heading'
-import Blockquote from "@tiptap/extension-blockquote";
-import BulletList from "@tiptap/extension-bullet-list";
-import ListItem from "@tiptap/extension-list-item";
-import CodeBlock from "@tiptap/extension-code-block";
-import HardBreak from "@tiptap/extension-hard-break";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import OrderedList from "@tiptap/extension-ordered-list";
-import Table from "@tiptap/extension-table";
-import TableCell from "@tiptap/extension-table-cell";
-import TableRow from "@tiptap/extension-table-row";
-import TableHeader from "@tiptap/extension-table-header";
-import Code from "@tiptap/extension-code";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image"
-import TextStyle from "@tiptap/extension-text-style";
 import {
   mergeAttributes,
-} from '@tiptap/core'
+} from '@tiptap/core';
+import Blockquote from "@tiptap/extension-blockquote";
+import Bold from '@tiptap/extension-bold';
+import BulletList from "@tiptap/extension-bullet-list";
+import Code from "@tiptap/extension-code";
+import CodeBlock from "@tiptap/extension-code-block";
+import Document from '@tiptap/extension-document';
+import HardBreak from "@tiptap/extension-hard-break";
+import Heading from '@tiptap/extension-heading';
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import Image from "@tiptap/extension-image";
+import Italic from "@tiptap/extension-italic";
+import Link from "@tiptap/extension-link";
+import ListItem from "@tiptap/extension-list-item";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Paragraph from '@tiptap/extension-paragraph';
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import Text from '@tiptap/extension-text';
+import TextStyle from "@tiptap/extension-text-style";
+import { generateHTML } from '@tiptap/html';
+import { z } from "zod";
 
 export async function POST(req: Request) {
   try {
@@ -87,8 +86,6 @@ export async function POST(req: Request) {
 
     const CustomImage = Image.extend({
       renderHTML({ HTMLAttributes }) {
-        // Original:
-        // return ['img', HTMLAttributes, 0]
         return ['p', ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]]
       },
     })
@@ -174,8 +171,6 @@ export async function POST(req: Request) {
 
     response.headers.set("Content-Type", "application/pdf");
 
-    return response;
-
     // return new Response(cvPdf);
 
     // Create a Blob from the ArrayBuffer
@@ -190,6 +185,7 @@ export async function POST(req: Request) {
 
     // Update in DB
   } catch (err) {
+    console.log(err)
     if (err instanceof z.ZodError) {
       return new Response("Invalid request data passed", { status: 422 });
     }

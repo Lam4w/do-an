@@ -139,6 +139,7 @@ export default function Designer ({ snapshot, settings, setSettings }: DesignerP
             <Loader className="h-6 w-6 animate-spin" />
           ) : 'PDF Downloads'}
         </Button>
+
         <div className="rounded-sm sticky bg-white top-0 p-4">
           <div className="flex flex-col space-y-2">
             <Label className="uppercase font-bold text-muted-foreground">

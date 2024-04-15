@@ -70,7 +70,7 @@
     "next-auth": "^4.24.5",
     "novel": "^0.2.13",
     "openai": "^4.28.0",
-    "puppeteer": "^22.4.1",
+    "puppeteer": "^22.6.5",
     "react": "^18",
     "react-beautiful-dnd": "^13.1.1",
     "react-day-picker": "^8.10.0",

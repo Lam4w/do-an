@@ -480,9 +480,18 @@ export const useCreatePDF = () => {
       });
     },
     onSuccess: (response) => {
-      const blob = new Blob([response.data], {type: 'application/pdf'})
+      let binaryString = window.atob(response);
+      let binaryLen = binaryString.length;
+      let bytes = new Uint8Array(binaryLen);
+      
+      for (let i = 0; i < binaryLen; i++) {
+          let ascii = binaryString.charCodeAt(i);
+          bytes[i] = ascii;
+      }
+
+      const blob = new Blob([bytes], {type: 'application/pdf'})
       const link = document.createElement('a')
-      link.href = window.URL.createObjectURL(blob)
+      link.href = window.URL.createObjectURL(blob)  
       link.download = `generated_cv.pdf`
       link.click()
     }
