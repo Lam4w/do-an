@@ -171,6 +171,8 @@ export async function POST(req: Request) {
 
     response.headers.set("Content-Type", "application/pdf");
 
+    return response;
+
     // return new Response(cvPdf);
 
     // Create a Blob from the ArrayBuffer

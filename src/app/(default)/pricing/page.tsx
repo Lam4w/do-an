@@ -39,10 +39,6 @@ const Page = async () => {
           text: 'Access to personal Website builder',
           negative: true,
         },
-        {
-          text: 'Access to personal Dashboard',
-          negative: true,
-        },
       ],
     },
     {
@@ -61,9 +57,6 @@ const Page = async () => {
         },
         {
           text: 'Access to personal Website builder',
-        },
-        {
-          text: 'Access to personal Dashboard',
         },
       ],
     },

@@ -181,7 +181,7 @@
 
 /* black */
 
-.vega.black h1:after, .vega.black h2:after {
+.vega.black h2:after {
   content: "";
   background: black;
   position: absolute;
@@ -200,7 +200,7 @@
 
 /* red */
 
-.vega.red h1:after, .vega.red h2:after {
+.vega.red h2:after {
   content: "";
   background: #E8384F;
   position: absolute;
@@ -219,7 +219,7 @@
 
 /* orange */
 
-.vega.orange h1:after, .vega.orange h2:after {
+.vega.orange h2:after {
   content: "";
   background: #E67E22;
   position: absolute;
@@ -238,7 +238,7 @@
 
 /* yellow */
 
-.vega.yellow h1:after, .vega.yellow h2:after {
+.vega.yellow h2:after {
   content: "";
   background: #F1C40F;
   position: absolute;
@@ -257,7 +257,7 @@
 
 /* green */
 
-.vega.green h1:after, .vega.green h2:after {
+.vega.green h2:after {
   content: "";
   background: #1b7943;
   position: absolute;
@@ -276,7 +276,7 @@
 
 /* cyan */
 
-.vega.cyan h1:after, .vega.cyan h2:after {
+.vega.cyan h2:after {
   content: "";
   background: #1ABC9C;
   position: absolute;
@@ -295,7 +295,7 @@
 
 /* blue */
 
-.vega.blue h1:after, .vega.blue h2:after {
+.vega.blue h2:after {
   content: "";
   background: #016EF1;
   position: absolute;
@@ -314,7 +314,7 @@
 
 /* purple */
 
-.vega.purple h1:after, .vega.purple h2:after {
+.vega.purple h2:after {
   content: "";
   background: #7A6FF0;
   position: absolute;
@@ -333,7 +333,7 @@
 
 /* pink */
 
-.vega.pink h1:after, .vega.pink h2:after {
+.vega.pink h2:after {
   content: "";
   background: #E362E3;
   position: absolute;
@@ -352,7 +352,7 @@
 
 /* gray */
 
-.vega.gray h1:after, .vega.gray h2:after {
+.vega.gray h2:after {
   content: "";
   background: #8DA3A6;
   position: absolute;
